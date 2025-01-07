@@ -40,7 +40,7 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
                                                 { column.label}
                                             </th>
                                         ))}
-                                    {noAction && <th className="text-center">{actionLabel}</th>} {/* || */}
+                                    {noAction || <th className="text-center">{actionLabel}</th>} {/* || */}
                                 </tr>
                             </thead>
                             <tbody>
