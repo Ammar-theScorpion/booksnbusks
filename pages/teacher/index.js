@@ -8,8 +8,9 @@ import {useRouter} from "next/router";
 import {Tabs} from "antd";
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Card from "../../fragment/layout/dashboard/Card";
-import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaFolderOpen, FaRegClipboard, FaUserFriends, FaBoxOpen, FaDatabase } from "react-icons/fa"; // Import required icons
+import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList,  FaRegClipboard, FaUserFriends, FaBoxOpen,  FaBoxTissue } from "react-icons/fa"; // Import required icons
 import Skeleton from "react-loading-skeleton";
+import { TbShoppingCartDiscount } from "react-icons/tb";
 
 const { TabPane } = Tabs;
 
@@ -49,28 +50,49 @@ const Home = () => {
         (products) => (
             <>
                 {products?.length ? (
-                    <div className="space-y-4">
-                        {products.map((product, index) => (
-                            <div
-                                key={product?._id}
-                                className="p-4 border rounded-lg shadow hover:shadow-lg transition-all duration-200"
-                            >
-                                <h2 className="text-lg font-semibold text-gray-800">
-                                    {index + 1}. {product?._id}
-                                </h2>
-                                <p className="text-gray-600 mt-2">
-                                    <strong>Total Stock:</strong> {product?.totalStock}
-                                </p>
-                                <p className="text-sm text-gray-500 mt-1">
-                                    <strong>Latest Created At:</strong> {formatDateString(product?.latestCreatedAt)}
-                                </p>
-                            </div>
-                        ))}
+           <div className="space-y-6 p-4">
+           {products.map((product, index) => (
+               <div
+                   key={product?._id}
+                   className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg"
+               >
+                   {/* Header */}
+                   <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                       <span className="mr-2 text-primary-500">{index + 1}.</span>
+                       <span>{product?._id}</span>
+                   </h2>
+       
+                   {/* Details */}
+                   <div className="mt-4 space-y-2">
+                       {/* Total Stock */}
+                       <p className="text-lg text-gray-700 flex justify-between items-center">
+                           <strong>Total Stock:</strong>
+                           <span
+                               className={`font-medium ${
+                                   product?.totalStock < 10 ? 'text-red-500' : 'text-green-600'
+                               }`}
+                           >
+                               {product?.totalStock}
+                           </span>
+                       </p>
+       
+                       {/* Latest Created At */}
+                       <p className="text-sm text-gray-600 flex justify-between items-center">
+                           <strong>Latest Created At:</strong>
+                           <span className="text-gray-500">
+                               {formatDateString(product?.latestCreatedAt)}
+                           </span>
+                       </p>
+                   </div>
+               </div>
+           ))}
+       </div>
+       
+                ) :  (
+                    <div className="flex flex-col items-center justify-center h-full">
+                        <FaBoxTissue size={50} className="ml-2" />
+                        <p>No products available. </p>
                     </div>
-                ) : (
-                    <p className="text-center text-gray-500">
-                        No products available.
-                    </p>
                 )}
 
             </>
@@ -98,8 +120,12 @@ const Home = () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                ) : (
-                    <p>No recent purchases.</p>
+                ) :
+                (
+                    <div className="flex flex-col items-center justify-center h-full">
+                        <TbShoppingCartDiscount size={50} className="ml-2" />
+                        <p>No recent purchases. </p>
+                    </div>
                 )}
             </>
         ),
@@ -109,15 +135,15 @@ const Home = () => {
             {
                 statuses?.length ?statuses.map((status, index)=>(
                     <>
-                        <li role={"button"} key={index} onClick={() => router.push('/teacher/purchases?status=' + status._id)} className="mb-3 pb-3 border-b flex justify-between hover:bg-slate-100 transition-all duration-500">
+                        <li role={"button"} key={index} onClick={() => router.push('/teacher/purchases?status=' + status._id)} className="mb-3 pb-3 border-b flex justify-between hover:shadow-lg  transition-all duration-500">
                             <span>{status?._id} </span>
-                            <span>{status?.total} </span>
+                            <span className="flex items-center text-sm font-medium px-3 py-1 rounded-full bg-indigo-100 text-indigo-700">{status?.total} </span>
                       </li>
                     </>
                 )) :
                 (
                     <div className="flex flex-col items-center justify-center h-full">
-                        <FaRegClipboard size={50} className="ml-2" />
+                        <FaRegClipboard  size={50} className="ml-2" />
                         <p>No new orders. </p>
                     </div>
                 )

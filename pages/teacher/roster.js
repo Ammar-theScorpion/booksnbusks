@@ -68,7 +68,7 @@ const Roster = () => {
 
             {/* Classes with Teachers Section */}
             <table className="w-full text-sm text-left rounded-lg shadow-md ">
-                <thead className="bg-gray-300 text-gray-600">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th className="px-4 py-3 font-medium uppercase">Teacher</th>
                         <th className="px-4 py-3 font-medium uppercase">E-mail</th>
@@ -77,12 +77,8 @@ const Roster = () => {
                 </thead>
                 <tbody>
                     {Object.values(teachers)?.map((classData, index) => (
-                        <tr 
-                            key={index} 
-                            className={`border-b ${
-                                index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                            } `}
-                        >
+                        <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
+
                             {/* Teacher Name */}
                             <td className="px-4 py-3 font-medium text-gray-700">{classData.name}</td>
 

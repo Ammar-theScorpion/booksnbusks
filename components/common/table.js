@@ -8,7 +8,7 @@ import Empty from "../../fragment/table/Empty";
 import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
 
 const Table = memo(({columns, data, onEdit, onDelete, action, getData, pagination = false, noAction = false, loading = false, permission, admin = false, actionLabel= '', rowCount}) => {
-    console.log("data", loading)
+    console.log("data", loading, data)
     const {permission: rolePermission , role, admin: isAdmin} = useUserContext()
     const  checkPermission = name => {
         if(permission && name) {
@@ -21,9 +21,9 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
     }
 
 
-    if(loading) {
+    if(loading || !data) {
         return (
-            <TableSkeleton columnCount={columns?.length||3} rowCount={rowCount} pagination={pagination}/>
+            <TableSkeleton columnCount={columns?.length||3} rowCount={10} pagination={pagination}/>
         )
     }
     /** the height is full screen - nav bar height */

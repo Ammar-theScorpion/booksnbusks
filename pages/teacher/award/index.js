@@ -95,13 +95,13 @@ const Award = () => {
                     <Button onClick={() => setAward(true)}>Reward</Button>
                 </div>
             </div>
-            <table className="table mt-4">
-                <thead>
-                <tr>
-                    <th>Classes</th>
-                    <th style={{width: 300}} className="text-center bg-F8">Select</th>
-                    <th style={{width: 300}} className="text-center">Last Awarded</th>
-                </tr>
+            <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
+                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th className="px-6 py-3">Classes</th>
+                        <th className="px-6 py-3 text-center" style={{width: 300}}>Select</th>
+                        <th className="px-6 py-3 text-center" style={{width: 300}}>Last Awadrded</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {classes?.map((data, index) => (
@@ -151,7 +151,7 @@ const ClassRow = ({data, selected, setSelected, reload}) => {
 
     return (
         <>
-            <tr>
+            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" >
                 <td className="font-semibold" role="button" onClick={() => setShow(!show)}>
                     {show ? <FiChevronDown className="inline-block mr-4" size={20}/> :
                         <FiChevronRight className="inline-block mr-4" size={20}/>}
@@ -165,7 +165,7 @@ const ClassRow = ({data, selected, setSelected, reload}) => {
                 </td>
             </tr>
             {show && data?.students?.map((student, index) => (
-                <tr key={index}>
+                <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
                     <td style={{paddingLeft: 40}}> {student?.first_name} {student?.last_name}</td>
                     <td style={{width: 300}} className="text-center">
                         <input type="checkbox" onChange={e => handleStudentSelect(e, student)}
