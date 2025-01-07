@@ -60,7 +60,7 @@ const TeacherLayout = ({children, back = true}) => {
     return (
         <UserContext.Provider value={{...user, getProfile}}>
             <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems}/>
-                <div className={`pb-10 mt-24 mr-3 overflow-x-hidden flex-1 transition-all ${
+                <div className={`pb-10 mr-3 flex-1 transition-all ${
                     openSidebar ? 'ml-[18rem]' : 'ml-0'
                     } sm:ml-[18rem]`}>
                     {children}

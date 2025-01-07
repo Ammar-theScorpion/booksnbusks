@@ -9,7 +9,7 @@ const axiosApi = axios.create({
         if (status === 404 || status === 401) {
             let pathName = window.location.pathname
             if (pathName?.indexOf('/student') === 0 || pathName?.indexOf('/teacher') === 0) {
-                //   window.location.href = '/'
+                window.location.replace ('/');
             }
         }
         console.log(status)

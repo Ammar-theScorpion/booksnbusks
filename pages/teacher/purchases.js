@@ -14,7 +14,7 @@ import {FiArrowLeft} from "react-icons/fi";
 const Purchases = () => {
     const [purchases, getPurchases, {loading}] = useFetch(
         fetchPurchases,
-        {size: 8},
+        {size: 7},
         false
     );
     const statusClass = {
@@ -142,15 +142,15 @@ const Purchases = () => {
     return (
         <>
             <div className="flex justify-between">
-            <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Purchases</h4>
-                <div>
+            {/*<h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Purchases</h4>*/}
+                <div className="flex justify-end items-end mb-2 sm:flex-row flex-col gap-4 top-0 right-0">
                     <Select
                         allowClear
                         onClear={() => handleStatusChange(undefined)}
                         value={status}
                         onSelect={handleStatusChange}
                         placeholder="Status"
-                        className="w-44"
+                        className="w-44 "
                         options={[
                             {label: "Pending Approval", value: "Pending Approval"},
                             {label: "Fulfilled", value: "Fulfilled"},
@@ -158,6 +158,7 @@ const Purchases = () => {
                         ]}
                     />
                 </div>
+
             </div>
             <Table
                 data={purchases}

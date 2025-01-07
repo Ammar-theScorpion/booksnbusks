@@ -26,12 +26,13 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
             <TableSkeleton columnCount={columns?.length||3} rowCount={rowCount} pagination={pagination}/>
         )
     }
+    /** the height is full screen - nav bar height */
     return (
-        <div className="bg-white p-3 border shadow-md overflow-y-hidden">
+        <div className="bg-white p-3 border shadow-md"> 
            {
                data?.length !== 0 ? (
                     <div className="">
-                        <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full">
+                        <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr className=""> 
                                         {columns?.map((column, index) => (

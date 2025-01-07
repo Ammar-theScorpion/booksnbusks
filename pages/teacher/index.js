@@ -50,13 +50,13 @@ const Home = () => {
             <>
             {
                 products?.length ?products.map((product, index)=>(
-                    <>
+                    <div key={index}>
                         {/* {index + 1}. {product?._id}  */}
                         {product?._id}({product?.totalStock})<br />
                         <div className="float-right" style={{ fontSize: '12px' }}>
                             {formatDateString(product?.latestCreatedAt)}
                         </div>
-                    </>
+                    </div>
                 )) :
                 (
                     <div className="flex flex-col items-center justify-center h-full">
@@ -69,11 +69,11 @@ const Home = () => {
         ),
         (purchases)=>(
             <>
-                {purchases?.length ?statuses.map((status, index)=>(
+                {purchases?.length?purchases.map((status, index)=>(
                         
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart
-                            data={purchases}
+                            data={status}
                             layout="vertical"
                             margin={{
                                 top: 5,
@@ -180,7 +180,7 @@ const Home = () => {
         {title: "Last Week", value: oneWeekAgo.toString()},
     ]
     return (
-        <>
+        <div className="mt-24 ">
             <div className="flex w-full max-w-45 justify-start mb-2">
                 <div className="inline-flex items-center rounded-md bg-stone-200 p-1.5 dark:bg-meta-4 gap-1 transition-all duration-300">
                     {filters.map((filter, index)=>(
@@ -314,7 +314,7 @@ const Home = () => {
                 </Col>
             </Row>
                 </Row> */}
-        </>
+        </div>
     )
 }
 

@@ -2,7 +2,7 @@ const SearchInput = ({ value, setValue }) => {
     return (
         <div className="relative w-full max-w-sm">
             <div
-                className="absolute top-0 left-0 p-2.5 text-sm font-medium h-full text-white bg-primary-primary rounded-l-lg border border-primary-50"
+                className="absolute top-0 left-0 p-2.5 text-sm font-medium h-full text-white bg-primary-primary border border-primary-50"
             >
                 <svg
                     className="w-4 h-4"
@@ -24,7 +24,7 @@ const SearchInput = ({ value, setValue }) => {
             <input
                 type="search"
                 id="search-dropdown"
-                className="block p-2.5 pl-10 w-full text-gray-900 bg-gray-50 border border-pink-700 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800"
+                className="block p-2.5 pl-10 w-full text-gray-900 bg-gray-50 border border-pink-700  text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-primary-800"
                 placeholder="Search..."
                 value={value}
                 onChange={(e) => !!setValue && setValue(e.target.value)}

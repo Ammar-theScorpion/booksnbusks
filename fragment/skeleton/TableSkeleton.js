@@ -10,7 +10,7 @@ const TableSkeleton = ({columnCount, rowCount, pagination}) => {
                     <tr className="flex flex-row w-full">
                         <th className="flex w-full justify-between items-center px-6 py-3">
                             {Array(columnCount).fill().map((_, index) => (
-                                <Skeleton key={index} count={1} width={150} height={25} />
+                                <Skeleton key={index} count={1} width={150} height={15} />
                             ))}
                         </th>
                     </tr>
@@ -20,7 +20,7 @@ const TableSkeleton = ({columnCount, rowCount, pagination}) => {
                     <tr key={rowIndex} className="flex flex-row w-full odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                         <th className="flex w-full justify-between items-center px-6 py-3">
                             {Array(columnCount).fill().map((_, index) => (
-                                <Skeleton key={index} count={1} width={150} height={25} />
+                                <Skeleton key={index} count={1} width={150} height={15} />
                             ))}
                         </th>
                     </tr>

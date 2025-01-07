@@ -60,60 +60,63 @@ const Inventory = () => {
     const add = checkPermission('inventory_create')
 
     return (
-        <>
-            <ModalForm
-                form={form}
-                visible={visible}
-                setVisible={setVisible}
-                addFunc={async values => {
-                    values.image = await getUploadImageUrl(values.image)
-                    return postProductAdd(values)
-                }}
-                updateFunc={async values => {
-                    values.image = await getUploadImageUrl(values.image)
-                    return postProductUpdate(values)
-                }}
-                onFinish={getProducts}
-                title="Product">
-                <FormInput name="name" label="Name" required/>
-                <FormInput name="cost" label="Cost" type="number" required/>
-                <FormInput name="stock" label="Stock" type="number" required/>
-                <InputFile name="image" label="Image" form={form}/>
-            </ModalForm>
-            <div className="flex justify-between items-center mb-2 sm:flex-row flex-col gap-4">
-                {add && (
-                    <Button
-                        onClick={() => {
-                            form.resetFields();
-                            setVisible(true);
-                        }}
-                    >
-                        Add Item
-                    </Button>
-                )}
-                <SearchInput value={search} setValue={setSearch} />
-            </div>
+        <div className="flex flex-col h-fit mt-24 overflow-hidden">
+            <div className="flex-1 overflow-hidden"> 
 
-            <Table
-                data={products}
-                getData={getProducts}
-                columns={columns}
-                loading={loading}
-                action={(
-                    <Button onClick={() => {
-                        form.resetFields()
-                        setVisible(true)
-                    }}>Add Item
-                    </Button>
-                )}
-                onEdit={handleEdit}
-                onDelete={delProduct}
-                actionLabel={<span className="text-primary">Edit/Delete</span>}
-                permission="inventory"
-                pagination
-                rowCount={6}
-            />
-        </>
+                <ModalForm
+                    form={form}
+                    visible={visible}
+                    setVisible={setVisible}
+                    addFunc={async values => {
+                        values.image = await getUploadImageUrl(values.image)
+                        return postProductAdd(values)
+                    }}
+                    updateFunc={async values => {
+                        values.image = await getUploadImageUrl(values.image)
+                        return postProductUpdate(values)
+                    }}
+                    onFinish={getProducts}
+                    title="Product">
+                    <FormInput name="name" label="Name" required/>
+                    <FormInput name="cost" label="Cost" type="number" required/>
+                    <FormInput name="stock" label="Stock" type="number" required/>
+                    <InputFile name="image" label="Image" form={form}/>
+                </ModalForm>
+                <div className="flex justify-between items-center mb-2 sm:flex-row flex-col gap-4">
+                    {add && (
+                        <Button
+                            onClick={() => {
+                                form.resetFields();
+                                setVisible(true);
+                            }}
+                        >
+                            Add Item
+                        </Button>
+                    )}
+                    <SearchInput value={search} setValue={setSearch} />
+                </div>
+
+                <Table
+                    data={products}
+                    getData={getProducts}
+                    columns={columns}
+                    loading={loading}
+                    action={(
+                        <Button onClick={() => {
+                            form.resetFields()
+                            setVisible(true)
+                        }}>Add Item
+                        </Button>
+                    )}
+                    onEdit={handleEdit}
+                    onDelete={delProduct}
+                    actionLabel={<span className="text-primary">Edit/Delete</span>}
+                    permission="inventory"
+                    pagination
+                    rowCount={6}
+                />
+            </div>
+        </div>
     )
 }
 Inventory.layout = TeacherLayout;
