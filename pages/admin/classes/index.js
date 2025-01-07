@@ -1,13 +1,13 @@
 import AdminLayout from "../../../layouts/admin";
 import Link from 'next/link'
-import {checkPermission, useFetch} from "../../../helpers/hooks";
-import {fetchClasses} from "../../../helpers/backend_helper";
+import { checkPermission, useFetch } from "../../../helpers/hooks";
+import { fetchClasses } from "../../../helpers/backend_helper";
 import Table from "../../../components/common/table";
 import moment from "moment";
-import {useRouter} from "next/router";
-import {FiArrowLeft} from "react-icons/fi";
+import { useRouter } from "next/router";
+import { FiArrowLeft } from "react-icons/fi";
 import SearchInput from "../../../components/form/search";
-import {useState} from "react";
+import { useState } from "react";
 
 const Classes = () => {
     const router = useRouter()
@@ -63,10 +63,10 @@ const Classes = () => {
         <>
             <div className="flex justify-between">
                 <h4>
-                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Classes
+                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Classes
                 </h4>
                 <div className="flex">
-                    <SearchInput value={search} setValue={setSearch}/>
+                    <SearchInput value={search} setValue={setSearch} />
                     {add && (
                         <Link href="/teacher/classes/create">
                             <a className="btn btn-primary">Add Class</a>
@@ -96,12 +96,12 @@ Classes.layout = AdminLayout
 export default Classes
 
 
-const ClassCard = ({data}) => {
+const ClassCard = ({ data }) => {
     return (
         <div className="bg-white p-8 rounded my-4">
             <h4 className="text-center">{data?.name}</h4>
             <p className="text-center mb-1">{data?.section}</p>
-            <hr className="mt-1"/>
+            <hr className="mt-1" />
             <div className="flex justify-between">
                 <p className="text-lg mb-0">{data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}</p>
                 <p className="text-lg mb-0">{moment(data?.time?.start, 'HH:mm').format('hh:mm a')} -&nbsp;

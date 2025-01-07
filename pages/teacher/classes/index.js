@@ -79,7 +79,7 @@ const Classes = () => {
                             </p>
                             {add && (
                                 <Link href="/teacher/classes/create">
-                                    <button type="button" className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-transform transform active:scale-95">
+                                    <button type="button" className="px-5 py-2 bg-white rounded-lg shadow-md">
                                         Add Class
                                     </button>
                                 </Link>
