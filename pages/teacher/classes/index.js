@@ -1,20 +1,17 @@
 import TeacherLayout from "../../../layouts/teacher";
 import Link from 'next/link'
-import {checkPermission, useAction, useActionConfirm, useFetch} from "../../../helpers/hooks";
-import {fetchClasses, fetchTraits, postAttendance, postAwards} from "../../../helpers/backend_helper";
+import { checkPermission, useAction, useActionConfirm, useFetch } from "../../../helpers/hooks";
+import { fetchClasses, fetchTraits, postAttendance, postAwards } from "../../../helpers/backend_helper";
 import moment from "moment";
-import {useRouter} from "next/router";
-import {FiArrowLeft, FiCalendar, FiChevronDown, FiChevronUp, FiClipboard, FiGift} from "react-icons/fi";
+import { useRouter } from "next/router";
+import { FiArrowLeft, FiCalendar, FiChevronDown, FiChevronUp, FiClipboard, FiGift } from "react-icons/fi";
 import SearchInput from "../../../components/form/search";
-import {useState} from "react";
-import {Form, Modal} from "antd";
-import FormSelect from "../../../components/form/FormSelect";
-import FormInput from "../../../components/form/FormInput";
-import Button from "../../../components/form/Button";
+import { useState } from "react";
+import { Form, Modal } from "antd";
 
 const Classes = () => {
     const router = useRouter()
-    const [classes, getClasses] = useFetch(fetchClasses, {mine: true}, {date: moment().format('YYYY-MM-DD')})
+    const [classes, getClasses] = useFetch(fetchClasses, { mine: true }, { date: moment().format('YYYY-MM-DD') })
     const [traits] = useFetch(fetchTraits)
     const nameFormat = (_, data) => {
         return (
@@ -36,30 +33,6 @@ const Classes = () => {
         )
     }
 
-    const columns = [
-        {
-            label: "All Classes",
-            dataIndex: 'name',
-            formatter: nameFormat,
-            className: "hover:bg-gray-100 cursor-pointer",
-            onClick: data => router.push('/teacher/classes/' + data._id)
-        },
-        {
-            label: "Time",
-            dataIndex: 'name',
-            formatter: timeFormat,
-            className: 'text-center',
-            shadow: true,
-            maxWidth: 200,
-        },
-        {
-            label: "Instructors",
-            dataIndex: 'instructors',
-            formatter: data => data?.sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map((instructor, index) => `${index > 0 ? ', ' : ''}${instructor?.first_name} ${instructor?.last_name}`),
-            className: 'text-center',
-            maxWidth: 200,
-        }
-    ]
 
     const add = checkPermission('class_create')
     const [search, setSearch] = useState('')
@@ -67,27 +40,55 @@ const Classes = () => {
         <>
             <div className="flex justify-between">
                 <h4>
-                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Classes
+                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Classes
                 </h4>
                 <div className="flex">
-                    <SearchInput value={search} setValue={setSearch}/>
-                    {add && (
+                    {(classes?.length > 0) && (<SearchInput value={search} setValue={setSearch} />)}
+
+                    {/* {add && (
                         <Link href="/teacher/classes/create">
                             <Button>Add Class</Button>
                         </Link>
-                    )}
+                    )} */}
                 </div>
             </div>
             <div className="pr-2">
                 <div>
                     {classes?.length === 0 && (
-                        <p className="text-center text-2xl font-semibold pl-2 md:pl-8 mt-4">
-                            Click "Add Class" to get started adding your first class!
-                        </p>
+                        <div className="flex flex-col items-center justify-center space-y-6">
+                            <div className="w-64 h-64 border-2 border-gray-300 rounded-lg">
+                                <div className="grid grid-cols-5 grid-rows-5 h-full w-full">
+                                    <div className="border-b border-r border-gray-300 col-span-5 text-center font-semibold text-gray-700">Time / Class</div>
+                                    <div className="border-b border-r border-gray-300 text-center">9:00 AM</div>
+                                    <div className="border-b border-r border-gray-300 text-center">10:00 AM</div>
+                                    <div className="border-b border-r border-gray-300 text-center">11:00 AM</div>
+                                    <div className="border-b border-r border-gray-300 text-center">12:00 PM</div>
+                                    <div className="border-b border-r border-gray-300 text-center">1:00 PM</div>
+
+                                    <div className="border-b border-r border-gray-300 text-center">Class 1</div>
+                                    <div className="border-b border-r border-gray-300 text-center"></div>
+                                    <div className="border-b border-r border-gray-300 text-center"></div>
+                                    <div className="border-b border-r border-gray-300 text-center"></div>
+                                    <div className="border-b border-r border-gray-300 text-center"></div>
+                                </div>
+                            </div>
+
+                            <p className="text-xl font-semibold text-gray-700">Your Classes are Empty</p>
+                            <p className="text-gray-500 text-center max-w-md">
+                                It looks like you don't have any scheduled classes right now. Add new classes to fill up your schedule!
+                            </p>
+                            {add && (
+                                <Link href="/teacher/classes/create">
+                                    <button type="button" className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-transform transform active:scale-95">
+                                        Add Class
+                                    </button>
+                                </Link>
+                            )}
+                        </div>
                     )}
                 </div>
                 {classes?.filter(d => d.name.toLowerCase()?.includes(search.toLowerCase())).sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))?.map((d, index) => (
-                    <ClassCard data={d} key={index} traits={traits} getClasses={getClasses}/>
+                    <ClassCard data={d} key={index} traits={traits} getClasses={getClasses} />
                 ))}
             </div>
 
@@ -100,7 +101,7 @@ Classes.layout = TeacherLayout
 export default Classes
 
 
-const ClassCard = ({data, traits, getClasses}) => {
+const ClassCard = ({ data, traits, getClasses }) => {
     const [show, setShow] = useState(false)
     const [showAward, setShowAward] = useState(false)
     const [showPresent, setShowPresent] = useState(false)
@@ -117,10 +118,10 @@ const ClassCard = ({data, traits, getClasses}) => {
         <div className="bg-white rounded my-4">
             <div className="flex flex-col md:flex-row flex-wrap justify-between p-4 pb-0">
                 <div className="!text-center md:!text-left">
-                    <div className= "flex">
+                    <div className="flex">
                         <h5 className="font-semibold ">{data?.name}</h5>
                         <Link href={'/teacher/classes/' + data._id}>
-                            <a className="ml-2 mt-1 text-blue-300 hover:underline" style={{fontSize: '0.7rem'}}>See Details</a>
+                            <a className="ml-2 mt-1 text-blue-300 hover:underline" style={{ fontSize: '0.7rem' }}>See Details</a>
                         </Link>
                     </div>
                     <p className="mb-1 text-sm">{data?.section}</p>
@@ -129,7 +130,7 @@ const ClassCard = ({data, traits, getClasses}) => {
                         <p className="mb-1 text-sm" key={index}>{d?.first_name} {d?.last_name} ({d?.email})</p>
                     ))}
                 </div>
-                <hr className="my-2 md:hidden"/>
+                <hr className="my-2 md:hidden" />
                 <div className="!text-center md:!text-right">
                     <p className="mb-0">{data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}</p>
                     <p className="mb-0">{moment(data?.time?.start, 'HH:mm').format('hh:mm a')} -&nbsp;
@@ -137,15 +138,15 @@ const ClassCard = ({data, traits, getClasses}) => {
                     </p>
                     <div className="bg-gray-600 inline-block px-2 py-1 rounded-full text-sm text-white my-1">
                         Students Enrolled <span
-                        className="bg-white text-gray-700 rounded-full px-1 font-semibold">{data?.students?.length}</span>
+                            className="bg-white text-gray-700 rounded-full px-1 font-semibold">{data?.students?.length}</span>
                     </div>
                 </div>
             </div>
             <div className="text-end px-4 pt-0 pb-3">
                 <a className="py-1.5 text-decoration-none" onClick={() => setShow(!show)}>
                     View Attendance
-                    {show ? <FiChevronDown className="inline-block ml-1"/> :
-                        <FiChevronUp className="inline-block ml-1"/>}
+                    {show ? <FiChevronDown className="inline-block ml-1" /> :
+                        <FiChevronUp className="inline-block ml-1" />}
                 </a>
             </div>
             {show && (
@@ -153,7 +154,7 @@ const ClassCard = ({data, traits, getClasses}) => {
                     <div className="bg-gray-50 rounded-b border border-gray-400">
                         <div className="flex justify-between flex-wrap !px-2 md:!px-4 py-2.5 border-t border-gray-400">
                             <div className="flex items-center ">
-                                <FiCalendar size={20} className="mr-2 mb-2 md:mb-0"/>
+                                <FiCalendar size={20} className="mr-2 mb-2 md:mb-0" />
                                 <span>Attendance</span>
                             </div>
                             <div className="flex flex-wrap items-center">

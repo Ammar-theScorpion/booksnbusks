@@ -207,7 +207,51 @@ const StudentLayout = ({children}) => {
 }
 export default StudentLayout
 
-export const NavItem = ({href, label, icon: Icon, onClick, childHrefs, permission, admin = false}) => {
+
+export const NavItem = ({ itemIndex, href, label, icon: Icon, onClick, childHrefs, permission, admin = false, setIndex, selectedIndex }) => {
+    console.log(childHrefs + "fffffffffffffffffffffffffffffffffffffffffffffffffffffffff")
+    const handleClick = () => {
+        try {
+            document.querySelector('.mobile-menu').classList.remove('active')
+        } catch (e) {
+
+        }
+        if (onClick) {
+            onClick()
+        }
+    }
+    const router = useRouter()
+
+    const user = useUserContext()
+    if (permission && !user?.permission?.permissions?.includes(permission) && !admin && user.role !== 'admin') {
+        return <></>
+    }
+    if (admin && user?.admin !== true && user.role !== 'admin') {
+        return <></>
+    }
+
+    return (
+        <li>
+            <Link href={href || '#!'} className="flex-1">
+                {/* <a onClick={handleClick}
+                    className={router.pathname === href || router.pathname === href + /[_id] || childHrefs?.includes(router.pathname) ? 'active' : ''}>
+                    <Icon size={18} /> <span>{label}</span>
+                </a> */}
+
+                <a
+                    className={` ${router.pathname === href || router.pathname === href  || childHrefs?.includes(router.pathname) && 'active'} flex h-full items-center p-2 text-dark rounded-lg no-underline 
+                    hover:bg-primary-800 dark:hover:bg-primary-100 transition-all duration-300 
+                    hover:text-white 
+                    ${selectedIndex === itemIndex ? 'bg-primary-primary text-white' : ''}`}
+                    onClick={() => { setIndex(itemIndex) }}
+                >
+                    <Icon size={18} /> <span className='ml-5'>{label}</span>
+                </a>
+            </Link>
+        </li>
+    )
+}
+/*export const NavItem = ({href, label, icon: Icon, onClick, childHrefs, permission, admin = false}) => {
     const handleClick = () => {
         try {
             document.querySelector('.mobile-menu').classList.remove('active')
@@ -238,7 +282,7 @@ export const NavItem = ({href, label, icon: Icon, onClick, childHrefs, permissio
             </Link>
         </li>
     )
-}
+}*/
 
 export const Header = ({user}) => {
     const {cart, setShowCart} = useUserContext()

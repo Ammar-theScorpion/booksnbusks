@@ -78,7 +78,7 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
                                         })}
                                     {noAction || (
                                         <td >
-                                            <div className="flex justify-end pr-2">
+                                            <div className="flex justify-end pr-2 gap-1">
                                                 {onEdit && checkPermission(permission + '_edit') && (
                                                     <a className="btn-primary p-1.5 rounded ml-2" onClick={() => onEdit(data)}>
                                                         <FiEdit size={18} role="button" />

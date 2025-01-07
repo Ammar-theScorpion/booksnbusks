@@ -14,7 +14,17 @@ module.exports = {
                 'F8': '#F8F8F8!important',
                 primary: {"50":"#B00003","100":"#780002","200":"#bfdbfe","300":"#93c5fd","400":"#60a5fa","500":"#3b82f6","600":"#2563eb",
                         "700":"#1d4ed8","800":"rgba(255, 0, 0, 0.58)","900":"#1e3a8a","950":"#172554", 'primary': '#e50004'}
-            }
+            },
+
+            animation: {
+                ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1) infinite',
+              },
+            keyframes: {
+                ping: {
+                    '0%': { transform: 'scale(1)', opacity: '1' },
+                    '75%, 100%': { transform: 'scale(2)', opacity: '0' },
+                },
+            },
         },
     },
     fontFamily: {

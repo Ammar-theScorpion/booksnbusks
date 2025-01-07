@@ -46,59 +46,63 @@ const Home = () => {
     }, []);
 
     const itemsBody = [
-        (products)=>(
+        (products) => (
             <>
-            {
-                products?.length ?products.map((product, index)=>(
-                    <div key={index}>
-                        {/* {index + 1}. {product?._id}  */}
-                        {product?._id}({product?.totalStock})<br />
-                        <div className="float-right" style={{ fontSize: '12px' }}>
-                            {formatDateString(product?.latestCreatedAt)}
-                        </div>
+                {products?.length ? (
+                    <div className="space-y-4">
+                        {products.map((product, index) => (
+                            <div
+                                key={product?._id}
+                                className="p-4 border rounded-lg shadow hover:shadow-lg transition-all duration-200"
+                            >
+                                <h2 className="text-lg font-semibold text-gray-800">
+                                    {index + 1}. {product?._id}
+                                </h2>
+                                <p className="text-gray-600 mt-2">
+                                    <strong>Total Stock:</strong> {product?.totalStock}
+                                </p>
+                                <p className="text-sm text-gray-500 mt-1">
+                                    <strong>Latest Created At:</strong> {formatDateString(product?.latestCreatedAt)}
+                                </p>
+                            </div>
+                        ))}
                     </div>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaFolderOpen size={50} className="ml-2" />
-                        <p>No recent items. </p>
-                    </div>
-                )
-            }
+                ) : (
+                    <p className="text-center text-gray-500">
+                        No products available.
+                    </p>
+                )}
+
             </>
         ),
-        (purchases)=>(
+        (purchases) => (
             <>
-                {purchases?.length?purchases.map((status, index)=>(
-                        
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                            data={status}
-                            layout="vertical"
-                            margin={{
-                                top: 5,
-                                right: 30,
-                                left: 40,
-                                bottom: 5,
-                            }}
-                        >
-                            <CartesianGrid horizontal={false} />
-                            <XAxis type="number" allowDecimals={false} />
-                            <YAxis dataKey="name" type="category" width={160} />
-                            <Tooltip />
-                            <Bar dataKey="orders" fill="#dc3545" />
-                        </BarChart>
-                    </ResponsiveContainer>
-            )):
-            (
-                <div className="flex flex-col items-center justify-center h-full">
-                    <FaDatabase size={50} className="ml-2" />
-                    <p>No enough data. </p>
-                </div>
-            )
-            }
-            </>
-        ),
+                {purchases && purchases.length ? (
+                    <div style={{ height: 280 }}>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                                data={dashboard?.purchases}
+                                layout="vertical"
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 40,
+                                    bottom: 5,
+                                }}
+                            >
+                                <CartesianGrid horizontal={false} />
+                                <XAxis type="number" allowDecimals={false} />
+                                <YAxis dataKey="name" type="category" width={160} />
+                                <Tooltip />
+                                <Bar dataKey="orders" fill="#dc3545" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                ) : (
+                    <p>No recent purchases.</p>
+                )}
+            </>
+        ),
         (statuses)=>(
 
             <>
