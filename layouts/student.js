@@ -20,12 +20,14 @@ import PreLoader from "../components/common/preloader";
 import { UserContext, useUserContext } from "../contexts/user";
 import { NavItemProfile } from "./teacher";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
+import Sidebar from '../fragment/layout/nav/Sidebar';
 
 
 const StudentLayout = ({ children }) => {
     const router = useRouter()
     const [user, setUser] = useState()
     const [approved, setApproved] = useState(true)
+    const [openSidebar, setOpenSidebar] = useState(false);
 
     useEffect(() => {
         getProfile()
@@ -96,6 +98,22 @@ const StudentLayout = ({ children }) => {
     const ref = useRef()
     userOutSideClick(ref, () => setShowCart(false))
 
+    // <NavItem href="/student/store" label="Store" icon={FiShoppingBag} />
+    // <NavItem href="/student/checkout" label="Checkout" icon={FiShoppingCart} />
+    // <NavItem href="/student/purchases" label="Purchases" icon={FiShoppingBag} />
+    // <NavItem href="/student/wishlist" label="Wishlist" icon={FiHeart} />
+    // {/*<NavItem href="/student/attendance" label="Attendance" icon={FiCalendar}/>*/}
+    // <NavItem href="/student/quiz" label="Quizzes" icon={AiOutlineQuestionCircle} />
+
+    const sidebarItems = [
+        { "title": "Store", "link": "/student/store", "icon": FiShoppingBag },
+        { "title": "Checkout", "link": "/student/checkout", "icon": FiShoppingCart },
+        { "title": "Purchases", "link": "/student/purchases", "icon": FiShoppingBag },
+        { "title": "Wishlist", "link": "/student/wishlist", "icon": FiHeart },
+        { "title": "Attendance", "link": "/student/attendance", "icon": FiCalendar },
+        { "title": "Quizzes", "link": "/student/quiz", "icon": AiOutlineQuestionCircle },
+
+    ];
     if (!approved) {
         return (
             <div className="flex min-h-screen justify-center py-12">
@@ -160,7 +178,7 @@ const StudentLayout = ({ children }) => {
                 </div>
             </div>
             <main className="dashboard-layout">
-                <aside className="nav-area">
+                {/* <aside className="nav-area">
                     <nav className="navbar">
                         <div className="site-title">
                             <img src="/images/logo.png" alt="" />
@@ -174,13 +192,13 @@ const StudentLayout = ({ children }) => {
                                     <FiX size={24} className="absolute right-4 top-4" onClick={toggleMobileMenu} />
                                 </div>
                                 <ul className="menu">
-                                    {/*<NavItem href="/student" label="Home" icon={FiHome}/>*/}
-                                    {/*<NavItem href="/student/points" label="Points" icon={FiStar}/>*/}
+                                    <NavItem href="/student" label="Home" icon={FiHome}/>
+                                    <NavItem href="/student/points" label="Points" icon={FiStar}/>
                                     <NavItem href="/student/store" label="Store" icon={FiShoppingBag} />
                                     <NavItem href="/student/checkout" label="Checkout" icon={FiShoppingCart} />
                                     <NavItem href="/student/purchases" label="Purchases" icon={FiShoppingBag} />
                                     <NavItem href="/student/wishlist" label="Wishlist" icon={FiHeart} />
-                                    {/*<NavItem href="/student/attendance" label="Attendance" icon={FiCalendar}/>*/}
+                                    <NavItem href="/student/attendance" label="Attendance" icon={FiCalendar}/>
                                     <NavItem href="/student/quiz" label="Quizzes" icon={AiOutlineQuestionCircle} />
                                 </ul>
                             </div>
@@ -192,13 +210,23 @@ const StudentLayout = ({ children }) => {
                             <NavItemProfile user={user} />
                         </div>
                     </nav>
-                </aside>
-                <div className="main-container">
+                </aside> */}
+
+                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} />
+
+
+                <div className={`box-border pt-24 flex flex-col gap-3 pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
+                    } sm:ml-[18rem]`}>
+                    <Header user={user} />
+                    <div> {children}</div>
+
+                </div>
+                {/* <div className="main-container box-border pt-24 flex flex-col gap-3">
                     <Header user={user} />
                     <div>
                         {children}
                     </div>
-                </div>
+                </div> */}
             </main>
         </UserContext.Provider>
 
