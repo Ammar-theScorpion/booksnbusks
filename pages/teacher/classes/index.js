@@ -52,26 +52,10 @@ const Classes = () => {
                     )} */}
                 </div>
             </div>
-            <div className="pr-2">
-                <div>
+            <div>
+                <div >
                     {classes?.length === 0 && (
-                        <div className="flex flex-col items-center justify-center space-y-6">
-                            <div className="w-64 h-64 border-2 border-gray-300 rounded-lg">
-                                <div className="grid grid-cols-5 grid-rows-5 h-full w-full">
-                                    <div className="border-b border-r border-gray-300 col-span-5 text-center font-semibold text-gray-700">Time / Class</div>
-                                    <div className="border-b border-r border-gray-300 text-center">9:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">10:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">11:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">12:00 PM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">1:00 PM</div>
-
-                                    <div className="border-b border-r border-gray-300 text-center">Class 1</div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                </div>
-                            </div>
+                        <div className="py-20 flex flex-col items-center justify-center">
 
                             <p className="text-xl font-semibold text-gray-700">Your Classes are Empty</p>
                             <p className="text-gray-500 text-center max-w-md">
@@ -115,7 +99,7 @@ const ClassCard = ({ data, traits, getClasses }) => {
     const [lefts, setLefts] = useState([])
 
     return (
-        <div className="bg-white rounded my-4">
+        <div className="bg-white rounded my-4 shadow-md" >
             <div className="flex flex-col md:flex-row flex-wrap justify-between p-4 pb-0">
                 <div className="!text-center md:!text-left">
                     <div className="flex">

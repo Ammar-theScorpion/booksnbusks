@@ -1,13 +1,13 @@
 import AdminLayout from "../../../layouts/admin";
-import {useRouter} from "next/router";
-import {useFetch} from "../../../helpers/hooks";
-import {getSchools, postProductAdd, postProductUpdate, postSchool} from "../../../helpers/backend_helper";
-import {FiArrowLeft} from "react-icons/fi";
+import { useRouter } from "next/router";
+import { useFetch } from "../../../helpers/hooks";
+import { getSchools, postProductAdd, postProductUpdate, postSchool } from "../../../helpers/backend_helper";
+import { FiArrowLeft } from "react-icons/fi";
 import Table from "../../../components/common/table";
-import {useState} from "react";
-import {Form, Modal} from "antd";
-import FormInput, {HiddenFormItem} from "../../../components/form/FormInput";
-import InputFile, {getUploadImageUrl} from "../../../components/form/file";
+import { useState } from "react";
+import { Form, Modal } from "antd";
+import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
+import InputFile, { getUploadImageUrl } from "../../../components/form/file";
 import ModalForm from "../../../components/common/modal_form";
 
 const Schools = () => {
@@ -24,7 +24,7 @@ const Schools = () => {
         {
             label: "Logo",
             dataIndex: 'logo',
-            formatter: d => <img src={d} className="h-8" alt=""/>
+            formatter: d => <img src={d} className="h-8" alt="" />
         }
     ]
 
@@ -43,17 +43,17 @@ const Schools = () => {
                     setVisible(false)
                 }}
                 title="School">
-                <HiddenFormItem name="_id"/>
-                <FormInput name="name" label="Name" required/>
-                <FormInput name="password" label="Password" required/>
-                <InputFile name="logo" label="Logo" form={form}/>
+                <HiddenFormItem name="_id" />
+                <FormInput name="name" label="Name" required />
+                <FormInput name="password" label="Password" required />
+                <InputFile name="logo" label="Logo" form={form} />
             </ModalForm>
             <div className="flex justify-between">
                 <h4>
-                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> School
+                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> School
                 </h4>
                 <div>
-                    <a className="btn btn-primary" onClick={() => {
+                    <a className="btn btn-primary mb-2" onClick={() => {
                         form.resetFields()
                         setVisible(true)
                     }}>Add School</a>
@@ -77,7 +77,7 @@ const Schools = () => {
                     })
                     setVisible(true)
                 }}
-              />
+            />
         </>
     )
 }

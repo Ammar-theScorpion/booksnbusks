@@ -1,15 +1,16 @@
 import TeacherLayout from "../../layouts/teacher";
-import {useFetch} from "../../helpers/hooks";
-import {fetchDashboard, fetchUser, fetchTeachers} from "../../helpers/backend_helper";
-import {Col, Row} from "react-bootstrap";
-import {Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip} from "recharts";
+import { useFetch } from "../../helpers/hooks";
+import { fetchDashboard, fetchUser, fetchTeachers } from "../../helpers/backend_helper";
+import { Col, Row } from "react-bootstrap";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 import moment from "moment";
-import {useRouter} from "next/router";
-import {Tabs} from "antd";
+import { useRouter } from "next/router";
+import { Tabs } from "antd";
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Card from "../../fragment/layout/dashboard/Card";
-import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaFolderOpen, FaRegClipboard, FaUserFriends, FaBoxOpen, FaDatabase } from "react-icons/fa"; // Import required icons
+import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaRegClipboard, FaUserFriends, FaBoxOpen, FaBoxTissue } from "react-icons/fa"; // Import required icons
 import Skeleton from "react-loading-skeleton";
+import { TbShoppingCartDiscount } from "react-icons/tb";
 
 const { TabPane } = Tabs;
 
@@ -24,8 +25,10 @@ const Home = () => {
     }), []);
 
     const [startTime, setStartTime] = useState(allTime.toString());
-    const [dashboard, refetchDashboard, { loading } ] = useFetch(fetchDashboard, {date: currentTime, start: startTime, end: currentTime})
+    const [dashboard, refetchDashboard, { loading }] = useFetch(fetchDashboard, { date: currentTime, start: startTime, end: currentTime })
 
+    console.log(dashboard)
+    console.log("jjjjjjsjjjjjjjj")
     useEffect(() => {
         refetchDashboard({ date: currentTime, start: startTime, end: currentTime });
     }, [startTime]);
@@ -49,28 +52,48 @@ const Home = () => {
         (products) => (
             <>
                 {products?.length ? (
-                    <div className="space-y-4">
+                    <div className="space-y-6 p-4">
                         {products.map((product, index) => (
                             <div
                                 key={product?._id}
-                                className="p-4 border rounded-lg shadow hover:shadow-lg transition-all duration-200"
+                                className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg"
                             >
-                                <h2 className="text-lg font-semibold text-gray-800">
-                                    {index + 1}. {product?._id}
+                                {/* Header */}
+                                <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                                    <span className="mr-2 text-primary-500">{index + 1}.</span>
+                                    <span>{product?._id}</span>
                                 </h2>
-                                <p className="text-gray-600 mt-2">
-                                    <strong>Total Stock:</strong> {product?.totalStock}
-                                </p>
-                                <p className="text-sm text-gray-500 mt-1">
-                                    <strong>Latest Created At:</strong> {formatDateString(product?.latestCreatedAt)}
-                                </p>
+
+                                {/* Details */}
+                                <div className="mt-4 space-y-2">
+                                    {/* Total Stock */}
+                                    <p className="text-lg text-gray-700 flex justify-between items-center">
+                                        <strong>Total Stock:</strong>
+                                        <span
+                                            className={`font-medium ${product?.totalStock < 10 ? 'text-red-500' : 'text-green-600'
+                                                }`}
+                                        >
+                                            {product?.totalStock}
+                                        </span>
+                                    </p>
+
+                                    {/* Latest Created At */}
+                                    <p className="text-sm text-gray-600 flex justify-between items-center">
+                                        <strong>Latest Created At:</strong>
+                                        <span className="text-gray-500">
+                                            {formatDateString(product?.latestCreatedAt)}
+                                        </span>
+                                    </p>
+                                </div>
                             </div>
                         ))}
                     </div>
+
                 ) : (
-                    <p className="text-center text-gray-500">
-                        No products available.
-                    </p>
+                    <div className="flex flex-col items-center justify-center h-full">
+                        <FaBoxTissue size={50} className="ml-2" />
+                        <p>No products available. </p>
+                    </div>
                 )}
 
             </>
@@ -98,97 +121,105 @@ const Home = () => {
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
-                ) : (
-                    <p>No recent purchases.</p>
-                )}
-            </>
-        ),
-        (statuses)=>(
-
-            <>
-            {
-                statuses?.length ?statuses.map((status, index)=>(
-                    <>
-                        <li role={"button"} key={index} onClick={() => router.push('/teacher/purchases?status=' + status._id)} className="mb-3 pb-3 border-b flex justify-between hover:bg-slate-100 transition-all duration-500">
-                            <span>{status?._id} </span>
-                            <span>{status?.total} </span>
-                      </li>
-                    </>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaRegClipboard size={50} className="ml-2" />
-                        <p>No new orders. </p>
-                    </div>
-                )
-            }
+                ) :
+                    (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <TbShoppingCartDiscount size={50} className="ml-2" />
+                            <p>No recent purchases. </p>
+                        </div>
+                    )}
             </>
         ),
-        (logs)=>(
+        (statuses) => (
 
             <>
-            {
-                logs?.length ?logs.map((log, index)=>(
-                    <>
-                        <li role={"button"} key={index} className="mb-3 pb-3 border-b">
-                            {index + 1}. {log?.student?.first_name} {log?.student?.last_name}
-                        </li>
-                    </>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaUserFriends size={50} className="ml-2" />
-                        <p>No one is absent today. </p>
-                    </div>
-                )
-            }
+                {
+                    statuses?.length ? statuses.map((status, index) => (
+                        <>
+                            <li role={"button"} key={index} onClick={() => router.push('/teacher/purchases?status=' + status._id)} className="mb-3 pb-3 border-b flex justify-between hover:shadow-lg  transition-all duration-500">
+                                <span>{status?._id} </span>
+                                <span className="flex items-center text-sm font-medium px-3 py-1 rounded-full bg-indigo-100 text-indigo-700">{status?.total} </span>
+                            </li>
+                        </>
+                    )) :
+                        (
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <FaRegClipboard size={50} className="ml-2" />
+                                <p>No new orders. </p>
+                            </div>
+                        )
+                }
             </>
         ),
-        (newPurchases)=>(
-            
+        (logs) => (
+
             <>
-            {
-                newPurchases?.length ?newPurchases.map((purchase, index)=>(
-                    <>
-                      <div key={index} className="mb-3 pb-3 border-b">
-                        {purchase?.purchased_by?.first_name} {purchase?.purchased_by?.last_name}
-                    </div>
-                    </>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaBoxOpen size={50} className="ml-2" />
-                        <p>No new orders. </p>
-                    </div>
-                )
-            }
+                {
+                    logs?.length ? logs.map((log, index) => (
+                        <>
+                            <li role={"button"} key={index} className="mb-3 pb-3 border-b">
+                                {index + 1}. {log?.student?.first_name} {log?.student?.last_name}
+                            </li>
+                        </>
+                    )) :
+                        (
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <FaUserFriends size={50} className="ml-2" />
+                                <p>No one is absent today. </p>
+                            </div>
+                        )
+                }
+            </>
+        ),
+        (newPurchases) => (
+
+
+            <>
+                {
+                    newPurchases?.length ? newPurchases.map((purchase, index) => (
+                        <>
+                            {console.log(purchase)}
+                            <div key={index}
+                                className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg"
+                            >
+                                {purchase?.purchased_by?.first_name} {purchase?.purchased_by?.last_name}
+                            </div>
+                        </>
+                    )) :
+                        (
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <FaBoxOpen size={50} className="ml-2" />
+                                <p>No new orders. </p>
+                            </div>
+                        )
+                }
             </>
         ),
     ]
 
     const items = [
         [
-            { title: 'Recently Added Items', subtitle: dashboard?.products.length+' items', value: dashboard?.products, icon: <FaFolderPlus size={24}/>, body: itemsBody[0], style:'flex-1' },
-            { title: 'Top Purchases', value: dashboard?.purchases, icon: <FaShoppingCart size={24}/>, body: itemsBody[1], style:'flex-1 flex-grow' },
+            { title: 'Recently Added Items', subtitle: dashboard?.products.length + ' items', value: dashboard?.products, icon: <FaFolderPlus size={24} />, body: itemsBody[0], style: 'flex-1' },
+            { title: 'Top Purchases', value: dashboard?.purchases, icon: <FaShoppingCart size={24} />, body: itemsBody[1], style: 'flex-1 flex-grow' },
         ],
         [
-            { title: 'Order Status', value: dashboard?.purchaseStatus, icon: <FaClipboardList size={24}/>, body: itemsBody[2] },
-            { title: 'Absent Today', value: dashboard?.absence, icon: <FaUserTimes size={24}/>, body: itemsBody[3] },
-            { title: 'New Orders', value: dashboard?.newPurchases, icon: <FaBox size={24}/>, body: itemsBody[4] },
+            { title: 'Order Status', value: dashboard?.purchaseStatus, icon: <FaClipboardList size={24} />, body: itemsBody[2] },
+            { title: 'Absent Today', value: dashboard?.absence, icon: <FaUserTimes size={24} />, body: itemsBody[3] },
+            { title: 'New Orders', value: dashboard?.newPurchases, icon: <FaBox size={24} />, body: itemsBody[4] },
         ]
     ];
     const filters = [
-        {title: "All Time", value: allTime.toString()},
-        {title: "Last Year", value: oneYearAgo.toString()},
-        {title: "Last Month", value: oneMonthAgo.toString()},
-        {title: "Last Week", value: oneWeekAgo.toString()},
+        { title: "All Time", value: allTime.toString() },
+        { title: "Last Year", value: oneYearAgo.toString() },
+        { title: "Last Month", value: oneMonthAgo.toString() },
+        { title: "Last Week", value: oneWeekAgo.toString() },
     ]
     return (
         <div className="mt-24 ">
             <div className="flex w-full max-w-45 justify-start mb-2">
                 <div className="inline-flex items-center rounded-md bg-stone-200 p-1.5 dark:bg-meta-4 gap-1 transition-all duration-300">
-                    {filters.map((filter, index)=>(
-                        <button key={index} onClick={()=>handleStartTime(filter.value)} className={`rounded py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark transition-all duration-300
+                    {filters.map((filter, index) => (
+                        <button key={index} onClick={() => handleStartTime(filter.value)} className={`rounded py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark transition-all duration-300
                             ${startTime === filter.value && 'bg-white'}  `}>
                             {filter.title}
                         </button>

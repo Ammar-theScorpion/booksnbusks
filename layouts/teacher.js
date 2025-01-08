@@ -56,20 +56,20 @@ const TeacherLayout = ({ children, back = true }) => {
         { "title": "Student Roster", "link": "/teacher/students", "icon": IoSchoolOutline, "permission": "roster_student" },
         { "title": "Virtues", "link": "/teacher/traits", "icon": AiOutlineStar, "permission": "virtue_show" },
         { "title": "Award", "link": "/teacher/award", "icon": TbTrophy, "permission": "award_show" },
-        { "title": "Classes", "link": "/teacher/classes", "icon": IoBookOutline, "permission": "class_show", "fs": ['/teacher/classes/create'] },
+        { "title": "Classes", "link": "/teacher/classes", "icon": IoBookOutline, "permission": "class_show", "fs": ['/teacher/classes/create'], "childHrefs": ['/teacher/classes/create'] },
         ////
         { "title": "Attendance", "link": "/teacher/attendance", "icon": BsCalendarCheck, "permission": "attendance_show" },
         { "title": "Quiz", "link": "/teacher/quiz", "icon": AiOutlineQuestionCircle, "permission": "quiz_show", "childHrefs": ['/teacher/quiz/create', '/teacher/submissions/[quiz]'] },
-        { "title": "Roles", "link": "/teacher/roles", "icon": BsCalendarCheck, "permission": "role_show", "childHrefs": ['/teacher/roles/create', '/teacher/roles/[_id]'] },
-        { "title": "Users", "link": "/teacher/users", "icon": TbUsersGroup, "permission": "user_show", "childHrefs": ['/teacher/users/create', '/teacher/users/[_id]'] },
-        { "title": "Settings", "link": "/teacher/settings", "icon": FiSettings, "permission": "settings" },
+        { "title": "Roles", "link": "/teacher/roles", "icon": BsCalendarCheck, "permission": "role_show", "childHrefs": ['/teacher/roles/create', '/teacher/roles/[_id]'], "admin": true },
+        { "title": "Users", "link": "/teacher/users", "icon": TbUsersGroup, "permission": "user_show", "childHrefs": ['/teacher/users/create', '/teacher/users/[_id]'], "admin": true },
+        { "title": "Settings", "link": "/teacher/settings", "icon": FiSettings, "permission": "settings", "admin": true },
 
     ];
 
     return (
         <UserContext.Provider value={{ ...user, getProfile }}>
-            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
-            <div className={`pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
+            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} />
+            <div className={`box-border pt-24 flex flex-col gap-3 pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
                 } sm:ml-[18rem]`}>
                 {children}
             </div>

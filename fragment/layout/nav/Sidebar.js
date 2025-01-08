@@ -9,7 +9,7 @@ import { NavItem } from "../../../layouts/student";
 import LogoutPopup from "../../popup/LogoutPopup";
 
 
-const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems, admin = false }) => {
+const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
 
 
 
@@ -86,7 +86,7 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems, admin = fals
                             //     </Link>
                             // </li>
                             return <NavItem itemIndex={index} href={item.link} label={item.title} permission={item.permission}
-                                icon={item.icon} setIndex={setIndex} selectedIndex={selectedIndex} childHrefs={item.childHrefs} />
+                                icon={item.icon} setIndex={setIndex} selectedIndex={selectedIndex} childHrefs={item.childHrefs} admin={item.admin} />
                         }
                             // NavItem = ({href, label, icon: Icon, onClick, childHrefs, permission, admin = false}) => {
                             // <NavItem href="/teacher/award" label="Award" permission="award_show" icon={FiGift}/>

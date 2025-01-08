@@ -89,7 +89,7 @@ const Award = () => {
     return (
         (Object.keys(classNames).length === 0) ?
             <>
-                <div className="flex flex-col items-center justify-center space-y-8 p-6">
+                <div className="flex flex-col items-center justify-center">
                     {/* Empty Awards Message */}
                     <div className="text-center">
                         <div className="text-blue-500 text-6xl mt-44">
@@ -176,7 +176,7 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
 
     return (
         <>
-            <tr>
+            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" >
                 <td className="font-semibold" role="button" onClick={() => setShow(!show)}>
                     {show ? <FiChevronDown className="inline-block mr-4" size={20} /> :
                         <FiChevronRight className="inline-block mr-4" size={20} />}

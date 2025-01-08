@@ -65,8 +65,10 @@ const AdminLayout = ({ children, back = true }) => {
 
     return (
         <UserContext.Provider value={{ ...user, getProfile, currentSchool }}>
-            <main className="dashboard-layout">
-                <aside className="nav-area">
+            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
+
+            <main className="h-screen flex items-center">
+                {/* <aside className="nav-area">
                     <nav className="navbar">
                         <div className="site-title">
                             <img src="/images/logo.png" alt="" />
@@ -79,7 +81,7 @@ const AdminLayout = ({ children, back = true }) => {
                                     <h5>Menu</h5>
                                     <FiX size={24} className="absolute right-4 top-4" onClick={toggleMobileMenu} />
                                 </div>
-                                {/* <ul className="menu">
+                                <ul className="menu">
                                     <NavItem href="/admin" label="Dashboard" icon={AiOutlineAppstoreAdd} />
                                     <NavItem href="/admin/schools" label="Schools"
                                         icon={AiOutlineShop} />
@@ -91,7 +93,7 @@ const AdminLayout = ({ children, back = true }) => {
                                         icon={FaListUl} />
                                     <NavItem href="/admin/settings" label="Settings"
                     icon={FiSettings} admin/>
-             </ul> */}
+             </ul>
                             </div>
                             <div className="flex mx-4 border-t">
                                 <button className="pt-3 pl-2" onClick={() => signOut(router)}>
@@ -101,15 +103,14 @@ const AdminLayout = ({ children, back = true }) => {
                             <NavItemProfile user={user} />
                         </div>
                     </nav>
-                </aside>
-                <div className="main-container">
-                    <Header user={user} currentSchool={currentSchool} setCurrentSchool={setCurrentSchool} />
-                    <div className="">
-                        {children}
-                    </div>
+                </aside> */}
+
+                <div className={`pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
+                    } sm:ml-[18rem]`}>
+                    {children}
                 </div>
+
             </main>
-            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
 
         </UserContext.Provider>
     )
