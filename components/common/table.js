@@ -33,14 +33,14 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                 data?.length !== 0 ? (
                     <div className="">
                         <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
-                            <thead className="text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr className="">
                                     {columns?.map((column, index) => (
-                                        <th key={index} className="px-2 py-3">
+                                        <th key={index} className="px-6 py-3">
                                             {column.label}
                                         </th>
                                     ))}
-                                    {noAction && <th className="text-center">{actionLabel}</th>} {/* || */}
+                                    {noAction || <th className="text-center">{actionLabel}</th>} {/* || */}
                                 </tr>
                             </thead>
                             <tbody>

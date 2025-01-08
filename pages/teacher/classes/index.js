@@ -99,40 +99,67 @@ const ClassCard = ({ data, traits, getClasses }) => {
     const [lefts, setLefts] = useState([])
 
     return (
-        <div className="bg-white rounded my-4 shadow-md" >
+        <div className="bg-white rounded-lg shadow-md my-4 border border-gray-200">
+            {/* Header Section */}
             <div className="flex flex-col md:flex-row flex-wrap justify-between p-4 pb-0">
+                {/* Class Details */}
                 <div className="!text-center md:!text-left">
-                    <div className="flex">
-                        <h5 className="font-semibold ">{data?.name}</h5>
+                    <div className="flex items-center">
+                        <h5 className="font-semibold text-lg text-gray-800">{data?.name}</h5>
                         <Link href={'/teacher/classes/' + data._id}>
-                            <a className="ml-2 mt-1 text-blue-300 hover:underline" style={{ fontSize: '0.7rem' }}>See Details</a>
+                            <a
+                                className="ml-3 text-blue-600 hover:underline text-sm font-medium"
+                                title="View Class Details"
+                            >
+                                See Details
+                            </a>
                         </Link>
                     </div>
-                    <p className="mb-1 text-sm">{data?.section}</p>
-                    <p className="mb-1">Instructors</p>
+                    <p className="text-gray-600 text-sm mt-1">{data?.section}</p>
+                    <p className="text-gray-500 text-sm font-medium mt-2">Instructors</p>
                     {data?.instructors?.map((d, index) => (
-                        <p className="mb-1 text-sm" key={index}>{d?.first_name} {d?.last_name} ({d?.email})</p>
+                        <p key={index} className="text-sm text-gray-600">
+                            {d?.first_name} {d?.last_name} <span className="text-gray-500">({d?.email})</span>
+                        </p>
                     ))}
                 </div>
-                <hr className="my-2 md:hidden" />
+
+                {/* Divider for smaller screens */}
+                <hr className="my-2 md:hidden border-gray-300" />
+
+                {/* Class Schedule and Enrollment */}
                 <div className="!text-center md:!text-right">
-                    <p className="mb-0">{data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}</p>
-                    <p className="mb-0">{moment(data?.time?.start, 'HH:mm').format('hh:mm a')} -&nbsp;
-                        {moment(data?.time?.end, 'HH:mm').format('hh:mm a')}
+                    <p className="text-gray-700 text-sm">
+                        {data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}
                     </p>
-                    <div className="bg-gray-600 inline-block px-2 py-1 rounded-full text-sm text-white my-1">
-                        Students Enrolled <span
-                            className="bg-white text-gray-700 rounded-full px-1 font-semibold">{data?.students?.length}</span>
+                    <p className="text-gray-700 text-sm mt-1">
+                        {moment(data?.time?.start, 'HH:mm').format('hh:mm A')} -
+                        {moment(data?.time?.end, 'HH:mm').format('hh:mm A')}
+                    </p>
+                    <div className="bg-indigo-600 text-white inline-block px-3 py-1 rounded-full text-sm font-semibold mt-2">
+                        Students Enrolled:
+                        <span className="bg-white text-indigo-600 px-2 py-0.5 ml-1 rounded-full">
+                            {data?.students?.length}
+                        </span>
                     </div>
                 </div>
             </div>
-            <div className="text-end px-4 pt-0 pb-3">
-                <a className="py-1.5 text-decoration-none" onClick={() => setShow(!show)}>
-                    View Attendance
-                    {show ? <FiChevronDown className="inline-block ml-1" /> :
-                        <FiChevronUp className="inline-block ml-1" />}
+
+            {/* Footer Section */}
+            <div className="text-right px-4 pt-3 pb-3 border-t border-gray-200">
+                <a
+                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium cursor-pointer flex items-center justify-end"
+                    onClick={() => setShow(!show)}
+                >
+                    {show ? "Hide Attendance" : "View Attendance"}
+                    {show ? (
+                        <FiChevronUp className="ml-2 w-5 h-5" />
+                    ) : (
+                        <FiChevronDown className="ml-2 w-5 h-5" />
+                    )}
                 </a>
             </div>
+
             {show && (
                 <>
                     <div className="bg-gray-50 rounded-b border border-gray-400">

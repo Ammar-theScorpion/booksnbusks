@@ -16,7 +16,7 @@ import FormInput from "../../components/form/FormInput";
 import { FiArrowLeft, FiEdit, FiGift, FiTrash } from "react-icons/fi";
 import { useRouter } from "next/router";
 import SearchInput from "../../components/form/search";
-import { FaHistory } from "react-icons/fa";
+import { FaExclamationCircle, FaHistory } from "react-icons/fa";
 import moment from "moment/moment";
 import Pagination from "../../components/common/pagination";
 import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
@@ -144,7 +144,37 @@ const Students = () => {
                                     onPageChange={page => getHistory({ page })}
                                 />
                             </div>
-                        ) : <></>}
+                        ) :
+                            <div className="px-6 py-8 space-y-6 flex flex-col items-center bg-gray-50 rounded-lg shadow-inner mx-4">
+                                {/* Icon */}
+                                <div className="flex items-center justify-center bg-gray-100 text-gray-400 rounded-full w-16 h-16 mb-4">
+                                    <FaExclamationCircle className="w-8 h-8" />
+                                </div>
+
+                                {/* Message */}
+                                <p className="text-center text-gray-700 text-lg font-medium">
+                                    No Awards Found
+                                </p>
+                                <p className="text-center text-gray-500 text-sm">
+                                    This student hasn't received any awards yet. Encourage them to achieve their best!
+                                </p>
+
+                                {/* Button (Optional Action) */}
+                                <button
+                                    className="mt-4 bg-primary-primary text-white px-6 py-2 rounded-md shadow hover:bg-primary-dark transition"
+                                    onClick={() => {
+                                        form.resetFields()
+                                        form.setFieldsValue({
+                                            student: student._id
+                                        })
+                                        setVisible(true)
+                                    }} // Add an appropriate action handler if needed
+                                >
+                                    Add an Award
+                                </button>
+                            </div>
+
+                        }
                     </>
                 )}
 
