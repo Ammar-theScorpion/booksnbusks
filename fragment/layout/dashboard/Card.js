@@ -1,35 +1,55 @@
 import { CardSkeleton } from "../../skeleton/CardSkeleton";
 
-const Card=({items, loading})=>{
-    
+const Card=({items, loading, totalItems})=>{
+    console.log(totalItems)
     return (
         <div className="flex flex-col gap-4">
             {loading ? ( 
                 <CardSkeleton  /> ) : (
-                items.map((row, index) => (
-                <div className={`transition-opacity duration-1000 opacity-100 flex flex-wrap gap-4 ease-in`} key={index}>
-                    {row.map((item, index) => (
-                        <div className={`rounded-sm border border-stroke bg-white p-6 shadow-md dark:border-strokedark dark:bg-boxdark ${item.style || "flex-1"}`} key={index}>
-                        <div className="flex flex-row items-center gap-4">
-                            <div className="bg-slate-300 rounded-full p-3 w-fit">
-                                {item.icon}
-                            </div>
-                            <div>
-                                <h4 className="text-title-md font-bold text-black dark:text-white">
-                                    {item.title}
-                                </h4>
-                                <span className="text-sm font-medium">{item.subtitle}</span>
-                            </div>
+                    <>
+                        <div className="flex flex-row gap-4 w-full">
+                            {totalItems.map((item, index) => (
+                                <div key={index} className="rounded-sm border border-stroke bg-white shadow-md p-6 flex items-center justify-between flex-1" >
+                                        <div className="flex items-center gap-4">
+                                            <div className="bg-blue-100 text-blue-600 rounded-full p-3">
+                                                {item.icon}
+                                            </div>
+                                            <div>
+                                                <h4 className="text-sm font-medium text-gray-500">{item.title}</h4>
+                                                <h3 className="text-xl font-bold text-gray-900">{item.value || 'N/A'}</h3>
+                                            </div>
+                                        </div>
+                                        <div className="text-green-500 text-sm font-semibold">+2.59%</div>
+                                    </div>
+                            ))}
                         </div>
-                        
-                            <div className="mt-4 flex flex-col gap-2 h-60 max-h-60 overflow-y-auto">
-                                {item.body(item.value)}
+
+                        {items.map((row, index) => (
+                            <div className={`transition-opacity duration-1000 opacity-100 flex flex-wrap gap-4 ease-in`} key={index}>
+                                {row.map((item, index) => (
+                                    <div className={`rounded-sm border border-stroke bg-white p-6 shadow-md dark:border-strokedark dark:bg-boxdark ${item.style || "flex-1"}`} key={index}>
+                                    <div className="flex flex-row items-center gap-4">
+                                        <div className="bg-blue-100 rounded-full p-3 w-fit text-blue-600">
+                                            {item.icon}
+                                        </div>
+                                        <div>
+                                            <h4 className="text-title-md font-bold text-black dark:text-white">
+                                                {item.title}
+                                            </h4>
+                                            <span className="text-sm font-medium">{item.subtitle}</span>
+                                        </div>
+                                    </div>
+                                    
+                                        <div className="mt-4 flex flex-col gap-2 h-60 max-h-60 overflow-y-auto">
+                                            {item.body(item.value)}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        </div>
-                    ))}
-                </div>
-            ))
-        )}
+
+                        ))}
+                    </>
+                )}
         </div>
     )
 }
