@@ -64,15 +64,17 @@ const TeacherLayout = ({children, back = true}) => {
         { "title": "Users", "link": "/teacher/users", "icon": TbUsersGroup, "permission": "user_show", "childHrefs": ['/teacher/users/create', '/teacher/users/[_id]'] },
         { "title": "Settings", "link": "/teacher/settings", "icon": FiSettings, "permission": "settings" },
 
-    ];
+    ];
     
     return (
         <UserContext.Provider value={{...user, getProfile}}>
-<Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />                <div className={`pb-10 mr-3 flex-1 transition-all ${
-                    openSidebar ? 'ml-[18rem]' : 'ml-0'
+            <div className="bg-[#F1F5F9] ">
+                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin /> 
+                <div className={`box-border pt-24 flex flex-col gap-3 pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
                     } sm:ml-[18rem]`}>
                     {children}
                 </div>
+            </div>
 
             {/*}
             <main className="dashboard-layout">

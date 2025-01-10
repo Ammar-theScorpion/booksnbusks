@@ -1,3 +1,5 @@
+import { FaEmpire } from "react-icons/fa";
+
 const Empty = () => {
   return (
     <div className="flex flex-col justify-center items-center h-full">

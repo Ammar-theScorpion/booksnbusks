@@ -60,7 +60,7 @@ const Inventory = () => {
     const add = checkPermission('inventory_create')
 
     return (
-        <div className="flex flex-col h-fit mt-24 overflow-hidden">
+        <div className="flex flex-col h-fit overflow-hidden">
             <div className="flex-1 overflow-hidden"> 
 
                 <ModalForm

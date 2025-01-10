@@ -229,6 +229,7 @@ export const NavItem = ({ itemIndex, href, label, icon: Icon, onClick, childHref
     if (admin && user?.admin !== true && user.role !== 'admin') {
         return <></>
     }
+    console.log("label", label)
 
     return (
         <li>

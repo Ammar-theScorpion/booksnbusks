@@ -26,7 +26,7 @@ const Home = () => {
 
     const [startTime, setStartTime] = useState(allTime.toString());
     const [dashboard, refetchDashboard, { loading } ] = useFetch(fetchDashboard, {date: currentTime, start: startTime, end: currentTime})
-
+    console.log("dashboard", dashboard)
     useEffect(() => {
         refetchDashboard({ date: currentTime, start: startTime, end: currentTime });
     }, [startTime]);
@@ -50,43 +50,43 @@ const Home = () => {
         (products) => (
             <>
                 {products?.length ? (
-           <div className="space-y-6 p-4">
-           {products.map((product, index) => (
-               <div
-                   key={product?._id}
-                   className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg"
-               >
-                   {/* Header */}
-                   <h2 className="text-xl font-bold text-gray-800 flex items-center">
-                       <span className="mr-2 text-primary-500">{index + 1}.</span>
-                       <span>{product?._id}</span>
-                   </h2>
-       
-                   {/* Details */}
-                   <div className="mt-4 space-y-2">
-                       {/* Total Stock */}
-                       <p className="text-lg text-gray-700 flex justify-between items-center">
-                           <strong>Total Stock:</strong>
-                           <span
-                               className={`font-medium ${
-                                   product?.totalStock < 10 ? 'text-red-500' : 'text-green-600'
-                               }`}
-                           >
-                               {product?.totalStock}
-                           </span>
-                       </p>
-       
-                       {/* Latest Created At */}
-                       <p className="text-sm text-gray-600 flex justify-between items-center">
-                           <strong>Latest Created At:</strong>
-                           <span className="text-gray-500">
-                               {formatDateString(product?.latestCreatedAt)}
-                           </span>
-                       </p>
-                   </div>
-               </div>
-           ))}
-       </div>
+                <div className="space-y-6 p-4">
+                    {products.map((product, index) => (
+                        <div
+                            key={product?._id}
+                            className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg"
+                        >
+                            {/* Header */}
+                            <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                                <span className="mr-2 text-primary-500">{index + 1}.</span>
+                                <span>{product?._id}</span>
+                            </h2>
+                
+                            {/* Details */}
+                            <div className="mt-4 space-y-2">
+                                {/* Total Stock */}
+                                <p className="text-lg text-gray-700 flex justify-between items-center">
+                                    <strong>Total Stock:</strong>
+                                    <span
+                                        className={`font-medium ${
+                                            product?.totalStock < 10 ? 'text-red-500' : 'text-green-600'
+                                        }`}
+                                    >
+                                        {product?.totalStock}
+                                    </span>
+                                </p>
+                
+                                {/* Latest Created At */}
+                                <p className="text-sm text-gray-600 flex justify-between items-center">
+                                    <strong>Latest Created At:</strong>
+                                    <span className="text-gray-500">
+                                        {formatDateString(product?.latestCreatedAt)}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
        
                 ) :  (
                     <div className="flex flex-col items-center justify-center h-full">
@@ -127,8 +127,8 @@ const Home = () => {
                         <p>No recent purchases. </p>
                     </div>
                 )}
-            </>
-        ),
+            </>
+        ),
         (statuses)=>(
 
             <>
@@ -170,37 +170,95 @@ const Home = () => {
             }
             </>
         ),
+        // ammar
         (newPurchases)=>(
             
             <>
             {
                 newPurchases?.length ?newPurchases.map((purchase, index)=>(
-                    <>
-                      <div key={index} className="mb-3 pb-3 border-b">
-                        {purchase?.purchased_by?.first_name} {purchase?.purchased_by?.last_name}
+                    <div className="space-y-6 p-4">
+                        <div key={purchase?._id} className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg">
+                            {/* Header */}
+                            <h2 className="text-xl font-bold text-gray-800 flex items-center">
+                                <span className="mr-2 text-primary-500">{index + 1}.</span>
+                                <span>{purchase?.purchased_by?.first_name}{" "}
+                                {purchase?.purchased_by?.last_name}
+                                </span>
+                            </h2>
+
+                            {/* Details */}
+                            <div className="mt-4 space-y-2">
+                                {/* School Name */}
+                                <p className="text-lg text-gray-700 flex justify-between items-center">
+                                <strong>School:</strong>
+                                <span className="font-medium">{purchase?.school?.name || "N/A"}</span>
+                                </p>
+
+                                {/* Cost */}
+                                <p className="text-lg text-gray-700 flex justify-between items-center">
+                                <strong>Cost:</strong>
+                                <span className="font-medium text-green-600">${purchase?.cost}</span>
+                                </p>
+
+                                {/* Status */}
+                                <p className="text-lg text-gray-700 flex justify-between items-center">
+                                <strong>Status:</strong>
+                                <span
+                                    className={`font-medium ${
+                                    purchase?.status === "Fulfilled" ? "text-green-500" : "text-yellow-500"
+                                    }`}
+                                >
+                                    {purchase?.status}
+                                </span>
+                                </p>
+
+                                {/* Approval Status */}
+                                <p className="text-lg text-gray-700 flex justify-between items-center">
+                                <strong>Approved:</strong>
+                                <span
+                                    className={`font-medium ${
+                                    purchase?.approved === "pending"
+                                        ? "text-yellow-500"
+                                        : "text-green-600"
+                                    }`}
+                                >
+                                    {purchase?.approved}
+                                </span>
+                                </p>
+
+                                {/* Created At */}
+                                <p className="text-sm text-gray-600 flex justify-between items-center">
+                                <strong>Date:</strong>
+                                <span className="text-gray-500">
+                                    {new Date(purchase?.createdAt).toLocaleDateString()}
+                                </span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    </>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaBoxOpen size={50} className="ml-2" />
-                        <p>No new orders. </p>
-                    </div>
-                )
-            }
+                    )) :
+                    (
+                        <div className="flex flex-col items-center justify-center h-full">
+                            <FaBoxOpen size={50} className="ml-2" />
+                            <p>No new orders. </p>
+                        </div>
+                    )
+                }
             </>
         ),
     ]
-
+    //ammar
     const items = [
         [
             { title: 'Recently Added Items', subtitle: dashboard?.products.length+' items', value: dashboard?.products, icon: <FaFolderPlus size={24}/>, body: itemsBody[0], style:'flex-1' },
             { title: 'Top Purchases', value: dashboard?.purchases, icon: <FaShoppingCart size={24}/>, body: itemsBody[1], style:'flex-1 flex-grow' },
         ],
         [
+            { title: 'New Orders', value: dashboard?.newPurchases, icon: <FaBox size={24}/>, body: itemsBody[4] },
+        ],
+        [
             { title: 'Order Status', value: dashboard?.purchaseStatus, icon: <FaClipboardList size={24}/>, body: itemsBody[2] },
             { title: 'Absent Today', value: dashboard?.absence, icon: <FaUserTimes size={24}/>, body: itemsBody[3] },
-            { title: 'New Orders', value: dashboard?.newPurchases, icon: <FaBox size={24}/>, body: itemsBody[4] },
         ]
     ];
     const filters = [
@@ -210,9 +268,10 @@ const Home = () => {
         {title: "Last Week", value: oneWeekAgo.toString()},
     ]
     return (
-        <div className="mt-24 ">
+        <div className="">
             <div className="flex w-full max-w-45 justify-start mb-2">
                 <div className="inline-flex items-center rounded-md bg-stone-200 p-1.5 dark:bg-meta-4 gap-1 transition-all duration-300">
+                    
                     {filters.map((filter, index)=>(
                         <button key={index} onClick={()=>handleStartTime(filter.value)} className={`rounded py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark transition-all duration-300
                             ${startTime === filter.value && 'bg-white'}  `}>
