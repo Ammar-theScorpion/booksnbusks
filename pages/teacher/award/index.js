@@ -111,7 +111,8 @@ const Award = () => {
             </>
             : (
                 <>
-                    <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Award</h4>
+                    {/* yacoob remove back */}
+                    {/* <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Award</h4> */}
                     <div className="flex justify-between">
                         <div>
 

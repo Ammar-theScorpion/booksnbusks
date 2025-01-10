@@ -39,9 +39,10 @@ const Classes = () => {
     return (
         <>
             <div className="flex justify-between">
-                <h4>
+                {/* yacoob remove back */}
+                {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Classes
-                </h4>
+                </h4> */}
                 <div className="flex">
                     {(classes?.length > 0) && (<SearchInput value={search} setValue={setSearch} />)}
 

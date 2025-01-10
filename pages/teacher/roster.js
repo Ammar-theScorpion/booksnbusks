@@ -56,14 +56,15 @@ const Roster = () => {
 
 
             <div className="flex justify-between items-center mb-2">
-                <h4 className="text-xl font-bold flex items-center">
+                <SearchInput value={search} setValue={setSearch} />
+                {/* yacoob remove go back */}
+                {/* <h4 className="text-xl font-bold flex items-center">
                     <FiArrowLeft
                         className="mr-2 cursor-pointer"
                         onClick={() => router.back()}
                     />
                     Classes Roster
-                </h4>
-                <SearchInput value={search} setValue={setSearch} />
+                </h4> */}
             </div>
 
             {/* Classes with Teachers Section */}

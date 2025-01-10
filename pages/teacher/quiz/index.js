@@ -43,13 +43,21 @@ const Quiz = () => {
             dataIndex: 'submission_date',
             formatter: (_, data) => (
                 <>
-                    <span className="date-tag day">{moment(data.submission_start)?.format('MMM, Do')}</span>
-                    <span className="date-tag time">{moment(data.submission_start)?.format('h:mm A')}</span>
-                    <br />
-                    to
-                    <br />
-                    <span className="date-tag day">{moment(data.submission_end)?.format('MMM, Do')}</span>
-                    <span className="date-tag time">{moment(data.submission_end)?.format('h:mm A')}</span>
+                    <div className="flex items-center space-x-2 text-gray-700  p-4 ">
+                        <span className="text-sm font-medium text-blue-600">
+                            {moment(data.submission_start)?.format('MMM, Do')}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                            {moment(data.submission_start)?.format('h:mm A')}
+                        </span>
+                        <span className="mx-2 text-gray-800 font-semibold">To</span>
+                        <span className="text-sm font-medium text-blue-600">
+                            {moment(data.submission_end)?.format('MMM, Do')}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                            {moment(data.submission_end)?.format('h:mm A')}
+                        </span>
+                    </div>
                 </>
             )
         },
@@ -68,9 +76,10 @@ const Quiz = () => {
     return (
         <>
             <div className="flex justify-between">
-                <div>
+                {/* yacoob remove back */}
+                {/* <div>
                     <h4 className="page-title"> <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Quiz List</h4>
-                </div>
+                </div> */}
                 <div>
                     <Link href="/teacher/quiz/create">
                         <Button>Create Quiz</Button>

@@ -266,12 +266,15 @@ export const NavItem = ({ itemIndex, href, label, icon: Icon, onClick, childHref
                 </a> */}
 
 
-
+                {/*yacob solve no active bar problem when go to another page or refresh */}
                 <a
-                    className={` ${router.pathname === href && 'bg-primary-primary text-white'} flex h-full items-center p-2 text-dark rounded-lg no-underline 
-                    hover:bg-primary-800 dark:hover:bg-primary-100 transition-all duration-300 
-                    hover:text-white 
-                    `}
+                    className={` 
+                    ${router.pathname === href || router.pathname === href + `/[_id]` ? 'bg-primary-primary text-white' : ''} 
+                    flex h-full items-center p-2 text-dark rounded-lg no-underline 
+                    hover:bg-primary-800 dark:hover:bg-primary-100 
+                    transition-all duration-300 hover:text-white
+                  `}
+
                     onClick={() => { setIndex(itemIndex) }}
                 >
                     <Icon size={18} /> <span className='ml-5'>{label}</span>

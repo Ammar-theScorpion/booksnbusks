@@ -48,8 +48,9 @@ const Students = () => {
     return (
         <>
             <div className="flex justify-between mb-3">
-                <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
-                    onClick={() => router.back()} /> Student Roster</h4>
+                {/* yacoob remove go back  */}
+                {/* <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
+                    onClick={() => router.back()} /> Student Roster</h4> */}
                 <SearchInput value={search} setValue={setSearch} />
             </div>
 

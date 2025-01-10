@@ -1,26 +1,26 @@
 import ModalForm from "../../components/common/modal_form";
-import {Form} from "antd";
-import {useState} from "react";
+import { Form } from "antd";
+import { useState } from "react";
 import FormInput from "../../components/form/FormInput";
-import {delTrait, fetchTraits, postTraitAdd, postTraitUpdate} from "../../helpers/backend_helper";
+import { delTrait, fetchTraits, postTraitAdd, postTraitUpdate } from "../../helpers/backend_helper";
 import Table from "../../components/common/table";
-import {checkPermission, useFetch} from "../../helpers/hooks";
-import {FiArrowLeft} from "react-icons/fi";
-import {useRouter} from "next/router";
+import { checkPermission, useFetch } from "../../helpers/hooks";
+import { FiArrowLeft } from "react-icons/fi";
+import { useRouter } from "next/router";
 import SearchInput from "../../components/form/search";
 import AdminLayout from "../../layouts/admin";
 
 const Virtues = () => {
     const [form] = Form.useForm()
     const [visible, setVisible] = useState(false)
-    const [traits, getTraits] = useFetch(fetchTraits, {size: 8})
+    const [traits, getTraits] = useFetch(fetchTraits, { size: 8 })
 
     const columns = [
         {
             label: 'Name',
             dataIndex: 'name',
         },
-        {label: 'Points', dataIndex: 'points', shadow: true, className: "text-center"},
+        { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
     ]
     let sort = (a, b) => {
         if (a.name < b.name) {
@@ -51,14 +51,14 @@ const Virtues = () => {
                 }}
                 onFinish={getTraits}
                 title="Trait">
-                <FormInput name="name" label="Name" required/>
-                <FormInput name="points" label="Points" type="number" required/>
+                <FormInput name="name" label="Name" required />
+                <FormInput name="points" label="Points" type="number" required />
             </ModalForm>
             <div className="flex justify-between">
-                <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
-                                                        onClick={() => router.back()}/> Virtues</h4>
+                {/* <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
+                                                        onClick={() => router.back()}/> Virtues</h4> */}
                 <div className="flex">
-                    <SearchInput value={search} setValue={setSearch}/>
+                    <SearchInput value={search} setValue={setSearch} />
                     {add && (
                         <button className="btn-primary font-semibold rounded-lg w-36" onClick={() => {
                             form.resetFields()

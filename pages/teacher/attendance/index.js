@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import DateRangeInput from "../../../components/form/date_range";
 import moment from "moment";
 import Button from "../../../components/form/Button";
+import SearchInput from "../../../components/form/search";
 
 const Attendance = () => {
     const [students] = useFetch(fetchStudents);
@@ -260,23 +261,83 @@ const Attendance = () => {
     return (
         <>
             <div className=" print:hidden">
-                <h4 className="page-title">
+                {/* yacoob remove back */}
+                {/* <h4 className="page-title">
                     <FiArrowLeft
                         className="mr-2 inline-block"
                         role="button"
                         onClick={() => router.back()}
                     />
                     Attendance
-                </h4>
-                <div className="w-56 mr-4 relative">
-                    <FiSearch className="absolute top-2.5 left-2 text-gray-500" />
+                </h4> */}
+
+                {/* yacoob change filtering design*/}
+                <div className="  relative flex  w-full items-center justify-between">
+
+                    <div className="flex gap-3">
+                        <SearchInput value={search} setValue={setSearch} />
+
+                        <div className="flex">
+                            <DateRangeInput value={date} onChange={setDate} className="w-44 mr-1" />
+                            {isSameDay && (
+                                <Select
+                                    allowClear
+                                    className="w-44 mr-4"
+                                    placeholder="Select class"
+                                    value={current}
+                                    onClear={() => {
+                                        setCurrent(undefined);
+                                    }}
+                                    onChange={setCurrent}
+                                    options={classes?.filter(d => d.days.includes(days[moment(date.startDate).day() % 7])).map((d) => ({
+                                        label: d.name,
+                                        value: d._id
+                                    }))}
+                                />
+
+                            )}
+
+                        </div>
+                        {/* <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={awardPoints}
+                                    onChange={(e) => setAwardPoints(e.target.checked)}
+                                />
+                                <span style={{ fontSize: '0.9rem', fontWeight: '900' }}>Award Points</span>
+                            </label>
+                        </div> */}
+                    </div>
+                    <div className="flex justify-center items-center">
+
+
+                        <div className="flex items-center">
+                            <input
+                                id="checked-checkbox"
+                                type="checkbox"
+                                checked={awardPoints}
+                                onChange={(e) => setAwardPoints(e.target.checked)}
+                                value=""
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                                htmlFor="checked-checkbox"
+                                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            >
+                                Award Points
+                            </label>
+                        </div>
+                    </div>
+                    {/* <FiSearch className="absolute top-2.5 left-2 text-gray-500" />
+                    
                     <input
                         className="form-control"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         style={{ paddingLeft: 30, paddingRight: 30 }}
                         placeholder="Search"
-                    />
+                    /> */}
                     {!!search && (
                         <FiDelete
                             className="absolute right-2 top-3 text-gray-500"
@@ -285,7 +346,7 @@ const Attendance = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-between print:hidden mt-2">
+                <div className="flex justify-between print:hidden  border-t-2 mt-4 pt-3">
                     <div>
                         <Button onClick={() => {
                             window.print()
@@ -296,36 +357,7 @@ const Attendance = () => {
                     </div>
 
 
-                    <div className="flex">
-                        <DateRangeInput value={date} onChange={setDate} className="w-44 mr-1" />
-                        {isSameDay && (
-                            <Select
-                                allowClear
-                                className="w-44 mr-4"
-                                placeholder="Select class"
-                                value={current}
-                                onClear={() => {
-                                    setCurrent(undefined);
-                                }}
-                                onChange={setCurrent}
-                                options={classes?.filter(d => d.days.includes(days[moment(date.startDate).day() % 7])).map((d) => ({
-                                    label: d.name,
-                                    value: d._id
-                                }))}
-                            />
 
-                        )}
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <label style={{ display: 'inline-flex', alignItems: 'center' }}>
-                                <input
-                                    type="checkbox"
-                                    checked={awardPoints}
-                                    onChange={(e) => setAwardPoints(e.target.checked)}
-                                />
-                                <span style={{ fontSize: '0.9rem', fontWeight: '900' }}>Award Points</span>
-                            </label>
-                        </div>
-                    </div>
                 </div>
             </div>
 

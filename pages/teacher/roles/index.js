@@ -1,11 +1,11 @@
 import TeacherLayout from "../../../layouts/teacher";
 import Link from "next/link";
-import {useAction, useFetch} from "../../../helpers/hooks";
-import {delRole, fetchRoles, postRoleDefault} from "../../../helpers/backend_helper";
+import { useAction, useFetch } from "../../../helpers/hooks";
+import { delRole, fetchRoles, postRoleDefault } from "../../../helpers/backend_helper";
 import Table from "../../../components/common/table";
-import {useRouter} from "next/router";
-import {Switch} from "antd";
-import {FiArrowLeft} from "react-icons/fi";
+import { useRouter } from "next/router";
+import { Switch } from "antd";
+import { FiArrowLeft } from "react-icons/fi";
 import Button from "../../../components/form/Button";
 
 const Roles = () => {
@@ -24,16 +24,17 @@ const Roles = () => {
         {
             label: "Default",
             dataIndex: 'default',
-            formatter: (d, {_id}) => <Switch checked={d} disabled={d} onChange={() => useAction(postRoleDefault, {_id}, () => getRoles())}/>
+            formatter: (d, { _id }) => <Switch checked={d} disabled={d} onChange={() => useAction(postRoleDefault, { _id }, () => getRoles())} />
         }
     ]
 
     return (
         <>
             <div className="flex justify-between">
-                <h4>
+                {/* yacoob remove back */}
+                {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Roles
-                </h4>
+                </h4> */}
                 <div>
                     <Link href="/teacher/roles/create">
                         <Button>Create Role</Button>

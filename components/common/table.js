@@ -26,21 +26,20 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
             <TableSkeleton columnCount={columns?.length || 3} rowCount={10} pagination={pagination} />
         )
     }
-    console.log('datasds', data)
     /** the height is full screen - nav bar height */
     return (
-        <div className="bg-white p-3 border shadow-md"> 
-           {
-               (data?.length || data?.docs.length) !== 0 ? (
+        <div className="bg-white p-3 border shadow-md">
+            {
+                (data?.length || data?.docs.length) !== 0 ? (
                     <div className="">
                         <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr className=""> 
-                                        {columns?.map((column, index) => (
-                                            <th key={index} className="px-6 py-3">
-                                                { column.label}
-                                            </th>
-                                        ))}
+                                <tr className="">
+                                    {columns?.map((column, index) => (
+                                        <th key={index} className="px-6 py-3">
+                                            {column.label}
+                                        </th>
+                                    ))}
                                     {noAction && <th className="text-center">{actionLabel}</th>} {/* || */}
                                 </tr>
                             </thead>
@@ -87,7 +86,7 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                                     )}
                                                     {onDelete && checkPermission(permission + '_delete') && (
                                                         <a className="btn-primary p-1.5 rounded ml-2 mr-2" onClick={() => {
-                                                            useActionConfirm(onDelete, {_id: data._id}, getData, 'Are you sure want to delete this?', 'Yes, delete')
+                                                            useActionConfirm(onDelete, { _id: data._id }, getData, 'Are you sure want to delete this?', 'Yes, delete')
                                                         }}>
                                                             <FiTrash size={20} role="button" />
                                                         </a>

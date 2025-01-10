@@ -1,11 +1,11 @@
 import TeacherLayout from "../../../layouts/teacher";
-import {useRouter} from "next/router";
-import {useFetch} from "../../../helpers/hooks";
-import {deleteUser, fetchTeachers} from "../../../helpers/backend_helper";
+import { useRouter } from "next/router";
+import { useFetch } from "../../../helpers/hooks";
+import { deleteUser, fetchTeachers } from "../../../helpers/backend_helper";
 import Link from "next/link";
 import Table from "../../../components/common/table";
-import {FiArrowLeft} from "react-icons/fi";
-import {useState} from "react";
+import { FiArrowLeft } from "react-icons/fi";
+import { useState } from "react";
 import SearchInput from "../../../components/form/search";
 import moment from "moment";
 import Button from "../../../components/form/Button";
@@ -17,7 +17,7 @@ const Users = () => {
         {
             label: "Name",
             dataIndex: 'name',
-            formatter: (_, {first_name, last_name}) => `${first_name || ''} ${last_name || ''}`
+            formatter: (_, { first_name, last_name }) => `${first_name || ''} ${last_name || ''}`
         },
         {
             label: "Email",
@@ -34,12 +34,14 @@ const Users = () => {
             dataIndex: 'last_login',
             formatter: d => !!d ? (
                 <>
-                    <span className="date-tag day mb-1">
+                    <span className="text-sm font-medium text-blue-600">
                         {moment(d).format("ddd, MMM Do")}
                     </span>
-                    at 
-                    <span className="date-tag time ml-2 mb-1">
-                        {moment(d).format("hh:mm A")}
+                    <span className="mx-2 text-gray-800 font-semibold">At</span>
+
+
+                    <span className="text-sm text-gray-500">
+                        {moment(d)?.format('h:mm A')}
                     </span>
                 </>
             ) : '-'
@@ -50,11 +52,12 @@ const Users = () => {
     return (
         <>
             <div className="flex justify-between">
-                <h4>
+                {/* yacoob remove back */}
+                {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Users
-                </h4>
+                </h4> */}
                 <div className="flex">
-                    <SearchInput value={search} setValue={setSearch}/>
+                    <SearchInput value={search} setValue={setSearch} />
                     <Link href="/teacher/users/create">
                         <Button>Add User</Button>
                     </Link>
@@ -63,7 +66,7 @@ const Users = () => {
             <Table
                 data={teachers?.filter(d => `${d?.first_name} ${d?.last_name}`.toLowerCase().includes(search.toLowerCase())).sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase()))}
                 columns={columns}
-                onEdit={({_id}) => (
+                onEdit={({ _id }) => (
                     router.push('/teacher/users/' + _id)
                 )}
                 onDelete={deleteUser}

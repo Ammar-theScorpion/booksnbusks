@@ -36,9 +36,10 @@ const Students = () => {
     return (
         <>
             <div className="flex justify-between mb-3">
-                <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
-                    onClick={() => router.back()} /> Student Roster</h4>
                 <SearchInput value={search} setValue={setSearch} />
+
+                {/* <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
+                    onClick={() => router.back()} /> Student Roster</h4> */}
             </div>
 
             <Modal visible={visible} title="Award" footer={null} onCancel={() => setVisible(false)}>
