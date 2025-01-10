@@ -1,18 +1,18 @@
-import {FiEdit, FiTrash} from "react-icons/fi";
-import {useActionConfirm} from "../../helpers/hooks";
+import { FiEdit, FiTrash } from "react-icons/fi";
+import { useActionConfirm } from "../../helpers/hooks";
 import Pagination from "./pagination";
-import {useUserContext} from "../../contexts/user";
+import { useUserContext } from "../../contexts/user";
 import { FaEmpire } from "react-icons/fa";
 import { memo } from "react";
 import Empty from "../../fragment/table/Empty";
 import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
 
-const Table = memo(({columns, data, onEdit, onDelete, action, getData, pagination = false, noAction = false, loading = false, permission, admin = false, actionLabel= '', rowCount}) => {
+const Table = memo(({ columns, data, onEdit, onDelete, action, getData, pagination = false, noAction = false, loading = false, permission, admin = false, actionLabel = '', rowCount }) => {
     console.log("data", loading, data)
-    const {permission: rolePermission , role, admin: isAdmin} = useUserContext()
-    const  checkPermission = name => {
-        if(permission && name) {
-            if( role === 'admin' || rolePermission?.permissions?.includes(name)) {
+    const { permission: rolePermission, role, admin: isAdmin } = useUserContext()
+    const checkPermission = name => {
+        if (permission && name) {
+            if (role === 'admin' || rolePermission?.permissions?.includes(name)) {
                 return true
             }
             return admin && isAdmin === true;
@@ -21,9 +21,9 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
     }
 
 
-    if(loading || !data) {
+    if (loading || !data) {
         return (
-            <TableSkeleton columnCount={columns?.length||3} rowCount={10} pagination={pagination}/>
+            <TableSkeleton columnCount={columns?.length || 3} rowCount={10} pagination={pagination} />
         )
     }
     console.log('datasds', data)
@@ -47,36 +47,36 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
                             <tbody>
                                 {(pagination ? data?.docs : data)?.map((data, index) => (
                                     <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
-                                            {columns?.map((column, index) => {
-                                                if (column.formatter) {
-                                                    return <td key={index} className="px-2 py-2"
-                                                            onClick={() => {
-                                                                if(column.onClick) {
-                                                                    column.onClick(data)
-                                                                }
-                                                            }}>{column.formatter(data[column.dataIndex], data)}</td>
-                                                }
-                                                if (column.type === 'image') {
-                                                    return <td key={index} className={column.className}
-                                                            onClick={() => {
-                                                                if(column.onClick) {
-                                                                    column.onClick(data)
-                                                                }
-                                                            }}
-                                                            style={{
-                                                                background: column?.shadow ? '#F8F8F8' : undefined,
-                                                                maxWidth: column?.maxWidth
-                                                            }}><img
-                                                        style={{height: 36}} src={data[column.dataIndex]} alt=""/></td>
-                                                }
-                                                return <td className="px-6 py-3"
-                                                        onClick={() => {
-                                                            if(column.onClick) {
-                                                                column.onClick(data)
-                                                            }
-                                                        }}
-                                                        key={index}>{data[column.dataIndex]}</td>
-                                            })}
+                                        {columns?.map((column, index) => {
+                                            if (column.formatter) {
+                                                return <td key={index} className="px-2 py-2 text-left"
+                                                    onClick={() => {
+                                                        if (column.onClick) {
+                                                            column.onClick(data)
+                                                        }
+                                                    }}>{column.formatter(data[column.dataIndex], data)}</td>
+                                            }
+                                            if (column.type === 'image') {
+                                                return <td key={index} className={column.className}
+                                                    onClick={() => {
+                                                        if (column.onClick) {
+                                                            column.onClick(data)
+                                                        }
+                                                    }}
+                                                    style={{
+                                                        background: column?.shadow ? '#F8F8F8' : undefined,
+                                                        maxWidth: column?.maxWidth
+                                                    }}><img
+                                                        style={{ height: 36 }} src={data[column.dataIndex]} alt="" /></td>
+                                            }
+                                            return <td className="px-6 py-3"
+                                                onClick={() => {
+                                                    if (column.onClick) {
+                                                        column.onClick(data)
+                                                    }
+                                                }}
+                                                key={index}>{data[column.dataIndex]}</td>
+                                        })}
                                         {noAction || (
                                             <td >
                                                 <div className="flex justify-end pr-2 gap-1">
@@ -103,7 +103,7 @@ const Table = memo(({columns, data, onEdit, onDelete, action, getData, paginatio
                         {pagination && (
                             <div className="text-center pt-3 flex justify-center items-end gap-2 sticky bottom-0">
                                 <Pagination pageCount={data?.totalPages || 1} page={data?.page || 1}
-                                    onPageChange={page => getData({page})}/>
+                                    onPageChange={page => getData({ page })} />
                             </div>
                         )}
                     </div>

@@ -1,5 +1,5 @@
 import TeacherLayout from "../../../layouts/teacher";
-import {useAction, useFetch} from "../../../helpers/hooks";
+import { useAction, useFetch } from "../../../helpers/hooks";
 import {
     fetchAttendance,
     fetchAttendanceElements,
@@ -10,10 +10,10 @@ import {
     fetchUser
 } from "../../../helpers/backend_helper";
 import Table from "../../../components/common/table";
-import {notification, Select} from "antd";
-import {useEffect, useState} from "react";
-import {FiArrowLeft, FiDelete, FiSearch} from "react-icons/fi";
-import {useRouter} from "next/router";
+import { notification, Select } from "antd";
+import { useEffect, useState } from "react";
+import { FiArrowLeft, FiDelete, FiSearch } from "react-icons/fi";
+import { useRouter } from "next/router";
 import DateRangeInput from "../../../components/form/date_range";
 import moment from "moment";
 import Button from "../../../components/form/Button";
@@ -26,7 +26,7 @@ const Attendance = () => {
         attendanceMap[student._id] = student;
     });
 
-    const [classes] = useFetch(() => fetchAttendanceElements({award : true}));
+    const [classes] = useFetch(() => fetchAttendanceElements({ award: true }));
     let columns = [
         {
             label: "Student",
@@ -112,15 +112,15 @@ const Attendance = () => {
     const getClassAttendance = () => {
 
 
-        fetchAttendance({class: current, date: moment(date?.startDate).format("YYYY-MM-DD")}).then(
-            ({error, data}) => {
+        fetchAttendance({ class: current, date: moment(date?.startDate).format("YYYY-MM-DD") }).then(
+            ({ error, data }) => {
                 let status = {};
                 let time = {}
                 if (error === false) {
                     data?.map((data) => {
                         status[data?.student] = data.status;
                         time[data?.student] = data.updatedAt;
-                     //   getAttendanceStatus({class: current});
+                        //   getAttendanceStatus({class: current});
                     });
                 }
                 setStatus(status);
@@ -139,9 +139,9 @@ const Attendance = () => {
     }, []);
 
     const toggleAttendance = (_id, data) => () => {
-        if(status[_id] !== data) {
-            setStatus(prevStatus => ({...prevStatus, [_id]: data}))
-            setTime(prevTime => ({...prevTime, [_id]: moment().toISOString()}))
+        if (status[_id] !== data) {
+            setStatus(prevStatus => ({ ...prevStatus, [_id]: data }))
+            setTime(prevTime => ({ ...prevTime, [_id]: moment().toISOString() }))
         }
     };
 
@@ -172,7 +172,7 @@ const Attendance = () => {
     };
 
     if (isSameDay && current) {
-        
+
         columns = [
             {
                 label: "Student",
@@ -193,47 +193,43 @@ const Attendance = () => {
                                 <div
                                     onClick={toggleAttendance(student._id, 1)}
                                     title={status[student._id] === 1 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${
-                                        status[student._id] === 1
-                                            ? "btn-success"
-                                            : "btn-outline-success"
-                                    } mx-1`}
+                                    className={`btn ${status[student._id] === 1
+                                        ? "btn-success"
+                                        : "btn-outline-success"
+                                        } mx-1`}
                                 >
                                     Present
                                 </div>
                                 <div
                                     onClick={toggleAttendance(student._id, 2)}
                                     title={status[student._id] === 2 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${
-                                        status[student._id] === 2
-                                            ? "btn-danger"
-                                            : "btn-outline-danger"
-                                    } mx-1`}
+                                    className={`btn ${status[student._id] === 2
+                                        ? "btn-danger"
+                                        : "btn-outline-danger"
+                                        } mx-1`}
                                 >
                                     Absent
                                 </div>
                                 <div
                                     onClick={toggleAttendance(student._id, 3)}
                                     title={status[student._id] === 3 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${
-                                        status[student._id] === 3 ? "btn-dark" : "btn-outline-dark"
-                                    } mx-1`}
+                                    className={`btn ${status[student._id] === 3 ? "btn-dark" : "btn-outline-dark"
+                                        } mx-1`}
                                 >
                                     Tardy
                                 </div>
                                 <div
                                     onClick={toggleAttendance(student._id, 4)}
                                     title={status[student._id] === 4 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${
-                                        status[student._id] === 4 ? "btn-dark" : "btn-outline-dark"
-                                    } mx-1`}
+                                    className={`btn ${status[student._id] === 4 ? "btn-dark" : "btn-outline-dark"
+                                        } mx-1`}
                                 >
                                     Early Dismissal
                                 </div>
-                                
+
                             </div>
-                            <p style={{marginLeft: ((status[student._id] - 1) || 0) * 90 + 15}}
-                               className={`mb-0 mt-1 text-sm`}>{!!time[student._id] && moment(time[student._id]).format('hh:mm A')}</p>
+                            <p style={{ marginLeft: ((status[student._id] - 1) || 0) * 90 + 15 }}
+                                className={`mb-0 mt-1 text-sm`}>{!!time[student._id] && moment(time[student._id]).format('hh:mm A')}</p>
                         </div>
                     );
                 },
@@ -263,7 +259,7 @@ const Attendance = () => {
 
     return (
         <>
-            <div className="flex justify-between print:hidden">
+            <div className=" print:hidden">
                 <h4 className="page-title">
                     <FiArrowLeft
                         className="mr-2 inline-block"
@@ -272,61 +268,67 @@ const Attendance = () => {
                     />
                     Attendance
                 </h4>
-                <div className="flex items-center print:hidden">
-                    <Button onClick={() => {
-                        window.print()
-                    }}>Print
-                    </Button>
-                    <Button onClick={updateStatus}>Save</Button>
-                    
-
-                    <div className="w-56 mr-4 relative">
-                        <FiSearch className="absolute top-2.5 left-2 text-gray-500"/>
-                        <input
-                            className="form-control"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            style={{paddingLeft: 30, paddingRight: 30}}
-                            placeholder="Search"
-                        />
-                        {!!search && (
-                            <FiDelete
-                                className="absolute right-2 top-3 text-gray-500"
-                                role="button"
-                                onClick={() => setSearch("")}
-                            />
-                        )}
-                    </div>
-                    <DateRangeInput value={date} onChange={setDate} className="w-44 mr-4"/>
-                    {isSameDay && (
-                        <Select
-                            allowClear
-                            className="w-44 mr-4"
-                            placeholder="Select class"
-                            value={current}
-                            onClear={() => {
-                                setCurrent(undefined);
-                            }}
-                            onChange={setCurrent}
-                            options={classes?.filter(d => d.days.includes(days[moment(date.startDate).day() % 7])).map((d) => ({
-                                label: d.name,
-                                value: d._id
-                            }))}
+                <div className="w-56 mr-4 relative">
+                    <FiSearch className="absolute top-2.5 left-2 text-gray-500" />
+                    <input
+                        className="form-control"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        style={{ paddingLeft: 30, paddingRight: 30 }}
+                        placeholder="Search"
+                    />
+                    {!!search && (
+                        <FiDelete
+                            className="absolute right-2 top-3 text-gray-500"
+                            role="button"
+                            onClick={() => setSearch("")}
                         />
                     )}
+                </div>
+                <div className="flex justify-between print:hidden mt-2">
+                    <div>
+                        <Button onClick={() => {
+                            window.print()
+                        }}>Print
+                        </Button>
+                        <Button onClick={updateStatus}>Save</Button>
 
+                    </div>
+
+
+                    <div className="flex">
+                        <DateRangeInput value={date} onChange={setDate} className="w-44 mr-1" />
+                        {isSameDay && (
+                            <Select
+                                allowClear
+                                className="w-44 mr-4"
+                                placeholder="Select class"
+                                value={current}
+                                onClear={() => {
+                                    setCurrent(undefined);
+                                }}
+                                onChange={setCurrent}
+                                options={classes?.filter(d => d.days.includes(days[moment(date.startDate).day() % 7])).map((d) => ({
+                                    label: d.name,
+                                    value: d._id
+                                }))}
+                            />
+
+                        )}
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <label style={{ display: 'inline-flex', alignItems: 'center' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={awardPoints}
+                                    onChange={(e) => setAwardPoints(e.target.checked)}
+                                />
+                                <span style={{ fontSize: '0.9rem', fontWeight: '900' }}>Award Points</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-                <label style={{display: 'inline-flex', alignItems: 'center'}}>
-                        <input
-                            type="checkbox"
-                            checked={awardPoints}
-                            onChange={(e) => setAwardPoints(e.target.checked)}
-                        />
-                        <span className="ml-2" style={{ fontSize: '0.9rem', fontWeight: '900'}}>Award Points</span>
-                </label>
-            </div>
+
             <div className="print:absolute print:top-0 print:left-0 print:w-full bg-white">
                 <Table
                     columns={columns}
@@ -340,7 +342,7 @@ const Attendance = () => {
                     noAction
                 />
             </div>
-            
+
         </>
     );
 };

@@ -85,11 +85,11 @@ const Award = () => {
         )
     }
 
-    console.log(Object.keys(classNames).length)
+    console.log(Object.keys(classNames).length) // space-y-8 p-6
     return (
         (Object.keys(classNames).length === 0) ?
             <>
-                <div className="flex flex-col items-center justify-center space-y-8 p-6">
+                <div className="flex flex-col items-center justify-center">
                     {/* Empty Awards Message */}
                     <div className="text-center">
                         <div className="text-blue-500 text-6xl mt-44">

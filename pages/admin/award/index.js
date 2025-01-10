@@ -1,17 +1,17 @@
 import AdminLayout from "../../../layouts/admin";
-import {useAction, useFetch} from "../../../helpers/hooks";
-import {fetchClasses, fetchTraits, postAwards} from "../../../helpers/backend_helper";
-import {useEffect, useRef, useState} from "react";
-import {FiChevronDown, FiChevronRight} from "react-icons/fi";
-import {Form} from "antd";
+import { useAction, useFetch } from "../../../helpers/hooks";
+import { fetchClasses, fetchTraits, postAwards } from "../../../helpers/backend_helper";
+import { useEffect, useRef, useState } from "react";
+import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { Form } from "antd";
 import FormSelect from "../../../components/form/FormSelect";
 import FormInput from "../../../components/form/FormInput";
 import moment from "moment";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const Award = () => {
     const [form] = Form.useForm()
-    const [classes, getClasses] = useFetch(fetchClasses, {students: true})
+    const [classes, getClasses] = useFetch(fetchClasses, { students: true })
     const [selected, setSelected] = useState({})
     const [award, setAward] = useState(false)
     const [update, setUpdate] = useState(false)
@@ -40,7 +40,7 @@ const Award = () => {
     const isSelected = Object.values(selected).find(data => data?.length > 0)
     const handleAward = async values => {
         if (isSelected) {
-            await useAction(postAwards, {...values, classes: selected, date: moment().toISOString(true)}, () => {
+            await useAction(postAwards, { ...values, classes: selected, date: moment().toISOString(true) }, () => {
                 router.push('/teacher/students/')
             })
         }
@@ -53,25 +53,25 @@ const Award = () => {
                     <FormSelect
                         name="trait"
                         label="Virtue"
-                        onSelect={value => form.setFieldsValue({amount: traits?.find(trait => trait._id === value)?.points || 0})}
-                        options={traits?.map(trait => ({label: trait.name, value: trait._id}))} required/>
-                    <FormInput name="amount" label="Amount" required/>
+                        onSelect={value => form.setFieldsValue({ amount: traits?.find(trait => trait._id === value)?.points || 0 })}
+                        options={traits?.map(trait => ({ label: trait.name, value: trait._id }))} required />
+                    <FormInput name="amount" label="Amount" required />
                     {Object.keys(selected)?.filter(key => selected[key]?.length > 0).map((key, index) => (
                         <div key={index}>
                             <h4 className="page-title">Students - {classNames[key]}</h4>
                             <ul className="p-0">
                                 {selected[key]?.map((select, index) => (
                                     <li key={index} className="p-3 border-b flex justify-between">
-                                    <span
-                                        className="text-lg">{students[select]?.first_name} {students[select]?.last_name}</span>
+                                        <span
+                                            className="text-lg">{students[select]?.first_name} {students[select]?.last_name}</span>
                                         <input type="checkbox" onChange={e => handleStudentSelect(e, select, key)}
-                                               checked={selected[key]?.includes(students[select]?._id)}/>
+                                            checked={selected[key]?.includes(students[select]?._id)} />
                                     </li>
                                 ))}
                             </ul>
                         </div>
                     ))}
-                    {!!isSelected ||  <p className="text-danger text-lg font-semibold">No Student selected</p>}
+                    {!!isSelected || <p className="text-danger text-lg font-semibold">No Student selected</p>}
                     <div className="mt-4">
                         <button className="btn btn-primary mr-4">Save</button>
                         <a className="btn btn-secondary" onClick={() => setAward(false)}>Cancel</a>
@@ -83,37 +83,38 @@ const Award = () => {
 
 
     return (
-        <>
-            <div className="flex justify-between">
-                <div>
+        (Object.keys(classNames).length === 0) ?
+            <>
+                <div className="flex justify-between">
+                    <div>
 
+                    </div>
+                    <div>
+                        <a className="btn btn-primary" onClick={() => setAward(true)}>Reward</a>
+                    </div>
                 </div>
-                <div>
-                    <a className="btn btn-primary" onClick={() => setAward(true)}>Reward</a>
-                </div>
-            </div>
-            <table className="table mt-4">
-                <thead>
-                <tr>
-                    <th>Classes</th>
-                    <th style={{width: 300}} className="text-center bg-F8">Select</th>
-                    <th style={{width: 300}} className="text-center">Last Awarded</th>
-                </tr>
-                </thead>
-                <tbody>
-                {classes?.map((data, index) => (
-                    <ClassRow data={data} selected={selected} setSelected={setSelected}
-                              reload={() => setUpdate(!update)} key={index}/>
-                ))}
-                </tbody>
-            </table>
-        </>
+                <table className="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Classes</th>
+                            <th style={{ width: 300 }} className="text-center bg-F8">Select</th>
+                            <th style={{ width: 300 }} className="text-center">Last Awarded</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {classes?.map((data, index) => (
+                            <ClassRow data={data} selected={selected} setSelected={setSelected}
+                                reload={() => setUpdate(!update)} key={index} />
+                        ))}
+                    </tbody>
+                </table>
+            </> : <></>
     )
 }
 Award.layout = AdminLayout
 export default Award
 
-const ClassRow = ({data, selected, setSelected, reload}) => {
+const ClassRow = ({ data, selected, setSelected, reload }) => {
     const ref = useRef()
     const [show, setShow] = useState(false)
 
@@ -147,32 +148,33 @@ const ClassRow = ({data, selected, setSelected, reload}) => {
 
 
     return (
-        <>
-            <tr>
-                <td className="font-semibold" role="button" onClick={() => setShow(!show)}>
-                    {show ? <FiChevronDown className="inline-block mr-4" size={20}/> :
-                        <FiChevronRight className="inline-block mr-4" size={20}/>}
-                    {data?.name}
-                </td>
-                <td style={{width: 300}} className="text-center">
-                    <input type="checkbox" ref={ref} onChange={handleClassSelect} checked={isClassChecked}/>
-                </td>
-                <td style={{width: 300}}>
-
-                </td>
-            </tr>
-            {show && data?.students?.map((student, index) => (
-                <tr key={index}>
-                    <td style={{paddingLeft: 40}}> {student?.first_name} {student?.last_name}</td>
-                    <td style={{width: 300}} className="text-center">
-                        <input type="checkbox" onChange={e => handleStudentSelect(e, student)}
-                               checked={selected[data._id]?.includes(student._id) || false}/>
+        (data?.students) ?
+            <>
+                <tr>
+                    <td className="font-semibold" role="button" onClick={() => setShow(!show)}>
+                        {show ? <FiChevronDown className="inline-block mr-4" size={20} /> :
+                            <FiChevronRight className="inline-block mr-4" size={20} />}
+                        {data?.name}
                     </td>
-                    <td style={{width: 300}}>
-                        {student?.last_rewarded && moment(student?.last_rewarded).fromNow()}
+                    <td style={{ width: 300 }} className="text-center">
+                        <input type="checkbox" ref={ref} onChange={handleClassSelect} checked={isClassChecked} />
+                    </td>
+                    <td style={{ width: 300 }}>
+
                     </td>
                 </tr>
-            ))}
-        </>
+                {show && data?.students?.map((student, index) => (
+                    <tr key={index}>
+                        <td style={{ paddingLeft: 40 }}> {student?.first_name} {student?.last_name}</td>
+                        <td style={{ width: 300 }} className="text-center">
+                            <input type="checkbox" onChange={e => handleStudentSelect(e, student)}
+                                checked={selected[data._id]?.includes(student._id) || false} />
+                        </td>
+                        <td style={{ width: 300 }}>
+                            {student?.last_rewarded && moment(student?.last_rewarded).fromNow()}
+                        </td>
+                    </tr>
+                ))}
+            </> : ""
     )
 }

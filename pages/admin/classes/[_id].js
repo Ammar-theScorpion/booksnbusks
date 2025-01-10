@@ -1,6 +1,6 @@
 import AdminLayout from "../../../layouts/admin";
-import {useRouter} from "next/router";
-import {checkPermission, useAction, useFetch} from "../../../helpers/hooks";
+import { useRouter } from "next/router";
+import { checkPermission, useAction, useFetch } from "../../../helpers/hooks";
 import {
     fetchClass,
     fetchStudents,
@@ -10,21 +10,21 @@ import {
     postClassUpdate
 } from "../../../helpers/backend_helper";
 import moment from "moment";
-import {Form, Modal} from "antd";
-import React, {useState} from "react";
-import FormInput, {HiddenFormItem} from "../../../components/form/FormInput";
+import { Form, Modal } from "antd";
+import React, { useState } from "react";
+import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
 import DaysInput from "../../../components/form/DaysInput";
 import TimeRange from "../../../components/form/TimeRange";
 import FormSelect from "../../../components/form/FormSelect";
 import Link from "next/link";
-import {FiArrowLeft, FiChevronLeft} from "react-icons/fi";
+import { FiArrowLeft, FiChevronLeft } from "react-icons/fi";
 import SearchInput from "../../../components/form/search";
 
 const Class = () => {
     const router = useRouter()
     const [form] = Form.useForm()
     const [update, setUpdate] = useState(false)
-    const [data, getData] = useFetch(fetchClass, {_id: router.query?._id})
+    const [data, getData] = useFetch(fetchClass, { _id: router.query?._id })
 
     const [form2] = Form.useForm()
     const [visible, setVisible] = useState(false)
@@ -58,14 +58,14 @@ const Class = () => {
             <>
                 <div>
                     <h4 className="font-22 font-semibold">Edit Class</h4>
-                    <hr className="bg-C4"/>
+                    <hr className="bg-C4" />
                     <Form form={form} layout="vertical" onFinish={handleUpdate}>
-                        <HiddenFormItem name="_id"/>
+                        <HiddenFormItem name="_id" />
                         <FormInput name="name" label="Class Name"
-                                   placeholder="Enter class name (i.e. ITP 348 Intro to Web Development)" required/>
-                        <FormInput name="section" label="Section" placeholder="Enter section"/>
-                        <DaysInput name="days" label="Day(s)" required/>
-                        <TimeRange name="time" label="Time" required/>
+                            placeholder="Enter class name (i.e. ITP 348 Intro to Web Development)" required />
+                        <FormInput name="section" label="Section" placeholder="Enter section" />
+                        <DaysInput name="days" label="Day(s)" required />
+                        <TimeRange name="time" label="Time" required />
                         <FormSelect
                             name="instructors"
                             label="Instructors"
@@ -74,7 +74,7 @@ const Class = () => {
                                 label: `${teacher?.first_name} ${teacher?.last_name}`,
                                 value: teacher?._id
                             }))}
-                            isMulti search/>
+                            isMulti search />
                         <div className="area-select">
                             <FormSelect
                                 name="students"
@@ -85,7 +85,7 @@ const Class = () => {
                                     label: `${student?.first_name} ${student?.last_name}`,
                                     value: student?._id
                                 }))}
-                                isMulti search/>
+                                isMulti search />
                         </div>
                         <div className="mt-4">
                             <button className="btn btn-primary mr-4">Save</button>
@@ -102,7 +102,7 @@ const Class = () => {
             <div className="flex justify-between">
                 <div>
                     <FiArrowLeft size={28} onClick={() => router.push('/teacher/classes')} role="button"
-                                 className="mb-3"/>
+                        className="mb-3" />
                     <h4 className="page-title">{data?.name}</h4>
                     <p className="text-lg">{data?.section}</p>
                 </div>
@@ -118,66 +118,71 @@ const Class = () => {
                 </p>
             </div>
             <div className="table-responsive mt-4">
-                <table className="table">
-                    <thead>
-                    <tr>
-                        <th>Instructor</th>
-                        <th className="text-center">Email</th>
-                    </tr>
+                <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+                        <tr>
+                            <th>Instructor</th>
+                            <th className="text-center">Email</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {data?.instructors?.sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map(instructor => (
-                        <tr>
-                            <td>{instructor?.first_name || ''} {instructor?.last_name || ''}</td>
-                            <td className="text-center">{instructor?.email}</td>
-                        </tr>
-                    ))}
+                        {data?.instructors?.sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map(instructor => (
+                            <tr>
+                                <td>{instructor?.first_name || ''} {instructor?.last_name || ''}</td>
+                                <td className="text-center">{instructor?.email}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
 
             <div className="table-responsive mt-4">
-                <SearchInput value={search} setValue={setSearch}/>
-                <table className="table mt-2">
-                    <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th className="text-center bg-F8">Current Balance</th>
-                        <th className="text-center">Parent's Email</th>
-                    </tr>
+                <SearchInput value={search} setValue={setSearch} />
+
+                <table className="table mt-2 text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+
+                        <tr>
+                            <th>Student</th>
+                            <th className="text-center bg-F8">Current Balance</th>
+                            <th className="text-center">Parent's Email</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {data?.students?.filter(d => `${d?.first_name} ${d?.last_name}`.toLowerCase().includes(search.toLowerCase())).sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map(student => (
-                        <tr>
-                            <td><a onClick={() => {
-                                if (award_student) {
-                                    form2.resetFields()
-                                    form2.setFieldsValue({student: student._id})
-                                    setVisible(true)
-                                }
-                            }}>{student?.first_name} {student?.last_name}</a></td>
-                            <td className="text-center bg-F8">{student?.points}</td>
-                            <td className="text-center">{student?.guardian_email}</td>
-                        </tr>
-                    ))}
+                        {data?.students?.filter(d => `${d?.first_name} ${d?.last_name}`.toLowerCase().includes(search.toLowerCase())).sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map((student, index) => (
+                            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
+
+                                <td><a onClick={() => {
+                                    if (award_student) {
+                                        form2.resetFields()
+                                        form2.setFieldsValue({ student: student._id })
+                                        setVisible(true)
+                                    }
+                                }}>{student?.first_name} {student?.last_name}</a></td>
+                                <td className="text-center bg-F8">{student?.points}</td>
+                                <td className="text-center">{student?.guardian_email}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
 
             <Modal visible={visible} title="Award" footer={null} onCancel={() => setVisible(false)}>
                 <Form layout="vertical" form={form2} onFinish={values => {
-                    return useAction(postAward, {...values}, () => {
+                    return useAction(postAward, { ...values }, () => {
                         setVisible(false)
                         getData()
                     })
                 }}>
-                    <Form.Item name="student" initialValue="" hidden><input/></Form.Item>
+                    <Form.Item name="student" initialValue="" hidden><input /></Form.Item>
                     <FormSelect
                         name="trait"
                         label="Virtue"
-                        onSelect={value => form.setFieldsValue({amount: traits?.find(trait => trait._id === value)?.points || 0})}
-                        options={traits?.map(trait => ({label: trait.name, value: trait._id}))} required/>
-                    <FormInput name="amount" label="Amount" required/>
+                        onSelect={value => form.setFieldsValue({ amount: traits?.find(trait => trait._id === value)?.points || 0 })}
+                        options={traits?.map(trait => ({ label: trait.name, value: trait._id }))} required />
+                    <FormInput name="amount" label="Amount" required />
                     <button className="btn-primary mt-2">Submit</button>
                 </Form>
             </Modal>

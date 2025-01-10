@@ -1,14 +1,14 @@
 import TeacherLayout from "../../layouts/teacher";
-import {useFetch} from "../../helpers/hooks";
-import {fetchDashboard, fetchUser, fetchTeachers} from "../../helpers/backend_helper";
-import {Col, Row} from "react-bootstrap";
-import {Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip} from "recharts";
+import { useFetch } from "../../helpers/hooks";
+import { fetchDashboard, fetchUser, fetchTeachers } from "../../helpers/backend_helper";
+import { Col, Row } from "react-bootstrap";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
 import moment from "moment";
-import {useRouter} from "next/router";
-import {Tabs} from "antd";
+import { useRouter } from "next/router";
+import { Tabs } from "antd";
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Card from "../../fragment/layout/dashboard/Card";
-import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList,  FaRegClipboard, FaUserFriends, FaBoxOpen,  FaBoxTissue } from "react-icons/fa"; // Import required icons
+import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaRegClipboard, FaUserFriends, FaBoxOpen, FaBoxTissue } from "react-icons/fa"; // Import required icons
 import Skeleton from "react-loading-skeleton";
 import { TbShoppingCartDiscount } from "react-icons/tb";
 
@@ -150,24 +150,25 @@ const Home = () => {
             }
             </>
         ),
-        (logs)=>(
+        (statuses) => (
 
             <>
-            {
-                logs?.length ?logs.map((log, index)=>(
-                    <>
-                        <li role={"button"} key={index} className="mb-3 pb-3 border-b">
-                            {index + 1}. {log?.student?.first_name} {log?.student?.last_name}
-                        </li>
-                    </>
-                )) :
-                (
-                    <div className="flex flex-col items-center justify-center h-full">
-                        <FaUserFriends size={50} className="ml-2" />
-                        <p>No one is absent today. </p>
-                    </div>
-                )
-            }
+                {
+                    statuses?.length ? statuses.map((status, index) => (
+                        <>
+                            <li role={"button"} key={index} onClick={() => router.push('/teacher/purchases?status=' + status._id)} className="mb-3 pb-3 border-b flex justify-between hover:shadow-lg  transition-all duration-500">
+                                <span>{status?._id} </span>
+                                <span className="flex items-center text-sm font-medium px-3 py-1 rounded-full bg-indigo-100 text-indigo-700">{status?.total} </span>
+                            </li>
+                        </>
+                    )) :
+                        (
+                            <div className="flex flex-col items-center justify-center h-full">
+                                <FaRegClipboard size={50} className="ml-2" />
+                                <p>No new orders. </p>
+                            </div>
+                        )
+                }
             </>
         ),
         // ammar
@@ -250,8 +251,8 @@ const Home = () => {
     //ammar
     const items = [
         [
-            { title: 'Recently Added Items', subtitle: dashboard?.products.length+' items', value: dashboard?.products, icon: <FaFolderPlus size={24}/>, body: itemsBody[0], style:'flex-1' },
-            { title: 'Top Purchases', value: dashboard?.purchases, icon: <FaShoppingCart size={24}/>, body: itemsBody[1], style:'flex-1 flex-grow' },
+            { title: 'Recently Added Items', subtitle: dashboard?.products.length + ' items', value: dashboard?.products, icon: <FaFolderPlus size={24} />, body: itemsBody[0], style: 'flex-1' },
+            { title: 'Top Purchases', value: dashboard?.purchases, icon: <FaShoppingCart size={24} />, body: itemsBody[1], style: 'flex-1 flex-grow' },
         ],
         [
             { title: 'New Orders', value: dashboard?.newPurchases, icon: <FaBox size={24}/>, body: itemsBody[4] },
@@ -262,10 +263,10 @@ const Home = () => {
         ]
     ];
     const filters = [
-        {title: "All Time", value: allTime.toString()},
-        {title: "Last Year", value: oneYearAgo.toString()},
-        {title: "Last Month", value: oneMonthAgo.toString()},
-        {title: "Last Week", value: oneWeekAgo.toString()},
+        { title: "All Time", value: allTime.toString() },
+        { title: "Last Year", value: oneYearAgo.toString() },
+        { title: "Last Month", value: oneMonthAgo.toString() },
+        { title: "Last Week", value: oneWeekAgo.toString() },
     ]
     return (
         <div className="">

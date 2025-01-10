@@ -1,8 +1,8 @@
-import {useEffect, useRef, useState} from "react";
-import {fetchProfile, fetchUnreadNotifications, postNotificationRead} from "../helpers/backend_helper";
-import {checkPermission, signOut, useFetch, userOutSideClick} from "../helpers/hooks";
-import {UserContext, useUserContext} from "../contexts/user";
-import {useRouter} from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { fetchProfile, fetchUnreadNotifications, postNotificationRead } from "../helpers/backend_helper";
+import { checkPermission, signOut, useFetch, userOutSideClick } from "../helpers/hooks";
+import { UserContext, useUserContext } from "../contexts/user";
+import { useRouter } from "next/router";
 import {
     FiBell,
     FiSettings,
@@ -16,7 +16,7 @@ import { AiOutlineQuestionCircle, AiOutlineShoppingCart, AiOutlineStar } from "r
 import { IoSchoolOutline, IoBookOutline } from "react-icons/io5";
 import { TbTrophy, TbUsersGroup } from "react-icons/tb";
 import { BsCalendarCheck } from "react-icons/bs";
-const TeacherLayout = ({children, back = true}) => {
+const TeacherLayout = ({ children, back = true }) => {
     const router = useRouter()
     const [user, setUser] = useState()
     const [openSidebar, setOpenSidebar] = useState(false);
@@ -26,7 +26,7 @@ const TeacherLayout = ({children, back = true}) => {
     }, [])
 
     const getProfile = () => {
-        fetchProfile().then(({error, data}) => {
+        fetchProfile().then(({ error, data }) => {
             if (error === false) {
                 setUser(data)
             } else {
@@ -56,13 +56,13 @@ const TeacherLayout = ({children, back = true}) => {
         { "title": "Student Roster", "link": "/teacher/students", "icon": IoSchoolOutline, "permission": "roster_student" },
         { "title": "Virtues", "link": "/teacher/traits", "icon": AiOutlineStar, "permission": "virtue_show" },
         { "title": "Award", "link": "/teacher/award", "icon": TbTrophy, "permission": "award_show" },
-        { "title": "Classes", "link": "/teacher/classes", "icon": IoBookOutline, "permission": "class_show", "fs": ['/teacher/classes/create'] },
+        { "title": "Classes", "link": "/teacher/classes", "icon": IoBookOutline, "permission": "class_show", "fs": ['/teacher/classes/create'], "childHrefs": ['/teacher/classes/create'] },
         ////
         { "title": "Attendance", "link": "/teacher/attendance", "icon": BsCalendarCheck, "permission": "attendance_show" },
         { "title": "Quiz", "link": "/teacher/quiz", "icon": AiOutlineQuestionCircle, "permission": "quiz_show", "childHrefs": ['/teacher/quiz/create', '/teacher/submissions/[quiz]'] },
-        { "title": "Roles", "link": "/teacher/roles", "icon": BsCalendarCheck, "permission": "role_show", "childHrefs": ['/teacher/roles/create', '/teacher/roles/[_id]'] },
-        { "title": "Users", "link": "/teacher/users", "icon": TbUsersGroup, "permission": "user_show", "childHrefs": ['/teacher/users/create', '/teacher/users/[_id]'] },
-        { "title": "Settings", "link": "/teacher/settings", "icon": FiSettings, "permission": "settings" },
+        { "title": "Roles", "link": "/teacher/roles", "icon": BsCalendarCheck, "permission": "role_show", "childHrefs": ['/teacher/roles/create', '/teacher/roles/[_id]'], "admin": true },
+        { "title": "Users", "link": "/teacher/users", "icon": TbUsersGroup, "permission": "user_show", "childHrefs": ['/teacher/users/create', '/teacher/users/[_id]'], "admin": true },
+        { "title": "Settings", "link": "/teacher/settings", "icon": FiSettings, "permission": "settings", "admin": true },
 
     ];
     
@@ -145,13 +145,13 @@ const TeacherLayout = ({children, back = true}) => {
 }
 export default TeacherLayout
 
-export const NavItemProfile = ({user}) => {
+export const NavItemProfile = ({ user }) => {
     return (
-        <div className="p-3 rounded-xl absolute" style={{bottom: 24, left: 24, right: 24, background: '#f3f4f6'}}>
+        <div className="p-3 rounded-xl absolute" style={{ bottom: 24, left: 24, right: 24, background: '#f3f4f6' }}>
             <div className="flex items-center">
                 <div className="bg-primary overflow-hidden flex justify-center items-center mr-3"
-                     style={{height: 40, width: 40, borderRadius: 40}}>
-                    <FiUser size={18} className="text-white"/>
+                    style={{ height: 40, width: 40, borderRadius: 40 }}>
+                    <FiUser size={18} className="text-white" />
                 </div>
                 <div>
                     <p className="font-semibold text-base mb-0 oswald">{user?.first_name || ''} {user?.last_name || ''}</p>
@@ -162,7 +162,7 @@ export const NavItemProfile = ({user}) => {
     )
 }
 
-export const Header = ({user}) => {
+export const Header = ({ user }) => {
     const notification = checkPermission('notification', true)
     return (
         <header className="bg-white mb-4 px-6 py-3 flex justify-between rounded">
@@ -171,9 +171,9 @@ export const Header = ({user}) => {
             </div>
             <div className="flex items-center">
                 {notification && (
-                    <Notifications/>
+                    <Notifications />
                 )}
-                <img src={user?.school?.logo} alt="" className="h-8 mr-3"/>
+                <img src={user?.school?.logo} alt="" className="h-8 mr-3" />
                 <p className="mb-0 text-gray-600 font-semibold">{user?.school?.name}</p>
             </div>
         </header>

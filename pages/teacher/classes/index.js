@@ -52,26 +52,10 @@ const Classes = () => {
                     )} */}
                 </div>
             </div>
-            <div className="pr-2">
-                <div>
+            <div>
+                <div >
                     {classes?.length === 0 && (
-                        <div className="flex flex-col items-center justify-center space-y-6">
-                            <div className="w-64 h-64 border-2 border-gray-300 rounded-lg">
-                                <div className="grid grid-cols-5 grid-rows-5 h-full w-full">
-                                    <div className="border-b border-r border-gray-300 col-span-5 text-center font-semibold text-gray-700">Time / Class</div>
-                                    <div className="border-b border-r border-gray-300 text-center">9:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">10:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">11:00 AM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">12:00 PM</div>
-                                    <div className="border-b border-r border-gray-300 text-center">1:00 PM</div>
-
-                                    <div className="border-b border-r border-gray-300 text-center">Class 1</div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                    <div className="border-b border-r border-gray-300 text-center"></div>
-                                </div>
-                            </div>
+                        <div className="py-20 flex flex-col items-center justify-center">
 
                             <p className="text-xl font-semibold text-gray-700">Your Classes are Empty</p>
                             <p className="text-gray-500 text-center max-w-md">
@@ -79,7 +63,7 @@ const Classes = () => {
                             </p>
                             {add && (
                                 <Link href="/teacher/classes/create">
-                                    <button type="button" className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-transform transform active:scale-95">
+                                    <button type="button" className="px-5 py-2 bg-white rounded-lg shadow-md">
                                         Add Class
                                     </button>
                                 </Link>
@@ -116,66 +100,66 @@ const ClassCard = ({ data, traits, getClasses }) => {
 
     return (
         <div className="bg-white rounded-lg shadow-md my-4 border border-gray-200">
-        {/* Header Section */}
-        <div className="flex flex-col md:flex-row flex-wrap justify-between p-4 pb-0">
-            {/* Class Details */}
-            <div className="!text-center md:!text-left">
-                <div className="flex items-center">
-                    <h5 className="font-semibold text-lg text-gray-800">{data?.name}</h5>
-                    <Link href={'/teacher/classes/' + data._id}>
-                        <a 
-                            className="ml-3 text-blue-600 hover:underline text-sm font-medium" 
-                            title="View Class Details"
-                        >
-                            See Details
-                        </a>
-                    </Link>
+            {/* Header Section */}
+            <div className="flex flex-col md:flex-row flex-wrap justify-between p-4 pb-0">
+                {/* Class Details */}
+                <div className="!text-center md:!text-left">
+                    <div className="flex items-center">
+                        <h5 className="font-semibold text-lg text-gray-800">{data?.name}</h5>
+                        <Link href={'/teacher/classes/' + data._id}>
+                            <a
+                                className="ml-3 text-blue-600 hover:underline text-sm font-medium"
+                                title="View Class Details"
+                            >
+                                See Details
+                            </a>
+                        </Link>
+                    </div>
+                    <p className="text-gray-600 text-sm mt-1">{data?.section}</p>
+                    <p className="text-gray-500 text-sm font-medium mt-2">Instructors</p>
+                    {data?.instructors?.map((d, index) => (
+                        <p key={index} className="text-sm text-gray-600">
+                            {d?.first_name} {d?.last_name} <span className="text-gray-500">({d?.email})</span>
+                        </p>
+                    ))}
                 </div>
-                <p className="text-gray-600 text-sm mt-1">{data?.section}</p>
-                <p className="text-gray-500 text-sm font-medium mt-2">Instructors</p>
-                {data?.instructors?.map((d, index) => (
-                    <p key={index} className="text-sm text-gray-600">
-                        {d?.first_name} {d?.last_name} <span className="text-gray-500">({d?.email})</span>
+
+                {/* Divider for smaller screens */}
+                <hr className="my-2 md:hidden border-gray-300" />
+
+                {/* Class Schedule and Enrollment */}
+                <div className="!text-center md:!text-right">
+                    <p className="text-gray-700 text-sm">
+                        {data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}
                     </p>
-                ))}
-            </div>
-    
-            {/* Divider for smaller screens */}
-            <hr className="my-2 md:hidden border-gray-300" />
-    
-            {/* Class Schedule and Enrollment */}
-            <div className="!text-center md:!text-right">
-                <p className="text-gray-700 text-sm">
-                    {data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}
-                </p>
-                <p className="text-gray-700 text-sm mt-1">
-                    {moment(data?.time?.start, 'HH:mm').format('hh:mm A')} - 
-                    {moment(data?.time?.end, 'HH:mm').format('hh:mm A')}
-                </p>
-                <div className="bg-indigo-600 text-white inline-block px-3 py-1 rounded-full text-sm font-semibold mt-2">
-                    Students Enrolled: 
-                    <span className="bg-white text-indigo-600 px-2 py-0.5 ml-1 rounded-full">
-                        {data?.students?.length}
-                    </span>
+                    <p className="text-gray-700 text-sm mt-1">
+                        {moment(data?.time?.start, 'HH:mm').format('hh:mm A')} -
+                        {moment(data?.time?.end, 'HH:mm').format('hh:mm A')}
+                    </p>
+                    <div className="bg-indigo-600 text-white inline-block px-3 py-1 rounded-full text-sm font-semibold mt-2">
+                        Students Enrolled:
+                        <span className="bg-white text-indigo-600 px-2 py-0.5 ml-1 rounded-full">
+                            {data?.students?.length}
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-    
-        {/* Footer Section */}
-        <div className="text-right px-4 pt-3 pb-3 border-t border-gray-200">
-            <a 
-                className="text-indigo-600 hover:text-indigo-800 text-sm font-medium cursor-pointer flex items-center justify-end"
-                onClick={() => setShow(!show)}
-            >
-                {show ? "Hide Attendance" : "View Attendance"}
-                {show ? (
-                    <FiChevronUp className="ml-2 w-5 h-5" />
-                ) : (
-                    <FiChevronDown className="ml-2 w-5 h-5" />
-                )}
-            </a>
-        </div>
-    
+
+            {/* Footer Section */}
+            <div className="text-right px-4 pt-3 pb-3 border-t border-gray-200">
+                <a
+                    className="text-indigo-600 hover:text-indigo-800 text-sm font-medium cursor-pointer flex items-center justify-end"
+                    onClick={() => setShow(!show)}
+                >
+                    {show ? "Hide Attendance" : "View Attendance"}
+                    {show ? (
+                        <FiChevronUp className="ml-2 w-5 h-5" />
+                    ) : (
+                        <FiChevronDown className="ml-2 w-5 h-5" />
+                    )}
+                </a>
+            </div>
+
             {show && (
                 <>
                     <div className="bg-gray-50 rounded-b border border-gray-400">
