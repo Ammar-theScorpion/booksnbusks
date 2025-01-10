@@ -9,8 +9,11 @@ import { NavItem } from "../../../layouts/student";
 import LogoutPopup from "../../popup/LogoutPopup";
 
 
+/*
+* This is a global side and nav bar
+* used in all layouts 
+*/
 const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
-
 
     // const user = useUserContext()
     const userContext = useUserContext()
@@ -24,7 +27,6 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
     const toggleogout = (show) => {
         setShowLogout(show)
     }
-
 
     return (
         <>
@@ -59,7 +61,6 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
                         <div className="flex items-center">
                             <div className="flex items-center ms-3">
                                 <ProfileNav user={user} />
-
                             </div>
                         </div>
                     </div>

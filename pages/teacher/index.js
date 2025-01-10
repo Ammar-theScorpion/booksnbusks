@@ -2,15 +2,16 @@ import TeacherLayout from "../../layouts/teacher";
 import { useFetch } from "../../helpers/hooks";
 import { fetchDashboard, fetchUser, fetchTeachers } from "../../helpers/backend_helper";
 import { Col, Row } from "react-bootstrap";
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts";
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import moment from "moment";
 import { useRouter } from "next/router";
 import { Tabs } from "antd";
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import Card from "../../fragment/layout/dashboard/Card";
-import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaRegClipboard, FaUserFriends, FaBoxOpen, FaBoxTissue } from "react-icons/fa"; // Import required icons
+import { FaFolderPlus, FaShoppingCart, FaBox, FaUserTimes, FaClipboardList, FaRegClipboard, FaUserFriends, FaBoxOpen, FaBoxTissue, FaWarehouse, FaPersonBooth, FaShoppingBasket } from "react-icons/fa"; // Import required icons
 import Skeleton from "react-loading-skeleton";
 import { TbShoppingCartDiscount } from "react-icons/tb";
+import { MdOutlineInventory2 } from "react-icons/md";
 
 const { TabPane } = Tabs;
 
@@ -100,26 +101,59 @@ const Home = () => {
         (purchases) => (
             <>
                 {purchases && purchases.length ? (
-                    <div style={{ height: 280 }}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                                data={dashboard?.purchases}
-                                layout="vertical"
-                                margin={{
-                                    top: 5,
-                                    right: 30,
-                                    left: 40,
-                                    bottom: 5,
-                                }}
-                            >
-                                <CartesianGrid horizontal={false} />
-                                <XAxis type="number" allowDecimals={false} />
-                                <YAxis dataKey="name" type="category" width={160} />
-                                <Tooltip />
-                                <Bar dataKey="orders" fill="#dc3545" />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                <div style={{ height: 300 }} className="bg-white rounded-lg shadow-md">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                        data={purchases}
+                        layout="vertical"
+                        margin={{
+                            top: 10,
+                            right: 10,
+                            left: 0,
+                            bottom: 10,
+                        }}
+                        >
+                        {/* Grid */}
+                        <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e0e0e0" />
+                
+                        {/* X and Y Axes */}
+                        <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
+                        <YAxis
+                            dataKey="name"
+                            type="category"
+                            width={160}
+                            tick={{ fontSize: 12 }}
+                        />
+                
+                        {/* Tooltip */}
+                        <Tooltip
+                            contentStyle={{
+                            backgroundColor: "#f9f9f9",
+                            borderRadius: "8px",
+                            border: "1px solid #ccc",
+                            }}
+                            itemStyle={{ fontSize: 12 }}
+                            labelStyle={{ fontSize: 14, fontWeight: "bold" }}
+                        />
+                
+                        {/* Legend */}
+                        <Legend
+                            verticalAlign="top"
+                            wrapperStyle={{ fontSize: "12px", marginBottom: "10px" }}
+                        />
+                
+                        {/* Bars */}
+                        <Bar
+                            dataKey="orders"
+                            fill="#2563eb"
+                            barSize={20}
+                            label={{ position: "right", fill: "#555", fontSize: 10 }}
+                            animationDuration={800}
+                            animationBegin={100}
+                        />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
                 ) :
                 (
                     <div className="flex flex-col items-center justify-center h-full">
@@ -164,8 +198,8 @@ const Home = () => {
                     )) :
                         (
                             <div className="flex flex-col items-center justify-center h-full">
-                                <FaRegClipboard size={50} className="ml-2" />
-                                <p>No new orders. </p>
+                                <FaPersonBooth size={50} className="ml-2" />
+                                <p>No One is Absent. </p>
                             </div>
                         )
                 }
@@ -178,7 +212,7 @@ const Home = () => {
             {
                 newPurchases?.length ?newPurchases.map((purchase, index)=>(
                     <div className="space-y-6 p-4">
-                        <div key={purchase?._id} className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:scale-105 hover:shadow-lg">
+                        <div key={purchase?._id} className="p-6 border border-gray-200 rounded-lg shadow-md bg-white transition-transform transform hover:shadow-lg">
                             {/* Header */}
                             <h2 className="text-xl font-bold text-gray-800 flex items-center">
                                 <span className="mr-2 text-primary-500">{index + 1}.</span>
@@ -268,21 +302,29 @@ const Home = () => {
         { title: "Last Month", value: oneMonthAgo.toString() },
         { title: "Last Week", value: oneWeekAgo.toString() },
     ]
+
+    //  summary of orders and products
+    const totalItems = [
+        { title: 'Total Orders', value: dashboard?.totalOrders, icon: <FaShoppingBasket size={24} />,  style: 'flex-1' },
+        { title: 'Total Products', value: dashboard?.totalProducts, icon: <MdOutlineInventory2  size={24} />,  style: 'flex-1' },
+        { title: 'Total Stock', value: dashboard?.totalStock, icon: <FaWarehouse size={24} />,  style: 'flex-1' },
+    ]
+
     return (
         <div className="">
             <div className="flex w-full max-w-45 justify-start mb-2">
                 <div className="inline-flex items-center rounded-md bg-stone-200 p-1.5 dark:bg-meta-4 gap-1 transition-all duration-300">
-                    
+                    {/* filter dashboard */}
                     {filters.map((filter, index)=>(
                         <button key={index} onClick={()=>handleStartTime(filter.value)} className={`rounded py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark transition-all duration-300
-                            ${startTime === filter.value && 'bg-white'}  `}>
+                            ${startTime === filter.value && 'bg-white shadow-md'}  `}>
                             {filter.title}
                         </button>
                     ))}
                 </div>
             </div>
 
-            <Card items={items} loading={loading} />
+            <Card items={items} loading={loading} totalItems={totalItems} />
             {/* <Row>}
                         <Row style={{ paddingBottom: '20px' }}>
                 <Col>
