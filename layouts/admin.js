@@ -65,10 +65,16 @@ const AdminLayout = ({ children, back = true }) => {
 
     return (
         <UserContext.Provider value={{ ...user, getProfile, currentSchool }}>
-            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
+            <div className="bg-[#F1F5F9] h-screen">
+                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin /> 
+                <div className={`box-border pt-24 flex flex-col gap-3 mr-3 flex-1 transition-all h-[97%] ${openSidebar ? 'ml-[18rem]' : 'ml-3'
+                    } md:ml-[18rem]`}>
+                    {children}
+                </div>
+            </div>
+        </UserContext.Provider>
 
-            <main className="h-screen flex items-center">
-                {/* <aside className="nav-area">
+/* <aside className="nav-area">
                     <nav className="navbar">
                         <div className="site-title">
                             <img src="/images/logo.png" alt="" />
@@ -103,16 +109,9 @@ const AdminLayout = ({ children, back = true }) => {
                             <NavItemProfile user={user} />
                         </div>
                     </nav>
-                </aside> */}
+                </aside> */
 
-                <div className={`pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
-                    } sm:ml-[18rem]`}>
-                    {children}
-                </div>
-
-            </main>
-
-        </UserContext.Provider>
+          
     )
 }
 export default AdminLayout

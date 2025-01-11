@@ -11,6 +11,7 @@ import ModalForm from "../../../components/common/modal_form";
 import InputFile from "../../../components/form/file";
 import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
 import FormSelect from "../../../components/form/FormSelect";
+import Button from "../../../components/form/Button";
 
 const Users = () => {
     const router = useRouter()
@@ -28,7 +29,7 @@ const Users = () => {
         {
             label: "Email",
             dataIndex: 'email',
-            formatter: d => <a href={`mailto:${d}`}>{d}</a>
+            formatter: d => <span className="text-blue-600">{d}</span>
         },
         {
             label: "School",
@@ -42,15 +43,17 @@ const Users = () => {
     return (
         <>
             <div className="flex flex-1">
-                <h4>
-                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Admins
-                </h4>
-                <div className="flex flex-1 gap-4 justify-end pr-2 pb-2" >
+                
+                <div className="flex flex-1 gap-4 justify-between pr-2 pb-2" >
                     <SearchInput value={search} setValue={setSearch} />
-                    <a className="btn btn-primary " onClick={() => {
-                        form.resetFields()
-                        setVisible(true)
-                    }}>Add Admin</a>
+
+                    <Button
+                        onClick={() => {
+                            form.resetFields();
+                            setVisible(true);
+                        }}>
+                        Add Admin
+                    </Button>
                 </div>
             </div>
             <Table

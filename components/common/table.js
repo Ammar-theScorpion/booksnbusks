@@ -68,7 +68,7 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                                         }}><img
                                                             style={{ height: 36 }} src={data[column.dataIndex]} alt="" /></td>
                                                 }
-                                                return <td className="px-6 py-3"
+                                                return <td className="px-6 py-3 whitespace-nowrap"
                                                     onClick={() => {
                                                         if (column.onClick) {
                                                             column.onClick(data)

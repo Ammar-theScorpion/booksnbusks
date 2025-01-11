@@ -85,16 +85,16 @@ const Notifications = () => {
                     )}
                   
                 </div>
-                
-                <div className="sticky bottom-0">
-                    <Link href="/teacher/notifications">
-                            <a onClick={() => setShow(false)}
-                                className="block bg-gray-100 hover:bg-gray-200 transition-all duration-200 no-underline text-gray-500 text-center rounded-b p-2 pt-1 border">
-                                View All
-                            </a>
-                    </Link>
-                </div>
-
+                {notifications?.totalDocs && (
+                    <div className="sticky bottom-0">
+                        <Link href="/teacher/notifications">
+                                <a onClick={() => setShow(false)}
+                                    className="block bg-gray-100 hover:bg-gray-200 transition-all duration-200 no-underline text-gray-500 text-center rounded-b p-2 pt-1 border">
+                                    View All
+                                </a>
+                        </Link>
+                    </div>
+                )}
             </div>
         </div>
     )

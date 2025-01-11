@@ -61,76 +61,79 @@ const Roster = () => {
         )
     }
     return (
-        <>
+        <div className="h-full pb-10">
             {/* display the search input if teachers  */}
             {teachers.length ?
-                <>
+                <div className="h-full">
+
                     <div className="flex justify-between items-center mb-2">
                         <SearchInput value={search} setValue={setSearch} />
                     </div>
                     {/* Classes with Teachers Section */}
                     {filteredTeachers.length ? (
+                        <div className="bg-white p-3 border shadow-md h-full overflow-y-auto">
+                            <table className="table-auto text-sm text-gray-500 dark:text-gray-400 w-full">
+                                <thead className="sticky -top-4 shadow-sm text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th className="px-4 py-3 font-medium uppercase">Teacher</th>
+                                        <th className="px-4 py-3 font-medium uppercase">E-mail</th>
+                                        <th className="px-4 py-3 font-medium uppercase">Class</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        filteredTeachers.map((classData, index) => (
+                                            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
 
-                        <table className="w-full text-sm text-left rounded-lg shadow-md ">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th className="px-4 py-3 font-medium uppercase">Teacher</th>
-                                    <th className="px-4 py-3 font-medium uppercase">E-mail</th>
-                                    <th className="px-4 py-3 font-medium uppercase">Class</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    filteredTeachers.map((classData, index) => (
-                                        <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
+                                                {/* Teacher Name */}
+                                                <td className="px-4 py-3 font-medium text-gray-700">{classData.name}</td>
 
-                                            {/* Teacher Name */}
-                                            <td className="px-4 py-3 font-medium text-gray-700">{classData.name}</td>
+                                                {/* Email with hover effect */}
+                                                <td className="px-4 py-3 text-primary-600 ">
+                                                    {classData.email}
+                                                </td>
 
-                                            {/* Email with hover effect */}
-                                            <td className="px-4 py-3 text-primary-600 ">
-                                                {classData.email}
-                                            </td>
+                                                {/* Class Cards */}
+                                                <td className="px-4 py-3">
+                                                    <div className="flex flex-wrap gap-3">
+                                                        {classData.classInstance.map((instance, index) => (
+                                                            <div
+                                                                key={index}
+                                                                onClick={() => router.push('/teacher/classes/' + instance._id)}
+                                                                className="hover:cursor-pointer bg-gradient-to-r from-indigo-400 to-purple-500 hover:scale-105 transition-all duration-500 flex flex-col justify-center items-start p-2 rounded-lg shadow-md hover:shadow-lg"
+                                                            >
+                                                                {/* Class Name */}
+                                                                <div className="text-white font-semibold text-sm">
+                                                                    {instance.name}
+                                                                </div>
 
-                                            {/* Class Cards */}
-                                            <td className="px-4 py-3">
-                                                <div className="flex flex-wrap gap-3">
-                                                    {classData.classInstance.map((instance, index) => (
-                                                        <div
-                                                            key={index}
-                                                            onClick={() => router.push('/teacher/classes/' + instance._id)}
-                                                            className="hover:cursor-pointer bg-gradient-to-r from-indigo-400 to-purple-500 hover:scale-105 transition-all duration-500 flex flex-col justify-center items-start p-2 rounded-lg shadow-md hover:shadow-lg"
-                                                        >
-                                                            {/* Class Name */}
-                                                            <div className="text-white font-semibold text-sm">
-                                                                {instance.name}
+                                                                {/* Class Time */}
+                                                                <div className="flex items-center gap-1 text-gray-200 font-light text-xs mt-1">
+                                                                    <span className="material-icons text-sm">schedule</span>
+                                                                    {formatTime(instance.time.start)} - {formatTime(instance.time.end)}
+                                                                </div>
                                                             </div>
+                                                        ))}
+                                                    </div>
+                                                </td>
 
-                                                            {/* Class Time */}
-                                                            <div className="flex items-center gap-1 text-gray-200 font-light text-xs mt-1">
-                                                                <span className="material-icons text-sm">schedule</span>
-                                                                {formatTime(instance.time.start)} - {formatTime(instance.time.end)}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </td>
+                                            </tr>
+                                        ))
+                                    }
+                                
 
-                                        </tr>
-                                    ))
-                                }
-                            
-
-                        </tbody>
-                        </table>
-                    ) : (
+                            </tbody>
+                            </table>
+                        </div>
+                        ) : (
                         <EmptySearch searchString={search} />
                     )}
-                </>
+                </div>
+
             :
             <Empty></Empty>
             }
-        </>
+        </div>
     )
 }
 

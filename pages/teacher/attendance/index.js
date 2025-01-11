@@ -185,7 +185,7 @@ const Attendance = () => {
                 ),
             },
             {
-                label: `Present (${Object.values(status)?.filter(d => d === 1).length})   Absent (${Object.values(status)?.filter(d => d === 2).length})  Tardy (${Object.values(status)?.filter(d => d === 3).length})   Early Dismissal (${Object.values(status)?.filter(d => d === 4).length})`,
+                label: `Present (${Object.values(status)?.filter(d => d === 1).length})`,
                 dataIndex: "_",
                 formatter: (_, student) => {
                     return (
@@ -201,40 +201,63 @@ const Attendance = () => {
                                 >
                                     Present
                                 </div>
-                                <div
-                                    onClick={toggleAttendance(student._id, 2)}
-                                    title={status[student._id] === 2 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${status[student._id] === 2
-                                        ? "btn-danger"
-                                        : "btn-outline-danger"
-                                        } mx-1`}
-                                >
-                                    Absent
-                                </div>
-                                <div
-                                    onClick={toggleAttendance(student._id, 3)}
-                                    title={status[student._id] === 3 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${status[student._id] === 3 ? "btn-dark" : "btn-outline-dark"
-                                        } mx-1`}
-                                >
-                                    Tardy
-                                </div>
-                                <div
-                                    onClick={toggleAttendance(student._id, 4)}
-                                    title={status[student._id] === 4 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
-                                    className={`btn ${status[student._id] === 4 ? "btn-dark" : "btn-outline-dark"
-                                        } mx-1`}
-                                >
-                                    Early Dismissal
-                                </div>
 
                             </div>
-                            <p style={{ marginLeft: ((status[student._id] - 1) || 0) * 90 + 15 }}
-                                className={`mb-0 mt-1 text-sm`}>{!!time[student._id] && moment(time[student._id]).format('hh:mm A')}</p>
+
                         </div>
                     );
                 },
             },
+            {
+                label: `Absent (${Object.values(status)?.filter(d => d === 2).length})`,
+                dataIndex: "_",
+                formatter: (_, student) => {
+                    return(
+                        <div
+                            onClick={toggleAttendance(student._id, 2)}
+                            title={status[student._id] === 2 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
+                            className={`btn ${status[student._id] === 2
+                                ? "btn-danger"
+                                : "btn-outline-danger"
+                            } mx-1`}
+                            > Absent
+                        </div>
+                    )
+                }
+            }, 
+            {
+                label: `Tardy (${Object.values(status)?.filter(d => d === 3).length})`,
+                dataIndex: "_",
+                formatter: (_, student) => {
+                    return(
+                        <div
+                            onClick={toggleAttendance(student._id, 3)}
+                            title={status[student._id] === 3 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
+                            className={`btn ${status[student._id] === 3 ? "btn-dark" : "btn-outline-dark"
+                                } mx-1`}
+                        >
+                            Tardy
+                        </div>
+                    )
+                }
+            },
+            {
+                label: `Early Dismissal (${Object.values(status)?.filter(d => d === 4).length})`,
+                dataIndex: "_",
+                formatter: (_, student) => {
+                    return(
+                        <div
+                        onClick={toggleAttendance(student._id, 4)}
+                        title={status[student._id] === 4 ? moment(attendanceMap[student._id]?.updatedAt).format('hh:mm A') : ""}
+                        className={`btn ${status[student._id] === 4 ? "btn-dark" : "btn-outline-dark"
+                            } mx-1`}
+                    >
+                        Early Dismissal
+                    </div>
+                    )
+                }
+            },
+
         ];
     }
 
@@ -261,17 +284,6 @@ const Attendance = () => {
     return (
         <>
             <div className=" print:hidden">
-                {/* yacoob remove back */}
-                {/* <h4 className="page-title">
-                    <FiArrowLeft
-                        className="mr-2 inline-block"
-                        role="button"
-                        onClick={() => router.back()}
-                    />
-                    Attendance
-                </h4> */}
-
-                {/* yacoob change filtering design*/}
                 <div className="  relative flex  w-full items-center justify-between">
 
                     <div className="flex gap-3">
@@ -346,8 +358,8 @@ const Attendance = () => {
                         />
                     )}
                 </div>
-                <div className="flex justify-between print:hidden  border-t-2 mt-4 pt-3">
-                    <div>
+                <div className="flex justify-between print:hidden border-t-2 mt-4 pt-3">
+                    <div className="flex gap-2">
                         <Button onClick={() => {
                             window.print()
                         }}>Print
@@ -355,13 +367,10 @@ const Attendance = () => {
                         <Button onClick={updateStatus}>Save</Button>
 
                     </div>
-
-
-
                 </div>
             </div>
 
-            <div className="print:absolute print:top-0 print:left-0 print:w-full bg-white">
+            <div className="print:absolute print:top-0 print:left-0 print:w-full w-full">
                 <Table
                     columns={columns}
                     data={students
@@ -371,6 +380,7 @@ const Attendance = () => {
                                 ?.toLowerCase()
                                 ?.localeCompare(b?.last_name?.toLowerCase())
                         )}
+                    searchString={search}
                     noAction
                 />
             </div>
