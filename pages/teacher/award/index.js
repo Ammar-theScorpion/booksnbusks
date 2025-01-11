@@ -108,43 +108,39 @@ const Award = () => {
 
                     {/* Add Award Button */}
 
-
                     <Button className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-transform transform active:scale-95" onClick={() => setAward(true)}>Reward</Button>
                 </div>
             </>
             : (
-                <div className="">
+                <div className="h-full overflow-y-hidden">
                     {/* <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Award</h4> */}
-                    <div className="flex justify-between">
-                        <div>
-
-                        </div>
-                        <div>
-                            <Button onClick={() => setAward(true)}>Reward</Button>
-                        </div>
+                    <div className="flex justify-end mb-2">
+                        <Button onClick={() => setAward(true)}>Reward</Button>
                     </div>
-                    <table className=" mt-4 w-full bg-red-400">
-                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 pr-3">
-                            <tr>
-                                <th className="p-3  w-1/3 ">Classes</th>
-                                <th className="text-center p-3 w-1/4">Select</th>
-                                <th className="text-center p-3 w-1/4">Awards</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-black">
 
-                            {classes?.map((data, index) => (
-                                <ClassRow
-                                    data={data}
-                                    selected={selected}
-                                    setSelected={setSelected}
-                                    reload={() => setUpdate(!update)}
-                                    key={index}
-                                />
-                            ))}
-                        </tbody>
-                    </table>
+                    <div className="bg-white p-3 border shadow-md h-full overflow-y-auto">
+                        <table className="table-auto text-sm text-gray-500 dark:text-gray-400 w-full mb-10">
+                            <thead className="sticky -top-4 shadow-sm text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th className="p-3  w-1/3 ">Classes</th>
+                                    <th className="text-center p-3 w-1/4">Select</th>
+                                    <th className="text-center p-3 w-1/4">Awards</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
+                                {classes?.map((data, index) => (
+                                    <ClassRow
+                                        data={data}
+                                        selected={selected}
+                                        setSelected={setSelected}
+                                        reload={() => setUpdate(!update)}
+                                        key={index}
+                                    />
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>)
     )
 }
@@ -186,8 +182,8 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
 
     return (
         <>
-            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800  p-3 shadow-md" >
-                <td className="font-semibold p-3" role="button" onClick={() => setShow(!show)}>
+            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" >
+                <td className="font-semibold px-6 py-3" role="button" onClick={() => setShow(!show)}>
                     {show ? <FiChevronDown className="inline-block mr-4" size={20} /> :
                         <FiChevronRight className="inline-block mr-4" size={20} />}
                     {data?.name}
@@ -196,7 +192,7 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
 
                     <input type="checkbox" ref={ref} onChange={handleClassSelect} checked={isClassChecked} />
                 </td>
-                <td className="p-3">
+                <td className="px-6 py-3">
                     <span className="w-40 m-auto text-white hover:cursor-pointer bg-gradient-to-r from-indigo-400 to-purple-500 hover:scale-105 transition-all duration-500 flex  justify-center items-start p-2 rounded-lg shadow-md hover:shadow-lg"
                     >
                         {data?.students.length} Awards
@@ -207,7 +203,7 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
 
             {show && data?.students?.map((student, index) => (
                 <tr key={index} className="bg-white shadow-inner ">
-                    <td className="w-1/3 pl-1 p-2"> {student?.first_name} {student?.last_name}</td>
+                    <td className="w-1/3 px-6 py-3"> {student?.first_name} {student?.last_name}</td>
                     <td className="text-center w-1/4">
                         <input
                             type="checkbox"
@@ -215,8 +211,8 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
                             checked={selected[data._id]?.includes(student._id) || false}
                         />
                     </td>
-                    <td className="w-1/4 text-center">
-                        {student?.last_rewarded && moment(student?.last_rewarded).fromNow()}
+                    <td className="w-1/4 text-center px-6 py-3">
+                        {student?.last_rewarded ? moment(student?.last_rewarded).fromNow() : '---'}
                     </td>
                 </tr>
             ))}
