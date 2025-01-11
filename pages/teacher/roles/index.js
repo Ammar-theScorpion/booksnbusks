@@ -7,11 +7,16 @@ import { useRouter } from "next/router";
 import { Switch } from "antd";
 import { FiArrowLeft } from "react-icons/fi";
 import Button from "../../../components/form/Button";
+import { useEffect, useState } from "react";
+import swal from "sweetalert2";
+import { swalLoading } from "../../../components/common/alert";
 
 const Roles = () => {
     const router = useRouter()
     const [roles, getRoles] = useFetch(fetchRoles)
+    const [isSwitchChanged, setSwitchChanged] = useState(false);
 
+    const isLoading = useAction(isSwitchChanged ? postRoleDefault : null, isSwitchChanged, () => getRoles());
     const columns = [
         {
             label: "Role Name",
@@ -24,14 +29,21 @@ const Roles = () => {
         {
             label: "Default",
             dataIndex: 'default',
-            formatter: (d, { _id }) => <Switch checked={d} disabled={d} onChange={() => useAction(postRoleDefault, { _id }, () => getRoles())} />
+            formatter: (d, { _id }) => <Switch checked={d} disabled={d} onChange={() => setSwitchChanged({ _id })} />
         }
     ]
+
+    useEffect(()=>{
+        if(isSwitchChanged!==false){
+            setSwitchChanged(false);
+        }
+    }, [isSwitchChanged]);
+
+    console.log("isLoading", isLoading)
 
     return (
         <>
             <div className="flex justify-between">
-                {/* yacoob remove back */}
                 {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Roles
                 </h4> */}

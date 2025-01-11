@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import moment from "moment";
 import { FiArrowLeft } from "react-icons/fi";
 import Button from "../../../components/form/Button";
+import { FaEye } from "react-icons/fa";
 
 
 const Quiz = () => {
@@ -66,7 +67,7 @@ const Quiz = () => {
             dataIndex: '_id',
             formatter: data => (
                 <Link href={'/teacher/submissions/' + data}>
-                    <Button>Submissions</Button>
+                    <FaEye />
                 </Link>
             )
         }, ,

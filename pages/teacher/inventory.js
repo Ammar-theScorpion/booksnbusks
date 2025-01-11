@@ -47,21 +47,24 @@ const Inventory = () => {
     }
 
     const columns = [
-        {
-            label: 'Name',
-            dataIndex: 'name',
-            formatter: (name, data) => <div><img className="inline-block h-10 mr-3" src={data.image} alt="" />{name}
-            </div>
-        },
-        { label: 'Cost', dataIndex: 'cost', shadow: true, className: "text-center" },
-        { label: 'Remaining Stock', dataIndex: 'stock', className: "text-center" },
+        /*{ label: 'Name', dataIndex: 'name',
+            formatter: (name, data) => (
+                <div>
+                    <img className="inline-block h-10 mr-3" src={data.image} alt="" />
+                    {name}
+                </div>
+            )
+        },*/
+        { label: 'Name', dataIndex: 'name', shadow: true,  },
+        { label: 'Cost', dataIndex: 'cost', shadow: true,  },
+        { label: 'Remaining Stock', dataIndex: 'stock',    },
     ]
+    console.log('data', products);
 
     const add = checkPermission('inventory_create')
 
     return (
-        <div className="flex flex-col h-fit overflow-hidden">
-            <div className="flex-1 overflow-hidden">
+        <div className="flex flex-col overflow-hidden h-full">
 
                 <ModalForm
                     form={form}
@@ -82,20 +85,24 @@ const Inventory = () => {
                     <FormInput name="stock" label="Stock" type="number" required />
                     <InputFile name="image" label="Image" form={form} />
                 </ModalForm>
-                <div className="flex justify-between items-center mb-2 sm:flex-row flex-col gap-4">
-                    <SearchInput value={search} setValue={setSearch} />
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-2">
+                    {/* Search Input */}
+                    <div className="w-full sm:w-auto">
+                        <SearchInput value={search} setValue={setSearch} />
+                    </div>
 
+                    {/* Add Button */}
                     {add && (
                         <Button
                             onClick={() => {
                                 form.resetFields();
                                 setVisible(true);
-                            }}
-                        >
+                            }}>
                             Add Item
                         </Button>
                     )}
                 </div>
+
 
                 <Table
                     data={products}
@@ -115,8 +122,8 @@ const Inventory = () => {
                     permission="inventory"
                     pagination
                     rowCount={6}
+                    searchString={search}
                 />
-            </div>
         </div>
     )
 }

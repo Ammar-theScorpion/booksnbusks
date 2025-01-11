@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import swalAlert, {swalLoading} from "../components/common/alert";
 import {useRouter} from "next/router";
-import {notification} from 'antd'
+import {notification, Spin} from 'antd'
 import swal from 'sweetalert2'
 import {useUserContext} from "../contexts/user";
 
@@ -43,23 +43,64 @@ export const useFetch = (func, query = {}, load = true) => {
     return [data, getData, {query: params, loading, error, errorMessage}];
 }
 
-export const useAction = async (func, data, reload, alert = true, loading = true) => {
-    //if (loading) {
-    //    swalLoading()
-    //}
-    //swal.close()
-    const {error, msg} = await func(data)
-    if (error === false) {
-        if (reload) {
-            reload()
+
+export const useAction = (func, data, reload, alert = true) => {
+    const [isLoading, setLoading] = useState(false);
+    const executeAction = async () => {
+        if (!func) return;
+
+        // Use Ant Design notification with a dynamic key
+        const key = "loadingNotification";
+        notification.open({
+            key,
+            message: "Processing",
+            description: "Please wait while the action is being executed...",
+            icon: <Spin />,
+            duration: 0,
+        });
+
+        setLoading(true);
+
+        try {
+            const { error, msg } = await func(data);
+
+            if (!error) {
+                if (reload) reload();
+                if (alert) {
+                    notification.success({
+                        key,
+                        message: "Success",
+                        description: msg,
+                        duration: 3,
+                    });
+                } else {
+                    notification.close(key);
+                }
+            } else {
+                notification.error({
+                    key,
+                    message: "Error",
+                    description: msg,
+                    duration: 3,
+                });
+            }
+        } catch (err) {
+            console.error(err);
+            notification.error({
+                key,
+                message: "Error",
+                description: "An unexpected error occurred.",
+                duration: 3,
+            });
         }
-        if (alert) {
-            await notification.success({message: "Success", description: msg})
-        }
-    } else {
-        await notification.error({message: "Error", description: msg})
-    }
-}
+    };
+
+    useEffect(() => {
+        executeAction();
+    }, [func, data]);
+
+    return isLoading;
+};
 
 export const useActionConfirm = async (func, data, reload, message, confirmText) => {
     const {isConfirmed} = await swalAlert.confirm(message, confirmText)

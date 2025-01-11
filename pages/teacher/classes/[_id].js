@@ -127,26 +127,30 @@ const Class = () => {
                     {moment(data?.time?.end, 'HH:mm').format('hh:mm a')}
                 </p>
             </div>
-            <div className="table-responsive mt-4">
-                <table className="table mt-2 text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
-                    <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-
-                        <tr>
-                            <th className="px-6 py-3">Instructor</th>
-                            <th className="px-6 py-3 text-center">Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data?.instructors?.sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map((instructor, index) => (
-                            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
-
-                                <td className="px-6 py-3 flex flex-row">{instructor?.first_name || ''} {instructor?.last_name || ''}</td>
-                                <td className="tpx-6 py-3 text-center">{instructor?.email}</td>
+            {data?.instructors.length ? (
+                <div className="table-responsive mt-4">
+                    <table className="table mt-2 text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th className="px-6 py-3">Instructor</th>
+                                <th className="px-6 py-3 text-center">Email</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {data?.instructors?.sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase())).map((instructor, index) => (
+                                <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
+
+                                    <td className="px-6 py-3 flex flex-row">{instructor?.first_name || ''} {instructor?.last_name || ''}</td>
+                                    <td className="tpx-6 py-3 text-center">{instructor?.email}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                ) : (
+                    <h5> No Instructors for this class</h5>
+                )
+            }
 
             <div className="table-responsive mt-4">
                 <SearchInput value={search} setValue={setSearch} />

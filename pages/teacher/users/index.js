@@ -22,7 +22,7 @@ const Users = () => {
         {
             label: "Email",
             dataIndex: 'email',
-            formatter: d => <a href={`mailto:${d}`}>{d}</a>
+            formatter: d => <span className="text-blue-600" >{d}</span>
         },
         {
             label: "Role",
@@ -50,19 +50,21 @@ const Users = () => {
     const [search, setSearch] = useState('')
 
     return (
-        <>
-            <div className="flex justify-between">
-                {/* yacoob remove back */}
-                {/* <h4>
-                    <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()}/> Users
-                </h4> */}
-                <div className="flex">
+        <div className="flex flex-col overflow-hidden h-full">
+
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0 mb-2">
+                {/* Search Input */}
+                <div className="w-full sm:w-auto">
                     <SearchInput value={search} setValue={setSearch} />
-                    <Link href="/teacher/users/create">
-                        <Button>Add User</Button>
-                    </Link>
                 </div>
+
+                {/* Add Button */}
+                <Link href="/teacher/users/create">
+                    <Button>Add User</Button>
+                </Link>
             </div>
+            
+            
             <Table
                 data={teachers?.filter(d => `${d?.first_name} ${d?.last_name}`.toLowerCase().includes(search.toLowerCase())).sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase()))}
                 columns={columns}
@@ -72,7 +74,7 @@ const Users = () => {
                 onDelete={deleteUser}
                 getData={getTeachers}
             />
-        </>
+        </div>
     )
 }
 Users.layout = TeacherLayout

@@ -8,6 +8,8 @@ import { FiArrowLeft, FiCalendar, FiChevronDown, FiChevronUp, FiClipboard, FiGif
 import SearchInput from "../../../components/form/search";
 import { useState } from "react";
 import { Form, Modal } from "antd";
+import TableSkeleton from "../../../fragment/skeleton/TableSkeleton";
+import { EmptySearch } from "../../../fragment/table/Empty";
 
 const Classes = () => {
     const router = useRouter()
@@ -36,14 +38,38 @@ const Classes = () => {
 
     const add = checkPermission('class_create')
     const [search, setSearch] = useState('')
+
+    if(!classes) {
+        return <TableSkeleton></TableSkeleton>
+    }
+    if(classes?.length === 0) {
+        return (
+            <div className="py-20 flex flex-col items-center justify-center">
+
+                <p className="text-xl font-semibold text-gray-700">Your Classes are Empty</p>
+                <p className="text-gray-500 text-center max-w-md">
+                    It looks like you don't have any scheduled classes right now. Add new classes to fill up your schedule!
+                </p>
+                {add && (
+                    <Link href="/teacher/classes/create">
+                        <button type="button" className="px-5 py-2 bg-white rounded-lg shadow-md">
+                            Add Class
+                        </button>
+                    </Link>
+                )}
+            </div>
+        )     
+    }
+
+    const filteredClasses = classes?.filter(d => d.name.toLowerCase()?.includes(search.toLowerCase()))
+        .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     return (
-        <>
+        <div className="h-full">
             <div className="flex justify-between">
-                {/* yacoob remove back */}
                 {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Classes
                 </h4> */}
-                <div className="flex">
+                <div className="flex mb-2">
                     {(classes?.length > 0) && (<SearchInput value={search} setValue={setSearch} />)}
 
                     {/* {add && (
@@ -54,31 +80,15 @@ const Classes = () => {
                 </div>
             </div>
             <div>
-                <div >
-                    {classes?.length === 0 && (
-                        <div className="py-20 flex flex-col items-center justify-center">
-
-                            <p className="text-xl font-semibold text-gray-700">Your Classes are Empty</p>
-                            <p className="text-gray-500 text-center max-w-md">
-                                It looks like you don't have any scheduled classes right now. Add new classes to fill up your schedule!
-                            </p>
-                            {add && (
-                                <Link href="/teacher/classes/create">
-                                    <button type="button" className="px-5 py-2 bg-white rounded-lg shadow-md">
-                                        Add Class
-                                    </button>
-                                </Link>
-                            )}
-                        </div>
-                    )}
-                </div>
-                {classes?.filter(d => d.name.toLowerCase()?.includes(search.toLowerCase())).sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))?.map((d, index) => (
-                    <ClassCard data={d} key={index} traits={traits} getClasses={getClasses} />
-                ))}
+                {
+                    filteredClasses.length?
+                    filteredClasses?.map((d, index) => (
+                        <ClassCard data={d} key ={index} traits={traits} getClasses={getClasses} />
+                    )):
+                    <EmptySearch searchString={search}  ></EmptySearch>
+                }
             </div>
-
-        </>
-
+        </div>
     )
 }
 

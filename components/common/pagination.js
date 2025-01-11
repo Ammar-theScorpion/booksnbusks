@@ -1,5 +1,4 @@
 import ReactPaginate from "react-paginate";
-import {AiFillCaretLeft, AiFillCaretRight} from "react-icons/ai";
 
 const Pagination = ({pageCount = 1, page, onPageChange}) => {
     return (
@@ -10,16 +9,17 @@ const Pagination = ({pageCount = 1, page, onPageChange}) => {
             nextLabel="next >"
             previousLabel="< previous"
             pageClassName="page-item"
-            pageLinkClassName="page-link"
+            pageLinkClassName="page-link text-primary"
             previousClassName="page-item"
-            previousLinkClassName="page-link"
+            previousLinkClassName="page-link text-primary"
             nextClassName="page-item"
-            nextLinkClassName="page-link"
+            nextLinkClassName="page-link text-primary"
             breakLabel="..."
             breakClassName="page-item"
-            breakLinkClassName="page-link"
+            breakLinkClassName="page-link text-primary"
             containerClassName="pagination"
-            activeClassName="active"
+            activeClassName="text-white"
+            activeLinkClassName="bg-primary !text-white"
             renderOnZeroPageCount={null}            
         />
     )

@@ -1,6 +1,6 @@
 import TeacherLayout from "../../layouts/teacher";
 import ModalForm from "../../components/common/modal_form";
-import { Form } from "antd";
+import { Empty, Form } from "antd";
 import { useMemo, useState } from "react";
 import FormInput from "../../components/form/FormInput";
 import { delTrait, fetchTraits, postTraitAdd, postTraitUpdate } from "../../helpers/backend_helper";
@@ -10,6 +10,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/router";
 import SearchInput from "../../components/form/search";
 import Button from "../../components/form/Button";
+import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
 
 const Virtues = () => {
     const [form] = Form.useForm()
@@ -23,15 +24,7 @@ const Virtues = () => {
         },
         { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
     ]
-    let sort = (a, b) => {
-        if (a.name < b.name) {
-            return -1;
-        }
-        if (a.name > b.name) {
-            return 1;
-        }
-        return 0;
-    }
+ 
 
     const add = checkPermission('virtue_create')
     const router = useRouter()
@@ -43,6 +36,9 @@ const Virtues = () => {
             a.name?.toLowerCase().localeCompare(b.name?.toLowerCase())
         ), [traits, search]);
 
+    if(!traits) {
+        return <TableSkeleton columnCount={4} pagination={false} rowCount={10}/>
+    }
     return (
         <>
             <ModalForm
@@ -60,7 +56,7 @@ const Virtues = () => {
                 <FormInput name="name" label="Name" required />
                 <FormInput name="points" label="Points" type="number" required />
             </ModalForm>
-            {/* yacoob remove h4 */}
+            {/*  h4 */}
             {/* <h4 className="page-title"> Virtues</h4> */}
             <div className="flex justify-between ">
                 <SearchInput value={search} setValue={setSearch} />
@@ -72,29 +68,34 @@ const Virtues = () => {
                     </Button>
                 )}
             </div>
-
-            <Table
-                data={data}
-                getData={getTraits}
-                columns={columns}
-                permission="virtue"
-                actionLabel="Actions"
-                action={(
-                    <Button onClick={() => {
+            {traits?.length ?
+                <Table
+                    data={data}
+                    getData={getTraits}
+                    columns={columns}
+                    permission="virtue"
+                    actionLabel="Actions"
+                    action={(
+                        <Button onClick={() => {
+                            form.resetFields()
+                            setVisible(true)
+                        }}>Add Item
+                        </Button>
+                    )}
+                    onEdit={(values) => {
                         form.resetFields()
+                        form.setFieldsValue({
+                            ...values,
+                        })
                         setVisible(true)
-                    }}>Add Item
-                    </Button>
-                )}
-                onEdit={(values) => {
-                    form.resetFields()
-                    form.setFieldsValue({
-                        ...values,
-                    })
-                    setVisible(true)
-                }}
-                onDelete={delTrait}
-            />
+                    }}
+                    onDelete={delTrait}
+                    searchString={search}
+                />
+                :
+                <Empty />
+            }
+
         </>
     )
 }
