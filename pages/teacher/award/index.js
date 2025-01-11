@@ -9,8 +9,7 @@ import FormInput from "../../../components/form/FormInput";
 import moment from "moment";
 import { useRouter } from "next/router";
 import Button from "../../../components/form/Button";
-import { FiArrowLeft } from "react-icons/fi";
-import Link from "next/link";
+import TableSkeleton from "../../../fragment/skeleton/TableSkeleton";
 
 const Award = () => {
     const [form] = Form.useForm()
@@ -50,6 +49,11 @@ const Award = () => {
         }
     }
 
+    if (!traits || !classes) {
+        return (
+            <TableSkeleton columnCount={3} rowCount={10} pagination={false} />
+        )
+    }
     if (award) {
         return (
             <>
@@ -65,7 +69,7 @@ const Award = () => {
                             <h4 className="page-title">Students - {classNames[key]}</h4>
                             <ul className="p-0">
                                 {selected[key]?.map((select, index) => (
-                                    <li key={index} className="p-3 border-b flex justify-between">
+                                    <li key={index} className="p-3  flex justify-between">
                                         <span
                                             className="text-lg">{students[select]?.first_name} {students[select]?.last_name}</span>
                                         <input type="checkbox" onChange={e => handleStudentSelect(e, select, key)}
@@ -85,7 +89,6 @@ const Award = () => {
         )
     }
 
-    console.log(Object.keys(classNames).length) // space-y-8 p-6
     return (
         (Object.keys(classNames).length === 0) ?
             <>
@@ -110,8 +113,7 @@ const Award = () => {
                 </div>
             </>
             : (
-                <>
-                    {/* yacoob remove back */}
+                <div className="">
                     {/* <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Award</h4> */}
                     <div className="flex justify-between">
                         <div>
@@ -121,22 +123,29 @@ const Award = () => {
                             <Button onClick={() => setAward(true)}>Reward</Button>
                         </div>
                     </div>
-                    <table className="table mt-4">
-                        <thead>
+                    <table className=" mt-4 w-full bg-red-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 pr-3">
                             <tr>
-                                <th>Classes</th>
-                                <th style={{ width: 300 }} className="text-center bg-F8">Select</th>
-                                <th style={{ width: 300 }} className="text-center">Lastccc Awarded</th>
+                                <th className="p-3  w-1/3 ">Classes</th>
+                                <th className="text-center p-3 w-1/4">Select</th>
+                                <th className="text-center p-3 w-1/4">Awards</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody className="bg-black">
+
                             {classes?.map((data, index) => (
-                                <ClassRow data={data} selected={selected} setSelected={setSelected}
-                                    reload={() => setUpdate(!update)} key={index} />
+                                <ClassRow
+                                    data={data}
+                                    selected={selected}
+                                    setSelected={setSelected}
+                                    reload={() => setUpdate(!update)}
+                                    key={index}
+                                />
                             ))}
                         </tbody>
                     </table>
-                </>)
+
+                </div>)
     )
 }
 Award.layout = TeacherLayout
@@ -177,31 +186,43 @@ const ClassRow = ({ data, selected, setSelected, reload }) => {
 
     return (
         <>
-            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" >
-                <td className="font-semibold" role="button" onClick={() => setShow(!show)}>
+            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800  p-3 shadow-md" >
+                <td className="font-semibold p-3" role="button" onClick={() => setShow(!show)}>
                     {show ? <FiChevronDown className="inline-block mr-4" size={20} /> :
                         <FiChevronRight className="inline-block mr-4" size={20} />}
                     {data?.name}
                 </td>
-                <td style={{ width: 300 }} className="text-center">
+                <td className="flex justify-center items-center border-none mt-2 p-3">
+
                     <input type="checkbox" ref={ref} onChange={handleClassSelect} checked={isClassChecked} />
                 </td>
-                <td style={{ width: 300 }}>
+                <td className="p-3">
+                    <span className="w-40 m-auto text-white hover:cursor-pointer bg-gradient-to-r from-indigo-400 to-purple-500 hover:scale-105 transition-all duration-500 flex  justify-center items-start p-2 rounded-lg shadow-md hover:shadow-lg"
+                    >
+                        {data?.students.length} Awards
+                    </span>
 
                 </td>
             </tr>
+
             {show && data?.students?.map((student, index) => (
-                <tr key={index}>
-                    <td style={{ paddingLeft: 40 }}> {student?.first_name} {student?.last_name}</td>
-                    <td style={{ width: 300 }} className="text-center">
-                        <input type="checkbox" onChange={e => handleStudentSelect(e, student)}
-                            checked={selected[data._id]?.includes(student._id) || false} />
+                <tr key={index} className="bg-white shadow-inner ">
+                    <td className="w-1/3 pl-1 p-2"> {student?.first_name} {student?.last_name}</td>
+                    <td className="text-center w-1/4">
+                        <input
+                            type="checkbox"
+                            onChange={(e) => handleStudentSelect(e, student)}
+                            checked={selected[data._id]?.includes(student._id) || false}
+                        />
                     </td>
-                    <td style={{ width: 300 }}>
+                    <td className="w-1/4 text-center">
                         {student?.last_rewarded && moment(student?.last_rewarded).fromNow()}
                     </td>
                 </tr>
             ))}
+
         </>
+
+
     )
 }

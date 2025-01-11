@@ -23,6 +23,7 @@ const Virtues = () => {
             dataIndex: 'name',
         },
         { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
+
     ]
  
 

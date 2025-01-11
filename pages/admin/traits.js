@@ -21,6 +21,7 @@ const Virtues = () => {
             dataIndex: 'name',
         },
         { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
+
     ]
     let sort = (a, b) => {
         if (a.name < b.name) {
