@@ -55,13 +55,13 @@ const Students = () => {
         return <TableSkeleton columnCount={4} pagination={false} rowCount={10}/>
     }
     return (
-        <>
+        <div className="h-full overflow-y-hidden">
+
             {/* first check if there are students */}
             {students?.length ? 
                 <>
 
                     <div className="flex justify-between mb-2">
-                        {/* yacoob remove go back  */}
                         {/* <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
                             onClick={() => router.back()} /> Student Roster</h4> */}
                         <SearchInput value={search} setValue={setSearch} />
@@ -193,94 +193,94 @@ const Students = () => {
                         )}
 
                     </Modal>
-                    {/* then check if the filter matches any thing */}
 
+                    {/* then check if the filter matches any thing */}
                     {filteredStudents.length ? (
 
+                        <div className="bg-white p-3 border shadow-md h-full overflow-y-auto mb-10">
 
-                        <table className="table-auto text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full">
-                            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th className="px-6 py-3">Student Name</th>
-                                    <th className="px-6 py-3">Current Balance</th>
-                                    <th className="px-6 py-3">Guardian's Email</th>
-                                    {(delete_student || award_student) && <th className="px-6 py-3">Award</th>}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                                {filteredStudents.map((data, index) => (
-                                        <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
-                                            <td className="px-6 py-3 flex flex-row">
-                                                {data?.first_name} {data?.last_name}
-                                            </td>
-                                            <td className="px-6 py-3">{data?.points}</td>
-                                            <td className="px-6 py-3 text-primary-600">{data?.guardian_email}</td>
-                                            {(delete_student || award_student) && (
-                                                <td className="px-6 py-3">
-                                                    {award_student && (
-                                                        <FaHistory
-                                                            size={20}
-                                                            className="text-blue-500 inline-block mr-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
-                                                            role="button"
-                                                            onClick={() => {
-                                                                setStudent(data)
-                                                            }} />
-                                                    )}
-                                                    {award_student && (
-                                                        <FiGift
-                                                            size={22}
-                                                            className="text-success inline-block mr-2 shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300"
-                                                            role="button"
-                                                            onClick={() => {
-                                                                form.resetFields()
-                                                                form.setFieldsValue({
-                                                                    student: data._id
-                                                                })
-                                                                setVisible(true)
-                                                            }} />
-                                                    )}
-                                                    {edit_student && (
-                                                        <FiEdit
-                                                            size={22}
-                                                            className="text-success inline-block mr-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
-                                                            role="button"
-                                                            onClick={() => {
-                                                                form2.resetFields()
-                                                                form2.setFieldsValue(data)
-                                                                setVisible2(true)
-                                                            }} />
-                                                    )}
-                                                    {delete_student && (
-                                                        <FiTrash
-                                                            size={22}
-                                                            className="text-danger inline-block hover:scale-105 hover:shadow-lg transition-all duration-300"
-                                                            role="button"
-                                                            onClick={() => {
-                                                                return useActionConfirm(deleteStudent, { _id: data._id }, () => {
-                                                                    getStudents()
-                                                                }, `Are you sure you want to delete ${data?.first_name || ''} ${data?.last_name || ''}? This action can not be undone`, 'Yes, Delete')
-                                                            }} />
-                                                    )}
-
+                            <table className="table-auto text-sm text-gray-500 dark:text-gray-400 w-full">
+                                <thead className="sticky -top-4 shadow-sm text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th className="px-6 py-3">Student Name</th>
+                                        <th className="px-6 py-3">Current Balance</th>
+                                        <th className="px-6 py-3">Guardian's Email</th>
+                                        {(delete_student || award_student) && <th className="px-6 py-3">Award</th>}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredStudents.map((data, index) => (
+                                            <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
+                                                <td className="px-6 py-3 flex flex-row">
+                                                    {data?.first_name} {data?.last_name}
                                                 </td>
-                                            )}
-                                        </tr>
-                                    )) 
-                                }
-                            </tbody>
-                        </table>
+                                                <td className="px-6 py-3">{data?.points}</td>
+                                                <td className="px-6 py-3 text-primary-600">{data?.guardian_email}</td>
+                                                {(delete_student || award_student) && (
+                                                    <td className="px-6 py-3">
+                                                        {award_student && (
+                                                            <FaHistory
+                                                                size={20}
+                                                                className="text-blue-500 inline-block mr-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                                                                role="button"
+                                                                onClick={() => {
+                                                                    setStudent(data)
+                                                                }} />
+                                                        )}
+                                                        {award_student && (
+                                                            <FiGift
+                                                                size={22}
+                                                                className="text-success inline-block mr-2 shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300"
+                                                                role="button"
+                                                                onClick={() => {
+                                                                    form.resetFields()
+                                                                    form.setFieldsValue({
+                                                                        student: data._id
+                                                                    })
+                                                                    setVisible(true)
+                                                                }} />
+                                                        )}
+                                                        {edit_student && (
+                                                            <FiEdit
+                                                                size={22}
+                                                                className="text-success inline-block mr-2 hover:scale-105 hover:shadow-lg transition-all duration-300"
+                                                                role="button"
+                                                                onClick={() => {
+                                                                    form2.resetFields()
+                                                                    form2.setFieldsValue(data)
+                                                                    setVisible2(true)
+                                                                }} />
+                                                        )}
+                                                        {delete_student && (
+                                                            <FiTrash
+                                                                size={22}
+                                                                className="text-danger inline-block hover:scale-105 hover:shadow-lg transition-all duration-300"
+                                                                role="button"
+                                                                onClick={() => {
+                                                                    return useActionConfirm(deleteStudent, { _id: data._id }, () => {
+                                                                        getStudents()
+                                                                    }, `Are you sure you want to delete ${data?.first_name || ''} ${data?.last_name || ''}? This action can not be undone`, 'Yes, Delete')
+                                                                }} />
+                                                        )}
+
+                                                    </td>
+                                                )}
+                                            </tr>
+                                        )) 
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     ) : (
                         <EmptySearch searchString={search} />
                     )
-
                     }
                 </>
 
                 :(
                     <Empty></Empty>                    
                 )}
-            </>
+            </div>
     )
 }
 Students.layout = TeacherLayout
