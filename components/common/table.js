@@ -76,7 +76,8 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                                 }}
                                                 key={index}>{data[column.dataIndex]}</td>
                                         })}
-                                        {noAction || (
+                                        {/* yacoob solve header */}
+                                        {noAction && (
                                             <td >
                                                 <div className="flex justify-end pr-2 gap-1">
                                                     {onEdit && checkPermission(permission + '_edit') && (

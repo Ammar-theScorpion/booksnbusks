@@ -98,7 +98,7 @@ const Award = () => {
                         <tr>
                             <th>Classes</th>
                             <th style={{ width: 300 }} className="text-center bg-F8">Select</th>
-                            <th style={{ width: 300 }} className="text-center">Last Awarded</th>
+                            <th style={{ width: 300 }} className="text-center">Awards</th>
                         </tr>
                     </thead>
                     <tbody>

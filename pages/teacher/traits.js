@@ -22,6 +22,7 @@ const Virtues = () => {
             dataIndex: 'name',
         },
         { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
+
     ]
     let sort = (a, b) => {
         if (a.name < b.name) {
@@ -79,6 +80,7 @@ const Virtues = () => {
                 columns={columns}
                 permission="virtue"
                 actionLabel="Actions"
+                noAction={true}
                 action={(
                     <Button onClick={() => {
                         form.resetFields()
@@ -94,6 +96,7 @@ const Virtues = () => {
                     setVisible(true)
                 }}
                 onDelete={delTrait}
+
             />
         </>
     )
