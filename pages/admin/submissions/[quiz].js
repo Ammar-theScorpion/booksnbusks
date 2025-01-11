@@ -1,23 +1,23 @@
 import AdminLayout from "../../../layouts/admin";
-import {useRouter} from "next/router";
-import {useActionConfirm, useFetch} from "../../../helpers/hooks";
-import {fetchQuiz, fetchSubmissions, postQuiz, submitQuiz} from "../../../helpers/backend_helper";
+import { useRouter } from "next/router";
+import { useActionConfirm, useFetch } from "../../../helpers/hooks";
+import { fetchQuiz, fetchSubmissions, postQuiz, submitQuiz } from "../../../helpers/backend_helper";
 import Table from "../../../components/common/table";
 import moment from "moment";
-import {useState} from "react";
-import {Form} from "antd";
+import { useState } from "react";
+import { Form } from "antd";
 import FormInput from "../../../components/form/FormInput";
 
 const Submissions = () => {
     const router = useRouter()
     const [form] = Form.useForm()
-    const [quiz, getQuiz] = useFetch(fetchQuiz, {_id: router.query.quiz})
-    const [submissions, getSubmissions] = useFetch(fetchSubmissions, {quiz: router.query.quiz})
+    const [quiz, getQuiz] = useFetch(fetchQuiz, { _id: router.query.quiz })
+    const [submissions, getSubmissions] = useFetch(fetchSubmissions, { quiz: router.query.quiz })
     const [submission, setSubmission] = useState()
     let columns = [
-        {label: 'Student', dataIndex: 'student', formatter: data => <>{data?.first_name} {data?.last_name}</>},
-        {label: 'Submission Time', dataIndex: 'date', formatter: data => moment(data).format('MMM, Do YYYY hh:mm A')},
-        {label: 'Grade', dataIndex: 'grade'},
+        { label: 'Student', dataIndex: 'student', formatter: data => <>{data?.first_name} {data?.last_name}</> },
+        { label: 'Submission Time', dataIndex: 'date', formatter: data => moment(data).format('MMM, Do YYYY hh:mm A') },
+        { label: 'Grade', dataIndex: 'grade' },
         {
             label: '',
             dataIndex: '_id',
@@ -33,7 +33,7 @@ const Submissions = () => {
     ]
 
     const handleMarkUpdate = values => {
-        return useActionConfirm(submitQuiz, {...values, submission: submission._id}, () => {
+        return useActionConfirm(submitQuiz, { ...values, submission: submission._id }, () => {
             getSubmissions()
             setSubmission(undefined)
         }, 'Are you sure submit the result?', 'Yes, Submit')
@@ -55,7 +55,7 @@ const Submissions = () => {
                                     {question?.options?.map((option, index2) => (
                                         <li className="flex items-center mb-2" key={index2}>
                                             <input type="radio" name={'answer' + index} className="mr-2"
-                                                   checked={submission.answers[index] === index2} readOnly/>
+                                                checked={submission.answers[index] === index2} readOnly />
                                             <span
                                                 className={"text-xl " + (+question.answer === index2 ? 'text-blue-700 font-bold' : 'font-medium')}>{option}</span>
                                         </li>
@@ -67,8 +67,8 @@ const Submissions = () => {
                                     {question?.options?.map((option, index2) => (
                                         <li className="flex items-center mb-2" key={index2}>
                                             <input type="checkbox" name={'answer' + index} className="mr-2"
-                                                   checked={submission.answers[index]?.includes(index2)} readOnly/>
-                                            <span  className={"text-xl " + (+question.answer?.includes(index2) ? 'text-blue-700 font-bold' : 'font-medium')}>{option}</span>
+                                                checked={submission.answers[index]?.includes(index2)} readOnly />
+                                            <span className={"text-xl " + (+question.answer?.includes(index2) ? 'text-blue-700 font-bold' : 'font-medium')}>{option}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -91,8 +91,8 @@ const Submissions = () => {
                             <div className="w-36 flex items-center mb-4">
                                 <h6>Points: </h6>
                                 <Form.Item name={['points', index]} className="mb-2"
-                                           initialValue={isSameAnswer(question?.answer, submission.answers[index]) ? question?.points : 0}>
-                                    <input type="number" className="form-control text-center ml-2"/>
+                                    initialValue={isSameAnswer(question?.answer, submission.answers[index]) ? question?.points : 0}>
+                                    <input type="number" className="form-control text-center ml-2" />
                                 </Form.Item>
                             </div>
                         </div>
@@ -106,11 +106,11 @@ const Submissions = () => {
                             }}
                         </Form.Item>
                         <div className="w-44">
-                            <FormInput name="grade" label="Grade" placeholder="Eg. A+, A, A-, B+" required/>
+                            <FormInput name="grade" label="Grade" placeholder="Eg. A+, A, A-, B+" required />
                         </div>
                         <button className="btn-primary mt-2 rounded-lg mr-3">Save</button>
                         <button className="btn-primary mt-2 rounded-lg" type="button"
-                                onClick={() => setSubmission(undefined)}>Cancel
+                            onClick={() => setSubmission(undefined)}>Cancel
                         </button>
                     </div>
                 </Form>
@@ -121,7 +121,7 @@ const Submissions = () => {
     return (
         <>
             <h4 className="page-title">Submissions - {quiz?.title}</h4>
-            <Table columns={columns} data={submissions} noAction/>
+            <Table columns={columns} data={submissions} noAction />
         </>
     )
 }

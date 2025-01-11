@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import SearchInput from "../../components/form/search";
 import { forEach } from "react-bootstrap/ElementChildren";
 import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
-import {Empty, EmptySearch } from "../../fragment/table/Empty";
+import { Empty, EmptySearch } from "../../fragment/table/Empty";
 
 const Roster = () => {
     const router = useRouter()
@@ -45,11 +45,11 @@ const Roster = () => {
         return `${formattedHour}:${minute} ${suffix}`;
     };
 
-    useEffect(()=> {
-        if(search) {
-            const filteredTeachers = teachers.filter((teacher)=>teacher.name.toLowerCase().includes(search.toLowerCase()));
+    useEffect(() => {
+        if (search) {
+            const filteredTeachers = teachers.filter((teacher) => teacher.name.toLowerCase().includes(search.toLowerCase()));
             setFilteredTeachers(filteredTeachers);
-        }else {
+        } else {
             setFilteredTeachers(teachers);
         }
     }, [search, teachers]);
@@ -98,7 +98,7 @@ const Roster = () => {
                                                     {classData.classInstance.map((instance, index) => (
                                                         <div
                                                             key={index}
-                                                            onClick={() => router.push('/teacher/classes/' + instance._id)}
+                                                            onClick={() => router.push(`/teacher/classes/${instance._id}`)}
                                                             className="hover:cursor-pointer bg-gradient-to-r from-indigo-400 to-purple-500 hover:scale-105 transition-all duration-500 flex flex-col justify-center items-start p-2 rounded-lg shadow-md hover:shadow-lg"
                                                         >
                                                             {/* Class Name */}
@@ -119,16 +119,16 @@ const Roster = () => {
                                         </tr>
                                     ))
                                 }
-                            
 
-                        </tbody>
+
+                            </tbody>
                         </table>
                     ) : (
                         <EmptySearch searchString={search} />
                     )}
                 </>
-            :
-            <Empty></Empty>
+                :
+                <Empty></Empty>
             }
         </>
     )
