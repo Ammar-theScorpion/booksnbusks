@@ -9,7 +9,7 @@ const axiosApi = axios.create({
         if (status === 404 || status === 401) {
             let pathName = window.location.pathname
             if (pathName?.indexOf('/student') === 0 || pathName?.indexOf('/teacher') === 0) {
-                window.location.replace ('/');
+                window.location.replace('/');
             }
         }
         console.log(status)
@@ -24,8 +24,8 @@ axiosApi.interceptors.response.use(
 
 export async function get(url, data, config = {}) {
     axiosApi.defaults.headers.common["Authorization"] = `Authorization ${localStorage.getItem('token') ?? ''}`
-    return await axiosApi.get(url, {...config, params: {school: localStorage.getItem('currentSchool'), ...data}}).then(response => response.data)
-   
+    return await axiosApi.get(url, { ...config, params: { school: localStorage.getItem('currentSchool'), ...data } }).then(response => response.data)
+
     /*
     try{
         
@@ -38,9 +38,8 @@ export async function get(url, data, config = {}) {
 }
 
 export async function post(url, data, config = {}) {
-    console.log(data)
     axiosApi.defaults.headers.common["Authorization"] = `Authorization ${localStorage.getItem('token') ?? ''}`
-    return await axiosApi.post(url, data, {...config, params: {school: localStorage.getItem('currentSchool')}}).then(response => response.data)
+    return await axiosApi.post(url, data, { ...config, params: { school: localStorage.getItem('currentSchool') } }).then(response => response.data)
 
     /*try {
         axiosApi.defaults.headers.common["Authorization"] = `Authorization ${localStorage.getItem('token') ?? ''}`
@@ -55,14 +54,14 @@ export async function post(url, data, config = {}) {
 export async function put(url, data, config = {}) {
     axiosApi.defaults.headers.common["Authorization"] = `Authorization ${localStorage.getItem('token') ?? ''}`
     return axiosApi
-        .put(url, {...data}, {...config})
+        .put(url, { ...data }, { ...config })
         .then(response => response.data)
 }
 
 export async function del(url, data, config = {}) {
     axiosApi.defaults.headers.common["Authorization"] = `Authorization ${localStorage.getItem('token') ?? ''}`
     return await axiosApi
-        .delete(url, {...config, params: {school: localStorage.getItem('currentSchool'), ...data}})
+        .delete(url, { ...config, params: { school: localStorage.getItem('currentSchool'), ...data } })
         .then(response => response.data)
 }
 

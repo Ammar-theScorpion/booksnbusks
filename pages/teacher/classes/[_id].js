@@ -18,8 +18,9 @@ import DaysInput from "../../../components/form/DaysInput";
 import TimeRange from "../../../components/form/TimeRange";
 import FormSelect from "../../../components/form/FormSelect";
 import Link from "next/link";
-import { FiArrowLeft, FiChevronLeft } from "react-icons/fi";
+import { FiArrowLeft, FiChevronLeft, FiEdit, FiTrash2 } from "react-icons/fi";
 import SearchInput from "../../../components/form/search";
+import TableSkeleton from "../../../fragment/skeleton/TableSkeleton";
 
 const Class = () => {
     const router = useRouter()
@@ -55,80 +56,173 @@ const Class = () => {
     const [traits] = useFetch(fetchTraits)
     const [search, setSearch] = useState('')
     console.log(data?.time?.start, data?.time?.end);
-
+    if (!traits || !data || !students || !teachers) {
+        return <TableSkeleton columnCount={4} pagination={false} rowCount={10} />
+    }
     if (update) {
         return (
             <>
-                <div>
-                    <h4 className="font-22 font-semibold"><FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Edit Class</h4>
-                    <hr className="bg-C4" />
+                <div className="bg-gray-50 shadow-lg rounded-xl p-8 max-w-3xl mx-auto">
+                    {/* Header Section */}
+                    <div className="flex items-center mb-8">
+                        <FiArrowLeft
+                            className="text-gray-700 hover:text-blue-600 cursor-pointer mr-3"
+                            size={24}
+                            onClick={() => setUpdate(false)}
+                        />
+                        <h4 className="text-2xl font-semibold text-gray-800">Edit Class</h4>
+                    </div>
+                    <hr className="border-gray-300 mb-8" />
+
+                    {/* Form Section */}
                     <Form form={form} layout="vertical" onFinish={handleUpdate}>
                         <HiddenFormItem name="_id" />
-                        <FormInput name="name" label="Class Name"
-                            placeholder="Enter class name (i.e. ITP 348 Intro to Web Development)" required />
-                        <FormInput name="section" label="Section" placeholder="Enter section" />
-                        <DaysInput name="days" label="Day(s)" required />
-                        <TimeRange name="time" label="Time" required />
+
+                        <FormInput
+                            name="name"
+                            label="Class Name"
+                            placeholder="Enter class name (e.g., ITP 348 Intro to Web Development)"
+                            required
+                            className="mb-6"
+                        />
+                        <FormInput
+                            name="section"
+                            label="Section"
+                            placeholder="Enter section"
+                            className="mb-6"
+                        />
+                        <DaysInput
+                            name="days"
+                            label="Day(s)"
+                            required
+                            className="mb-6"
+                        />
+                        <TimeRange
+                            name="time"
+                            label="Time"
+                            required
+                            className="mb-6"
+                        />
+
+                        {/* Instructor Selector */}
                         <FormSelect
                             name="instructors"
                             label="Instructors"
                             initialValue={[]}
-                            options={teachers?.map(teacher => ({
+                            options={teachers?.map((teacher) => ({
                                 label: `${teacher?.first_name} ${teacher?.last_name}`,
-                                value: teacher?._id
+                                value: teacher?._id,
                             }))}
-                            isMulti search />
-                        <div className="area-select">
-                            <FormSelect
-                                name="students"
-                                label="Students"
-                                placeholder="Enter students"
-                                initialValue={[]}
-                                options={students?.map(student => ({
-                                    label: `${student?.first_name} ${student?.last_name}`,
-                                    value: student?._id
-                                }))}
-                                isMulti search />
-                        </div>
-                        <div className="mt-4">
-                            <button className="btn btn-primary mr-4">Save</button>
-                            <a className="btn btn-secondary" onClick={() => setUpdate(false)}>Cancel</a>
+                            isMulti
+                            search
+                            className="mb-6"
+                        />
+
+                        {/* Student Selector */}
+                        <FormSelect
+                            name="students"
+                            label="Students"
+                            placeholder="Enter students"
+                            initialValue={[]}
+                            options={students?.map((student) => ({
+                                label: `${student?.first_name} ${student?.last_name}`,
+                                value: student?._id,
+                            }))}
+                            isMulti
+                            search
+                            className="area-select">
+                        </FormSelect>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between gap-4 ">
+                            <button className="btn-primary px-6 py-3 rounded-lg font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg transition-all duration-200">
+                                Save
+                            </button>
+                            <button
+                                className="btn-secondary px-6 py-3 rounded-lg font-semibold text-gray-700 bg-gray-300 hover:bg-gray-400 shadow-sm transition-all duration-200"
+                                onClick={() => setUpdate(false)}
+                                type="button"
+                            >
+                                Cancel
+                            </button>
                         </div>
                     </Form>
                 </div>
             </>
-        )
+        );
     }
+
+
+
 
     return (
         <>
             <div className="flex justify-between">
                 <div>
-                    <FiArrowLeft size={28} onClick={() => router.push('/teacher/classes')} role="button"
+                    <FiArrowLeft size={28} onClick={() => router.back()} role="button"
                         className="mb-3" />
                     <h4 className="page-title">{data?.name}</h4>
                     <p className="text-lg">{data?.section}</p>
                 </div>
                 <div>
-                    {edit && <button className="btn-primary font-semibold rounded-lg w-36" onClick={handleEdit}>Edit
-                        Class</button>}
+                    {edit && (
+                        <button
+                            className="bg-white font-semibold rounded-lg w-36 ml-4 py-2 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-300"
+                            onClick={handleEdit}
+                        >
+                            <span className="flex items-center justify-center">
+                                <FiEdit className="mr-2" size={18} />
+                                Edit Class
+                            </span>
+
+                        </button>
+                    )}
+
                     {deletePermission &&
-                        <button className="btn-primary font-semibold rounded-lg w-36 ml-4" onClick={() => {
-                            return useActionConfirm(delClass, { _id: data._id }, () => {
-                                return router.push('/teacher/classes')
-                            }, 'Are you sure you want to delete this class? This action cannot be undone.', 'Yes, Delete')
-                        }}>Delete
-                            Class</button>}
+                        <button
+                            className="bg-white font-semibold rounded-lg w-36 ml-4 py-2 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-300"
+                            onClick={() => {
+                                return useActionConfirm(
+                                    delClass,
+                                    { _id: data._id },
+                                    () => {
+                                        return router.push('/teacher/classes');
+                                    },
+                                    'Are you sure you want to delete this class? This action cannot be undone.',
+                                    'Yes, Delete'
+                                );
+                            }}
+                        >
+                            <span className="flex items-center justify-center">
+                                <FiTrash2 className="mr-2" size={18} />
+                                Delete Class
+                            </span>
+                        </button>
+                    }
                 </div>
             </div>
             <div>
-                <p className="text-lg mb-0">{data?.days?.map((day, index) => `${index > 0 ? ', ' : ''}${day}`)}</p>
-                <p className="text-lg mb-0">{moment(data?.time?.start, 'HH:mm').format('hh:mm a')} -&nbsp;
-                    {moment(data?.time?.end, 'HH:mm').format('hh:mm a')}
+                <p className="text-lg mb-0">
+                    {data?.days?.map((day, index) => (
+                        <span key={index} className="p-2 shadow-md bg-white rounded-md mr-2">
+
+                            {day}
+                        </span>
+                    ))}
                 </p>
+                <p className="text-lg mb-0 flex items-center space-x-2 mt-4">
+                    <span className="px-3 py-1 bg-indigo-50 text-indigo-600 font-medium rounded-md shadow">
+                        {moment(data?.time?.start, 'HH:mm').format('hh:mm a')}
+                    </span>
+                    <span className="text-gray-500 font-semibold">to</span>
+                    <span className="px-3 py-1 bg-indigo-50 text-indigo-600 font-medium rounded-md shadow">
+                        {moment(data?.time?.end, 'HH:mm').format('hh:mm a')}
+                    </span>
+                </p>
+
             </div>
             {data?.instructors.length ? (
-                <div className="table-responsive mt-4">
+                <div className="mt-4 h-screen">
                     <table className="table mt-2 text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
@@ -147,12 +241,12 @@ const Class = () => {
                         </tbody>
                     </table>
                 </div>
-                ) : (
-                    <h5> No Instructors for this class</h5>
-                )
+            ) : (
+                <h5> No Instructors for this class</h5>
+            )
             }
 
-            <div className="table-responsive mt-4">
+            <div className=" mt-4">
                 <SearchInput value={search} setValue={setSearch} />
 
                 <table className="table mt-2 text-sm text-gray-500 dark:text-gray-400 overflow-y-auto w-full ">

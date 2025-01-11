@@ -22,17 +22,31 @@ const Quiz = () => {
         )
     }
 
-
+    // enhance table design
     let columns = [
-        { label: 'Title', dataIndex: 'title', formatter: nameFormat, minWidth: 150, className: "hover:bg-gray-100 cursor-pointer", onClick: data => router.push('/teacher/quiz/' + data._id) },
-
+        {
+            label: 'Title',
+            dataIndex: 'title',
+            formatter: (_, data) => (
+                <p
+                    role="button"
+                    className="text-sm font-semibold text-blue-600 hover:underline cursor-pointer"
+                    onClick={() => router.push('/teacher/quiz/' + data._id)}
+                >
+                    {data?.title}
+                </p>
+            ),
+            minWidth: 150,
+            className: "hover:bg-gray-100",
+        }
+        ,
         {
             label: 'Assigned to',
             dataIndex: 'classes',
             formatter: data => (
                 <>
                     {data?.map((item, index) => (
-                        <span key={index} className="tag-white">
+                        <span key={index} className="tag-white mb-2">
                             {item?.name}
                         </span>
                     ))}
@@ -45,17 +59,17 @@ const Quiz = () => {
             formatter: (_, data) => (
                 <>
                     <div className="flex items-center space-x-2 text-gray-700  p-4 ">
-                        <span className="text-sm font-medium text-blue-600">
+                        <span className="text-sm font-medium text-blue-600 whitespace-nowrap" >
                             {moment(data.submission_start)?.format('MMM, Do')}
                         </span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-500 whitespace-nowrap">
                             {moment(data.submission_start)?.format('h:mm A')}
                         </span>
                         <span className="mx-2 text-gray-800 font-semibold">To</span>
-                        <span className="text-sm font-medium text-blue-600">
+                        <span className="text-sm font-medium text-blue-600 whitespace-nowrap">
                             {moment(data.submission_end)?.format('MMM, Do')}
                         </span>
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-gray-500 whitespace-nowrap">
                             {moment(data.submission_end)?.format('h:mm A')}
                         </span>
                     </div>
@@ -67,10 +81,16 @@ const Quiz = () => {
             dataIndex: '_id',
             formatter: data => (
                 <Link href={'/teacher/submissions/' + data}>
-                    <FaEye />
+                    <a
+                        className="p-2 rounded-full text-blue-500 hover:text-white hover:bg-blue-500 transition duration-200 flex items-center justify-center"
+                        title="View Submissions"
+                    >
+                        <FaEye className="w-5 h-5" />
+                    </a>
                 </Link>
-            )
-        }, ,
+            ),
+        }
+        ,
         //{label: 'Delete', dataIndex: '_id', onClick: data => delQuiz(data._id), className: "btn-primary rounded-lg"}
     ]
 

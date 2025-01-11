@@ -259,17 +259,17 @@ export const NavItem = ({ itemIndex, href, label, icon: Icon, onClick, childHref
 
     return (
         <li>
-            <Link href={href || '#!'} className="flex-1">
+            <Link href={href || '#!'} className="flex-1" >
                 {/* <a onClick={handleClick}
                     className={router.pathname === href || router.pathname === href + /[_id] || childHrefs?.includes(router.pathname) ? 'active' : ''}>
                     <Icon size={18} /> <span>{label}</span>
                 </a> */}
 
 
-                {/*yacob solve no active bar problem when go to another page or refresh */}
+                {/*yacob add childHref */}
                 <a
                     className={` 
-                    ${router.pathname === href || router.pathname === href + `/[_id]` ? 'bg-primary-primary text-white' : ''} 
+                    ${router.pathname === href || router.pathname === href + `/[_id]` || childHrefs?.includes(router.pathname) ? 'bg-primary-primary text-white' : ''} 
                     flex h-full items-center p-2 text-dark rounded-lg no-underline 
                     hover:bg-primary-800 dark:hover:bg-primary-100 
                     transition-all duration-300 hover:text-white

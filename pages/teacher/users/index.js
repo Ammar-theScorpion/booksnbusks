@@ -33,17 +33,18 @@ const Users = () => {
             label: "Last Login",
             dataIndex: 'last_login',
             formatter: d => !!d ? (
-                <>
-                    <span className="text-sm font-medium text-blue-600">
+                <div className="flex w-full">
+                    {/* fix wrap  problem in date*/}
+                    <span className="inline-flex text-sm font-medium text-blue-600  px-2 whitespace-nowrap min-w-[115px]">
                         {moment(d).format("ddd, MMM Do")}
                     </span>
-                    <span className="mx-2 text-gray-800 font-semibold">At</span>
+                    <span className="mr-2 text-gray-800 font-bold ">At</span>
 
 
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm font-medium  text-blue-600   whitespace-nowrap">
                         {moment(d)?.format('h:mm A')}
                     </span>
-                </>
+                </div>
             ) : '-'
         }
     ]
@@ -63,8 +64,8 @@ const Users = () => {
                     <Button>Add User</Button>
                 </Link>
             </div>
-            
-            
+
+
             <Table
                 data={teachers?.filter(d => `${d?.first_name} ${d?.last_name}`.toLowerCase().includes(search.toLowerCase())).sort((a, b) => a?.last_name?.toLowerCase()?.localeCompare(b?.last_name?.toLowerCase()))}
                 columns={columns}

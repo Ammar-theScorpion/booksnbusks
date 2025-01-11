@@ -36,7 +36,7 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                 <thead className="sticky -top-4 shadow-sm text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr className="">
                                         {columns?.map((column, index) => (
-                                            <th key={index} className="w-1/3 px-6 py-3">
+                                            <th key={index} className="w-1/3 px-6 py-3 whitespace-nowrap">
                                                 {column.label}
                                             </th>
                                         ))}
@@ -48,7 +48,7 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                         <tr className=" odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700" key={index}>
                                             {columns?.map((column, index) => {
                                                 if (column.formatter) {
-                                                    return <td key={index} className="px-6 py-3 "
+                                                    return <td key={index} className="px-6 py-3 whitespace-nowrap"
                                                         onClick={() => {
                                                             if (column.onClick) {
                                                                 column.onClick(data)

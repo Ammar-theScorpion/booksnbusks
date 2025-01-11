@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
-import swalAlert, {swalLoading} from "../components/common/alert";
-import {useRouter} from "next/router";
-import {notification, Spin} from 'antd'
+import { useEffect, useState } from 'react';
+import swalAlert, { swalLoading } from "../components/common/alert";
+import { useRouter } from "next/router";
+import { notification, Spin } from 'antd'
 import swal from 'sweetalert2'
-import {useUserContext} from "../contexts/user";
+import { useUserContext } from "../contexts/user";
 
 export const useFetch = (func, query = {}, load = true) => {
     const router = useRouter()
@@ -25,8 +25,8 @@ export const useFetch = (func, query = {}, load = true) => {
     const getData = (query) => {
         setLoading(true)
         setError(false)
-        setParams({...params, ...query})
-        func({...params, ...query}).then(({error, data, msg}) => {
+        setParams({ ...params, ...query })
+        func({ ...params, ...query }).then(({ error, data, msg }) => {
             setLoading(false)
             if (error === false) {
                 setData(data)
@@ -40,81 +40,68 @@ export const useFetch = (func, query = {}, load = true) => {
             console.log(e)
         })
     }
-    return [data, getData, {query: params, loading, error, errorMessage}];
+    return [data, getData, { query: params, loading, error, errorMessage }];
 }
 
 
-export const useAction = (func, data, reload, alert = true) => {
-    const [isLoading, setLoading] = useState(false);
-    const executeAction = async () => {
-        if (!func) return;
+export const useAction = async (func, data, reload, alert = true) => {
+    const key = "loadingNotification";
+    notification.open({
+        key,
+        message: "Processing",
+        description: "Please wait while the action is being executed...",
+        icon: <Spin />,
+        duration: 0,
+    });
 
-        // Use Ant Design notification with a dynamic key
-        const key = "loadingNotification";
-        notification.open({
-            key,
-            message: "Processing",
-            description: "Please wait while the action is being executed...",
-            icon: <Spin />,
-            duration: 0,
-        });
 
-        setLoading(true);
+    try {
+        const { error, msg } = await func(data);
 
-        try {
-            const { error, msg } = await func(data);
-
-            if (!error) {
-                if (reload) reload();
-                if (alert) {
-                    notification.success({
-                        key,
-                        message: "Success",
-                        description: msg,
-                        duration: 3,
-                    });
-                } else {
-                    notification.close(key);
-                }
-            } else {
-                notification.error({
+        if (!error) {
+            if (reload) reload();
+            if (alert) {
+                notification.success({
                     key,
-                    message: "Error",
+                    message: "Success",
                     description: msg,
                     duration: 3,
                 });
+            } else {
+                notification.close(key);
             }
-        } catch (err) {
-            console.error(err);
+        } else {
             notification.error({
                 key,
                 message: "Error",
-                description: "An unexpected error occurred.",
+                description: msg,
                 duration: 3,
             });
         }
-    };
-
-    useEffect(() => {
-        executeAction();
-    }, [func, data]);
-
-    return isLoading;
+    } catch (err) {
+        console.error(err);
+        notification.error({
+            key,
+            message: "Error",
+            description: "An unexpected error occurred.",
+            duration: 3,
+        });
+    }
 };
 
 export const useActionConfirm = async (func, data, reload, message, confirmText) => {
-    const {isConfirmed} = await swalAlert.confirm(message, confirmText)
+    const { isConfirmed } = await swalAlert.confirm(message, confirmText)
     if (isConfirmed) {
         //swalLoading()
-        const {error, msg} = await func(data)
+        const { error, msg } = await func(data)
         //swal.close()
         if (error === false) {
             if (reload) {
                 reload()
             }
-            await notification.success({message: "Success", description: msg})
+            await notification.success({ message: "Success", description: msg })
         } else {
-            await notification.error({message: "Error", description: msg})
+            await notification.error({ message: "Error", description: msg })
         }
     }
 }
@@ -159,7 +146,7 @@ export const signOut = async router => {
 
 export const checkPermission = (permission, admin = false) => {
     const [state, setState] = useState(false)
-    const {permission: rolePermissions, role, admin: isAdmin} = useUserContext()
+    const { permission: rolePermissions, role, admin: isAdmin } = useUserContext()
     useEffect(() => {
         if (role) {
             if (role === 'admin') {

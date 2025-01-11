@@ -4,7 +4,7 @@ const SearchInput = ({ value, setValue }) => {
 
         //yacoob  inhance seacrh input desingn
 
-        <div className="relative h-full w-96 bg-gray-100 rounded-lg shadow-md  ">
+        <div className="relative  w-96 bg-gray-100 rounded-lg shadow-md  ">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 h-full">
                 <svg className="w-4 h-full text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
