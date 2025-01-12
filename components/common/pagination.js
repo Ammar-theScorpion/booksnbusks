@@ -7,8 +7,8 @@ const Pagination = ({ pageCount = 1, page, onPageChange }) => {
             forcePage={page - 1}
             onPageChange={({ selected }) => onPageChange && onPageChange(selected + 1)}
             pageCount={pageCount}
-            nextLabel="Next →"
-            previousLabel="← Previous"
+            nextLabel="→"
+            previousLabel="←"
             pageClassName="inline-block mx-1"
             pageLinkClassName="px-4 py-2 rounded-full bg-red-500 text-white font-semibold no-underline hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
             previousClassName="inline-block mx-2"

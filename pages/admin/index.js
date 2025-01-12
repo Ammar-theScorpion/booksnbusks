@@ -8,11 +8,12 @@ import { Select } from "antd";
 import { useEffect, useState } from "react";
 import { DateRange } from 'react-date-range';
 import Link from "next/link";
+import Card from "../../fragment/layout/dashboard/Card";
 
 const Home = () => {
     const router = useRouter()
     const [schools] = useFetch(getSchools)
-    const [dashboard, getDashboard] = useFetch(fetchDashboard, {}, false)
+    const [dashboard, getDashboard, { loading } ] = useFetch(fetchDashboard, {}, false)
     const [school, setSchool] = useState()
     const [date, setDate] = useState(
         {
@@ -28,13 +29,22 @@ const Home = () => {
             start: moment(date?.startDate).startOf('day').toDate(),
             end: moment(date?.endDate)?.endOf('day').toDate()
         })
-    }, [school, date])
+    }, [school, date]);
 
+
+    const totalItems = [
+        { title: 'Total Award Points', value: dashboard?.points, icon: <FaGift size={24} />,  style: 'flex-1' },
+        { title: 'Student Awarded', value: dashboard?.students || 0, icon: <FaUsers  size={24} />,  style: 'flex-1' },
+        { title: 'Product Purchased', value: dashboard?.products || 0, icon: <FaShoppingBag size={24} />,  style: 'flex-1' },
+        { title: 'Total User Logged In', value: dashboard?.logins || 0, icon: <FaUserCog size={24} />,  style: 'flex-1' },
+    ]
+
+    const items = [
+    ]
     console.log("dashboard", dashboard)
     return (
         <>
             <div className="flex justify-between mb-2">
-                <h5>Dashboard</h5>
                 <div className="flex items-center">
                     <Select
                         allowClear
@@ -46,43 +56,45 @@ const Home = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="col-md-7 col-lg-8">
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="card-counter primary">
-                                <FaGift size={32} className="m-3" />
-                                <span className="count-numbers">{dashboard?.points || 0}</span>
-                                <span className="count-name">Total Award Points</span>
-                            </div>
-                        </div>
+                
 
-                        <div className="col-md-6">
-                            <div className="card-counter info">
-                                <FaUsers size={32} className="m-3" />
-                                <span className="count-numbers">{dashboard?.students || 0}</span>
-                                <span className="count-name">Student Awarded</span>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="card-counter success">
-                                <FaShoppingBag size={32} className="m-3" />
-                                <span className="count-numbers">{dashboard?.products || 0}</span>
-                                <span className="count-name">Product Purchased</span>
-                            </div>
-                        </div>
-
-                        <div className="col-md-6">
-                            <Link href={"/admin/sessions"}>
-                                <div className="card-counter success" role="button">
-                                    <FaUserCog size={32} className="m-3" />
-                                    <span className="count-numbers">{dashboard?.logins || 0}</span>
-                                    <span className="count-name">Total User Logged In</span>
+                    <div className="col-md-7 col-lg-8">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div className="card-counter primary">
+                                    <FaGift size={32} className="m-3" />
+                                    <span className="count-numbers">{dashboard?.points || 0}</span>
+                                    <span className="count-name">Total Award Points</span>
                                 </div>
-                            </Link>
-                        </div>
+                            </div>
 
+                            <div className="col-md-6">
+                                <div className="card-counter info">
+                                    <FaUsers size={32} className="m-3" />
+                                    <span className="count-numbers">{dashboard?.students || 0}</span>
+                                    <span className="count-name">Student Awarded</span>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="card-counter success">
+                                    <FaShoppingBag size={32} className="m-3" />
+                                    <span className="count-numbers">{dashboard?.products || 0}</span>
+                                    <span className="count-name">Product Purchased</span>
+                                </div>
+                            </div>
+
+                            <div className="col-md-6">
+                                <Link href={"/admin/sessions"}>
+                                    <div className="card-counter success" role="button">
+                                        <FaUserCog size={32} className="m-3" />
+                                        <span className="count-numbers">{dashboard?.logins || 0}</span>
+                                        <span className="count-name">Total User Logged In</span>
+                                    </div>
+                                </Link>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
                 <div className="col-md-5 col-lg-4">
                     <DateRange
                         editableDateInputs={true}
