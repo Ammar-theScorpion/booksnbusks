@@ -151,8 +151,8 @@ const Store = () => {
                     </div>
                 </Modal.Body>
             </Modal>
-            <div
-                className="bg-white px-8 py-4 md:h-32 flex flex-wrap justify-content-between items-center rounded-lg shadow-sm mb-8">
+            {/* enhance design */}
+            <div className="flex justify-between bg-white p-6 rounded-lg shadow-md items-center mt-8 hover:shadow-xl transition-all mb-5">
                 <img className="h-24" src="/images/hello.svg" alt="" />
                 <div className="flex flex-wrap justify-center items-center">
                     <h2 className="mr-12 text-3xl my-2">You have</h2>
@@ -160,64 +160,69 @@ const Store = () => {
                     <h2 className="font-bold px-2 text-primary text-4xl mb-0">{user?.points}</h2>
                 </div>
             </div>
-            {
-                loading ? (
+            <>
+                {/* fix loading problem  */}
+                {loading ? (
                     <div className="flex justify-center items-center" style={{ height: '50vh' }}>
                         <Loading />
                     </div>
-                ) : (
-                    <>
-                        <Row>
-                            {products?.docs?.map((product, index) => (
 
-                                <Col xxl={3} lg={4} md={6} key={index}>
-                                    {console.log(product)}
+                ) :
 
-                                    <div className="bg-white p-6 rounded-lg w-full mb-6">
-                                        <div className="h-32 text-center mb-4">
-                                            <img src={product.image} className="inline-block"
-                                                style={{ maxHeight: '100%' }} alt="" />
-                                        </div>
-                                        <div className="h-14 mb-2">
-                                            <h6 className="font-semibold truncate">{product?.name}</h6>
-                                            <h6 className="font-semibold">{product?.cost} Points</h6>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <div>
-                                                {user?.cart?.find(d => d._id === product._id) ? (
-                                                    <div className="flex items-center">
-                                                        <FiMinusCircle role="button" size={20} onClick={() => user.addToCart(product, -1)} />
-                                                        <span className="mb-0 text-primary pointer-events-none font-bold px-2">{user?.cart?.find(d => d._id === product._id)?.quantity}</span>
-                                                        <FiPlusCircle role="button" size={20} onClick={() => user.addToCart(product, 1)} />
-                                                    </div>
-                                                ) : (
-                                                    <Button className="btn-sm" onClick={() => user.addToCart(product, 1)}>Add To Cart</Button>
+                    <Row>
+                        {products?.docs?.map((product, index) => (
 
-                                                )}
+                            <Col xxl={3} lg={4} md={6} key={index}>
+                                {console.log(product)}
 
-                                            </div>
-                                            {user.isWishlist(product._id) ? (
-                                                <BsHeartFill className="text-primary" size={20} role={"button"}
-                                                    onClick={() => setWish({ ...product, wishlist: true })} />
-                                            ) : (
-                                                <BsSuitHeart size={20} role={"button"}
-                                                    onClick={() => setWish(product)} />
-                                            )}
-                                        </div>
+                                <div className="bg-white p-6 rounded-lg w-full mb-6">
+                                    <div className="h-32 text-center mb-4">
+                                        <img src={product.image} className="inline-block"
+                                            style={{ maxHeight: '100%' }} alt="" />
                                     </div>
-                                </Col>
-                            ))}
-                        </Row>
-                        <div className="text-center">
-                            <Pagination
-                                pageCount={products?.totalPages || 1}
-                                page={products?.page || 1}
-                                onPageChange={(page) => getProducts(page, size)}
-                            />
-                        </div>
-                    </>
-                )
-            }
+                                    <div className="h-14 mb-2">
+                                        <h6 className="font-semibold truncate">{product?.name}</h6>
+                                        <h6 className="font-semibold">{product?.cost} Points</h6>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <div>
+                                            {user?.cart?.find(d => d._id === product._id) ? (
+                                                <div className="flex items-center">
+                                                    <FiMinusCircle role="button" size={20} onClick={() => user.addToCart(product, -1)} />
+                                                    <span className="mb-0 text-primary pointer-events-none font-bold px-2">{user?.cart?.find(d => d._id === product._id)?.quantity}</span>
+                                                    <FiPlusCircle role="button" size={20} onClick={() => user.addToCart(product, 1)} />
+                                                </div>
+                                            ) : (
+                                                <Button className="btn-sm" onClick={() => user.addToCart(product, 1)}>Add To Cart</Button>
+
+                                            )}
+
+                                        </div>
+                                        {user.isWishlist(product._id) ? (
+                                            <BsHeartFill className="text-primary" size={20} role={"button"}
+                                                onClick={() => setWish({ ...product, wishlist: true })} />
+                                        ) : (
+                                            <BsSuitHeart size={20} role={"button"}
+                                                onClick={() => setWish(product)} />
+                                        )}
+                                    </div>
+                                </div>
+                            </Col>
+                        ))}
+                    </Row>
+                }
+                <div className="text-center">
+                    <Pagination
+                        pageCount={products?.totalPages || 1}
+                        page={products?.page || 1}
+                        onPageChange={(page) => getProducts(page, size)}
+                    />
+                </div>
+
+            </>
+
+
+
         </>
     )
 }

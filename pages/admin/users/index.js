@@ -11,6 +11,7 @@ import ModalForm from "../../../components/common/modal_form";
 import InputFile from "../../../components/form/file";
 import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
 import FormSelect from "../../../components/form/FormSelect";
+import Button from "../../../components/form/Button";
 
 const Users = () => {
     const router = useRouter()
@@ -41,16 +42,19 @@ const Users = () => {
 
     return (
         <>
-            <div className="flex flex-1">
-                <h4>
+            <div className="flex flex-1 pt-10">
+                {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Admins
-                </h4>
-                <div className="flex flex-1 gap-4 justify-end pr-2 pb-2" >
+                </h4> */}
+
+                {/* padding top */}
+                <div className="flex flex-1 justify-between gap-4  pr-2 pb-2" >
                     <SearchInput value={search} setValue={setSearch} />
-                    <a className="btn btn-primary " onClick={() => {
-                        form.resetFields()
-                        setVisible(true)
-                    }}>Add Admin</a>
+                    <Button className="flex justify-between "
+                        onClick={() => {
+                            form.resetFields()
+                            setVisible(true)
+                        }}>Add Admin</Button>
                 </div>
             </div>
             <Table

@@ -14,6 +14,7 @@ const Attendance = () => {
   let end = moment().endOf("week").add(week, "week");
 
   const [attendance, setAttendance] = useState({});
+
   useEffect(() => {
     fetchAttendance({
       start: start.format("YYYY-MM-DD"),
@@ -72,7 +73,7 @@ const Attendance = () => {
 
   return (
     <>
-      <div className="flex bg-white p-4 rounded-lg items-center">
+      <div className="flex bg-white p-6 rounded-lg shadow-md items-center mt-8 hover:shadow-xl transition-all mb-5">
         <img className="h-20" src="/images/hello.svg" alt="" />
         <div>
           <p className="text-lg font-semibold pl-2 md:pl-8 mb-0">
@@ -133,19 +134,22 @@ const Attendance = () => {
                     {start?.clone().add(index, "day").format("MMM DD, YYYY")}
                   </td>
                   {classes?.map((data) => (
+
+
                     <td
                       style={{ minWidth: 200 }}
                       className="border-l text-center border-gray-300"
                     >
                       {
                         icons[
-                          attendance[data._id]?.status[
-                            start
-                              ?.clone()
-                              .add(index, "day")
-                              .format("YYYY-MM-DD")
-                          ] || 0
+                        attendance[data._id]?.status[
+                        start
+                          ?.clone()
+                          .add(index, "day")
+                          .format("YYYY-MM-DD")
+                        ] || 0
                         ]
+
                       }
                     </td>
                   ))}

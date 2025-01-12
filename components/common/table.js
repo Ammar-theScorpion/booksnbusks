@@ -3,7 +3,7 @@ import { useActionConfirm } from "../../helpers/hooks";
 import Pagination from "./pagination";
 import { useUserContext } from "../../contexts/user";
 import { memo } from "react";
-import {Empty, EmptySearch} from "../../fragment/table/Empty";
+import { Empty, EmptySearch } from "../../fragment/table/Empty";
 import TableSkeleton from "../../fragment/skeleton/TableSkeleton";
 
 const Table = memo(({ columns, data, onEdit, onDelete, action, getData, pagination = false, noAction = false, loading = false, permission, admin = false, actionLabel = '', searchString }) => {
@@ -26,7 +26,7 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
     }
     /** the height is full screen - nav bar height */
     return (
-        <div className="bg-white p-3 border shadow-md h-full overflow-y-auto">
+        <div className="bg-white p-3 border shadow-md  overflow-y-auto">
             {
                 /* check if the searched data matches any thing */
                 (data?.length || data?.docs?.length) ? (
@@ -106,11 +106,11 @@ const Table = memo(({ columns, data, onEdit, onDelete, action, getData, paginati
                                 <Pagination pageCount={data?.totalPages || 1} page={data?.page || 1}
                                     onPageChange={page => getData({ page })} />
                             </div>
-                            
+
                         )}
                     </div>
                 ) : (
-                    <EmptySearch  searchString={searchString}/>
+                    <EmptySearch searchString={searchString} />
                 )
             }
         </div>

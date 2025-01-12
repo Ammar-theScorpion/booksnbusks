@@ -3,7 +3,7 @@ import { useState } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import ProfileNav from "./Profile";
 
-import { FiLogOut } from "react-icons/fi";
+import { FiLogOut, FiShoppingCart } from "react-icons/fi";
 import { useUserContext } from "../../../contexts/user";
 import { NavItem } from "../../../layouts/student";
 import LogoutPopup from "../../popup/LogoutPopup";
@@ -58,6 +58,7 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
                                 </div>
                             </a>
                         </div>
+
                         <div className="flex items-center">
                             <div className="flex items-center ms-3">
                                 <ProfileNav user={user} />
@@ -87,7 +88,7 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
                             // </li>
                             return <NavItem itemIndex={index} href={item.link} label={item.title} permission={item.permission}
                                 icon={item.icon} setIndex={setIndex} selectedIndex={selectedIndex} childHrefs={item.childHrefs} admin={item.admin} />
-                            }
+                        }
                             // NavItem = ({href, label, icon: Icon, onClick, childHrefs, permission, admin = false}) => {
                             // <NavItem href="/teacher/award" label="Award" permission="award_show" icon={FiGift}/>
 

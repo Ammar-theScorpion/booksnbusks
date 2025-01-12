@@ -1,14 +1,14 @@
 import StudentLayout from "../../layouts/student";
-import {useWindowSize} from "../../helpers/hooks";
-import {fetchPurchases} from "../../helpers/backend_helper";
-import {useEffect, useState} from "react";
-import {Loading} from "../../components/common/preloader";
-import {Col, Row} from "react-bootstrap";
+import { useWindowSize } from "../../helpers/hooks";
+import { fetchPurchases } from "../../helpers/backend_helper";
+import { useEffect, useState } from "react";
+import { Loading } from "../../components/common/preloader";
+import { Col, Row } from "react-bootstrap";
 import Pagination from "../../components/common/pagination";
 import Button from '../../components/form/Button.js';
 
 const Purchases = () => {
-    let {width} = useWindowSize()
+    let { width } = useWindowSize()
     const [purchases, setPurchases] = useState()
     const [loading, setLoading] = useState(true)
     const [size, setSize] = useState(0)
@@ -31,7 +31,7 @@ const Purchases = () => {
 
     const getPurchases = (page, size) => {
         setLoading(true)
-        fetchPurchases({page, size}).then(({error, data}) => {
+        fetchPurchases({ page, size }).then(({ error, data }) => {
             setLoading(false)
             if (error === false) {
                 setPurchases(data)
@@ -42,10 +42,10 @@ const Purchases = () => {
 
     return (
         <>
-            <div
-                className="bg-white px-8 py-4 flex flex-wrap justify-content-between items-center rounded-lg shadow-sm mb-8">
+
+            <div className="flex bg-white p-6 rounded-lg shadow-md items-center mt-8 hover:shadow-xl transition-all mb-5">
                 <div className="flex items-center">
-                    <img className="h-24" src="/images/hello.svg" alt=""/>
+                    <img className="h-24" src="/images/hello.svg" alt="" />
                     <h3 className="mr-12 text-3xl my-2">Purchase History</h3>
                 </div>
                 <div className="flex flex-wrap md:w-1/3 justify-center items-center">
@@ -54,8 +54,8 @@ const Purchases = () => {
             </div>
             {
                 loading ? (
-                    <div className="flex justify-center items-center" style={{height: '50vh'}}>
-                        <Loading/>
+                    <div className="flex justify-center items-center" style={{ height: '50vh' }}>
+                        <Loading />
                     </div>
                 ) : (
                     <>
@@ -65,7 +65,7 @@ const Purchases = () => {
                                     <div className="bg-white p-6 rounded-lg w-full mb-6">
                                         <div className="h-32 text-center mb-4">
                                             <img src={purchase?.product?.image} className="inline-block"
-                                                 style={{maxHeight: '100%'}} alt=""/>
+                                                style={{ maxHeight: '100%' }} alt="" />
                                         </div>
                                         <div className="h-16 mb-2">
                                             <h6 className="font-semibold">{purchase?.product?.name}</h6>
@@ -76,13 +76,14 @@ const Purchases = () => {
                                 </Col>
                             ))}
                         </Row>
-                        <div className="text-center">
+                        {purchases?.totalPages > 1 && <div className="text-center">
                             <Pagination
                                 pageCount={purchases?.totalPages || 1}
                                 page={purchases?.page || 1}
                                 onPageChange={(page) => getPurchases(page, size)}
                             />
-                        </div>
+                        </div>}
+
                     </>
                 )
             }

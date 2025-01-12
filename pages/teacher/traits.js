@@ -25,7 +25,7 @@ const Virtues = () => {
         { label: 'Points', dataIndex: 'points', shadow: true, className: "text-center" },
 
     ]
- 
+
 
     const add = checkPermission('virtue_create')
     const router = useRouter()
@@ -37,8 +37,8 @@ const Virtues = () => {
             a.name?.toLowerCase().localeCompare(b.name?.toLowerCase())
         ), [traits, search]);
 
-    if(!traits) {
-        return <TableSkeleton columnCount={4} pagination={false} rowCount={10}/>
+    if (!traits) {
+        return <TableSkeleton columnCount={4} pagination={false} rowCount={10} />
     }
     return (
         <>

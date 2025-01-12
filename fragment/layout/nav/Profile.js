@@ -1,27 +1,60 @@
 import { FaEye, FaEyeDropper, FaUser } from "react-icons/fa";
-import { FiBell, FiUser } from "react-icons/fi";
+import { FiBell, FiShoppingCart, FiUser } from "react-icons/fi";
 import { checkPermission, useFetch, userOutSideClick } from "../../../helpers/hooks";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { fetchUnreadNotifications, postNotificationRead } from "../../../helpers/backend_helper";
 import Link from "next/link";
+import { useUserContext } from "../../../contexts/user";
 
-const ProfileNav = ({user}) => {
+const ProfileNav = ({ user }) => {
     const notification = checkPermission('notification', true)
-    
+    // toggle show cart 
+    const [show, setShow] = useState(true)
+    const { cart, setShowCart } = useUserContext()
+
+
+    // toggle show cart 
+
+    const toggleCart = () => {
+        setShow(!show)
+        setShowCart(show)
+    }
     return (
         <div className="flex items-center gap-4 text-center justify-center">
             <div className="flex flex-row ">
-                { notification && <Notifications/>}
+                {notification && <Notifications />}
+                {/* if student show cart */}
+                {user.role === "student" &&
+                    <div
+                        className="relative mr-6 flex items-center bottom-2 transition-transform duration-200 transform hover:scale-110 hover:bg-gray-100 p-2 rounded-full cursor-pointer"
+                        role="button"
+                        onClick={() => toggleCart()}
+                    >
+                        <FiShoppingCart className="font-semibold text-gray-700 transition-colors duration-200 hover:text-primary" size={22} />
+
+                        {cart?.length > 0 &&
+                            <span
+                                className="bg-red-500 absolute w-5 h-5 -top-1 -right-2.5 rounded-full p-0.5 text-center text-white"
+                                style={{ fontSize: 10 }}>{cart.length > 10 ? '+9' : cart.length}</span>}
+
+                        {/* (
+                            <div className="absolute !border border-gray-700 px-1.5 -top-3 -right-3 text-[12px] font-bold text-primary rounded-full">
+                                {cart.length}
+                            </div>
+                        )} */}
+                    </div>
+
+                }
                 <div className="flex gap-3 mr-2">
                     <span className="text-right">
                         <span className="block text-sm font-medium text-black dark:text-white">
-                        {user?.first_name || ''} {user?.last_name || ''}
+                            {user?.first_name || ''} {user?.last_name || ''}
                         </span>
                         <span className="block text-xs">{user?.email || ''}</span>
                     </span>
                     <span className="h-12 w-12 rounded-full bg-blue-100 items-center justify-center flex">
-                        <FaUser size={24}/>
+                        <FaUser size={24} />
                     </span>
                 </div>
 
@@ -42,7 +75,7 @@ const Notifications = () => {
         setShow(false)
     })
     const router = useRouter()
-    const [notifications, getNotification] = useFetch(fetchUnreadNotifications, {size: notificationButtonCount}, false)
+    const [notifications, getNotification] = useFetch(fetchUnreadNotifications, { size: notificationButtonCount }, false)
     const [isNotificationRead, setNotificationRead] = useState(false);
     useEffect(() => {
         getNotification()
@@ -50,12 +83,12 @@ const Notifications = () => {
 
 
 
-   return (
+    return (
         <div className="relative mr-4" ref={ref}>
             <div className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white p-2 bg-blue-50 duration-300 ease-in-out hover:text-blue-400" role={"button"} onClick={() => setShow(!show)}>
                 {!!notifications?.totalDocs && <span
                     className="bg-red-500 absolute w-5 h-5 -top-2.5 -right-2.5 rounded-full p-0.5 text-center text-white"
-                    style={{fontSize: 10}}>{notifications.totalDocs > 10 ? '+9' : notifications.totalDocs }</span>}
+                    style={{ fontSize: 10 }}>{notifications.totalDocs > 10 ? '+9' : notifications.totalDocs}</span>}
 
 
                 <svg className="fill-current " width={18} height={18} viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,12 +97,12 @@ const Notifications = () => {
             </div>
             <div className={`${show ? 'absolute' : 'hidden'} max-h-80 overflow-y-auto overflow-x-hidden right-0 mt-2 max-w-lg bg-white shadow-xl border z-20 rounded-md`}>
                 <h6 className="sticky top-0 z-50  block bg-gray-100 text-gray-500 text-center rounded-b p-2 pt-1 border">Notifications</h6>
-                <div className="relative w-100 " style={{minWidth: 300}}>
+                <div className="relative w-100 " style={{ minWidth: 300 }}>
                     {!!notifications?.totalDocs ? (
                         <ul className="p-0">
                             {notifications?.docs?.map((d, index) => (
                                 <li className="text-gray-500 px-3 pb-1 mb-2 border-b hover:bg-slate-100 transition-all duration-300" role="button" onClick={() => {
-                                    postNotificationRead({_id: d._id}).then(() => {
+                                    postNotificationRead({ _id: d._id }).then(() => {
                                         router.push('/teacher/students/')
                                     })
                                     setShow(false)
@@ -83,15 +116,15 @@ const Notifications = () => {
                             <p>No Unread Notifications</p>
                         </div>
                     )}
-                  
+
                 </div>
-                
+
                 <div className="sticky bottom-0">
                     <Link href="/teacher/notifications">
-                            <a onClick={() => setShow(false)}
-                                className="block bg-gray-100 hover:bg-gray-200 transition-all duration-200 no-underline text-gray-500 text-center rounded-b p-2 pt-1 border">
-                                View All
-                            </a>
+                        <a onClick={() => setShow(false)}
+                            className="block bg-gray-100 hover:bg-gray-200 transition-all duration-200 no-underline text-gray-500 text-center rounded-b p-2 pt-1 border">
+                            View All
+                        </a>
                     </Link>
                 </div>
 

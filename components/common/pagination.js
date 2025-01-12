@@ -1,27 +1,31 @@
 import ReactPaginate from "react-paginate";
 
-const Pagination = ({pageCount = 1, page, onPageChange}) => {
+const Pagination = ({ pageCount = 1, page, onPageChange }) => {
     return (
+        // change pagination style
         <ReactPaginate
             forcePage={page - 1}
-            onPageChange={({selected}) => onPageChange && onPageChange(selected + 1)}
+            onPageChange={({ selected }) => onPageChange && onPageChange(selected + 1)}
             pageCount={pageCount}
-            nextLabel="next >"
-            previousLabel="< previous"
-            pageClassName="page-item"
-            pageLinkClassName="page-link text-primary"
-            previousClassName="page-item"
-            previousLinkClassName="page-link text-primary"
-            nextClassName="page-item"
-            nextLinkClassName="page-link text-primary"
+            nextLabel="Next →"
+            previousLabel="← Previous"
+            pageClassName="inline-block mx-1"
+            pageLinkClassName="px-4 py-2 rounded-full bg-red-500 text-white font-semibold no-underline hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
+            previousClassName="inline-block mx-2"
+            previousLinkClassName="px-5 py-2 rounded-full bg-red-500 text-white font-semibold no-underline hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
+            nextClassName="inline-block mx-2"
+            nextLinkClassName="px-5 py-2 rounded-full bg-red-500 text-white font-semibold no-underline hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
             breakLabel="..."
-            breakClassName="page-item"
-            breakLinkClassName="page-link text-primary"
-            containerClassName="pagination"
+            breakClassName="inline-block mx-1"
+            breakLinkClassName="px-4 py-2 rounded-full bg-red-500 text-white no-underline"
+            containerClassName="flex items-center justify-center mt-6 space-x-2"
             activeClassName="text-white"
-            activeLinkClassName="bg-primary !text-white"
-            renderOnZeroPageCount={null}            
+            activeLinkClassName="px-4 py-2 rounded-full bg-red-700 text-white font-semibold shadow-md transform scale-105 transition duration-300 ease-in-out"
+            renderOnZeroPageCount={null}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={1}
         />
-    )
-}
-export default Pagination
+    );
+};
+
+export default Pagination;

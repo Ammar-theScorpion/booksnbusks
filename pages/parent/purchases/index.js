@@ -1,13 +1,13 @@
 import ParentLayout from "../../../layouts/parent";
-import {useActionConfirm, useWindowSize} from "../../../helpers/hooks";
-import {useEffect, useState} from "react";
-import {fetchPurchases, postPurchaseApprove, postPurchaseStatus} from "../../../helpers/backend_helper";
-import {useUserContext} from "../../../contexts/user";
-import {BsCheck2Square, BsXSquare} from "react-icons/bs";
+import { useActionConfirm, useWindowSize } from "../../../helpers/hooks";
+import { useEffect, useState } from "react";
+import { fetchPurchases, postPurchaseApprove, postPurchaseStatus } from "../../../helpers/backend_helper";
+import { useUserContext } from "../../../contexts/user";
+import { BsCheck2Square, BsXSquare } from "react-icons/bs";
 import Table from "../../../components/common/table";
 
 const Purchases = () => {
-    let {width} = useWindowSize()
+    let { width } = useWindowSize()
     const [purchases, setPurchases] = useState()
     const [loading, setLoading] = useState(true)
     const [size, setSize] = useState(0)
@@ -32,7 +32,7 @@ const Purchases = () => {
 
     const getPurchases = (page, size) => {
         setLoading(true)
-        fetchPurchases({page, size, student: user?.student?._id}).then(({error, data}) => {
+        fetchPurchases({ page, size, student: user?.student?._id }).then(({ error, data }) => {
             setLoading(false)
             if (error === false) {
                 setPurchases(data)
@@ -71,7 +71,7 @@ const Purchases = () => {
                     d?.products?.map((product, index) => (
                         <strong key={index}>
                             {product.quantity} {product?.product?.name}
-                            <br/>
+                            <br />
                         </strong>
                     ))
                 ),
@@ -103,13 +103,13 @@ const Purchases = () => {
                                 onClick={() => handleUpdateStatus(data._id, "Approved")}
                                 className="btn-success px-3 p-1.5 rounded ml-2 mr-2"
                             >
-                                <BsCheck2Square size={20}/>
+                                <BsCheck2Square size={20} />
                             </button>
                             <button
                                 onClick={() => handleUpdateStatus(data._id, "Cancelled")}
                                 className="btn-primary p-1.5 rounded ml-2 mr-2"
                             >
-                                <BsXSquare size={20}/>
+                                <BsXSquare size={20} />
                             </button>
                         </>
                     )}

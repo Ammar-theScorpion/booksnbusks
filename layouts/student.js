@@ -146,35 +146,50 @@ const StudentLayout = ({ children }) => {
                     <span className="text-lg px-2">Order Details</span>
                 </div>
                 <div className="p-4">
-                    <p className="text-lg">My Cart</p>
-                    <div className="overflow-auto" style={{ maxHeight: 'calc(100vh - 250px)' }}>
-                        {cart?.map((product, index) => (
-                            <div key={index} className="flex relative border-b mb-2">
-                                <div className="px-2">
-                                    <img src={product?.image} className="w-14" alt="" />
-                                </div>
-                                <div className="mb-2.5">
-                                    <p className="font-semibold mb-1">{product?.name}</p>
-                                    <p className="mb-1">{product?.cost} Points</p>
-                                    <div className="flex items-center">
-                                        <FiMinusCircle role="button" size={20} onClick={() => addToCart(product, -1)} />
-                                        <span className="mb-0 text-primary pointer-events-none font-bold px-2">{product.quantity}</span>
-                                        <FiPlusCircle role="button" size={20} onClick={() => addToCart(product, 1)} />
+                    {/* check if there no items */}
+                    <p className="text-lg">My Cart</p>{cart.length > 0 ? (
+                        <>
+                            <div className="overflow-auto" style={{ maxHeight: 'calc(100vh - 250px)' }}>
+                                {cart?.map((product, index) => (
+                                    <div key={index} className="flex relative border-b mb-2">
+                                        <div className="px-2">
+                                            <img src={product?.image} className="w-14" alt="" />
+                                        </div>
+                                        <div className="mb-2.5">
+                                            <p className="font-semibold mb-1">{product?.name}</p>
+                                            <p className="mb-1">{product?.cost} Points</p>
+                                            <div className="flex items-center">
+                                                <FiMinusCircle role="button" size={20} onClick={() => addToCart(product, -1)} />
+                                                <span className="mb-0 text-primary pointer-events-none font-bold px-2">{product.quantity}</span>
+                                                <FiPlusCircle role="button" size={20} onClick={() => addToCart(product, 1)} />
+                                            </div>
+                                            <FiTrash
+                                                className="absolute right-0 bottom-4"
+                                                role="button"
+                                                onClick={() => addToCart(product, -product.quantity)}
+                                            />
+                                        </div>
                                     </div>
-                                    <FiTrash className="absolute right-0 bottom-4" role="button" onClick={() => addToCart(product, -product.quantity)} />
-                                </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
-                    <div className="flex justify-between">
-                        <p>Total</p>
-                        <p>{cart?.reduce((acc, d) => acc + ((d.cost * d.quantity) || 0), 0)} Points</p>
-                    </div>
-                    <div className="flex items-center py-2">
-                        <Link href="/student/checkout">
-                            <button onClick={() => setShowCart(false)} className="btn btn-primary mx-auto">Checkout</button>
-                        </Link>
-                    </div>
+                            <div className="flex justify-between">
+                                <p>Total</p>
+                                <p>{cart?.reduce((acc, d) => acc + ((d.cost * d.quantity) || 0), 0)} Points</p>
+                            </div>
+                            <div className="flex items-center py-2">
+                                <Link href="/student/checkout">
+                                    <button onClick={() => setShowCart(false)} className="btn btn-primary mx-auto">Checkout</button>
+                                </Link>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center text-center py-20">
+                            <p className="text-gray-500 text-lg font-semibold">No items yet</p>
+                            <p className="text-gray-400">Add items to your cart to see them here.</p>
+                        </div>
+                    )}
+
+
                 </div>
             </div>
             <main className="dashboard-layout">
@@ -217,7 +232,7 @@ const StudentLayout = ({ children }) => {
 
                 <div className={`box-border pt-24 flex flex-col gap-3 pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
                     } sm:ml-[18rem]`}>
-                    <Header user={user} />
+                    {/* <Header user={user} /> */}
                     <div> {children}</div>
 
                 </div>
@@ -327,10 +342,11 @@ export const Header = ({ user }) => {
                 <div className="flex items-center">
                     <div className="relative mr-6" role="button" onClick={() => setShowCart(true)}>
                         <FiShoppingCart className="font-semibold" size={22} />
-                        <div
+                        {/* yacoob remove 0 items from notif */}
+                        {cart?.length > 0 && <div
                             className="absolute !border border-gray-700 px-1.5 -top-3 -right-3 text-[12px] font-bold text-primary rounded-full ">
                             {cart.length}
-                        </div>
+                        </div>}
                     </div>
                     <div className="flex items-center">
                         <img src={user?.school?.logo} alt="" className="h-8 mr-3" />

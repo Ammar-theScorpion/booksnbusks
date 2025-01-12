@@ -67,7 +67,8 @@ const AdminLayout = ({ children, back = true }) => {
         <UserContext.Provider value={{ ...user, getProfile, currentSchool }}>
             <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
 
-            <main className="h-screen flex items-center">
+            {/* enhance style */}
+            <main className="h-screen flex items-center pt-16">
                 {/* <aside className="nav-area">
                     <nav className="navbar">
                         <div className="site-title">
