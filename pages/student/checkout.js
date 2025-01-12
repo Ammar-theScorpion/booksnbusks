@@ -7,6 +7,7 @@ import { postPurchase } from "../../helpers/backend_helper";
 import { useRouter } from "next/router";
 import swal from "sweetalert2";
 import Button from '../../components/form/Button.js';
+import { FaImage } from "react-icons/fa";
 
 const Checkout = () => {
     const router = useRouter()
@@ -43,7 +44,14 @@ const Checkout = () => {
                                 {cart?.map((product, index) => (
                                     <tr key={index} className="border-b">
                                         <td className="px-2">
-                                            <img src={product?.image} className="h-14" alt="" />
+                                            {/* <img src={product?.image} className="h-14" alt="" /> */}
+                                            {product.image ? <img src={product?.image} className="inline-block"
+                                                style={{ maxHeight: '100%' }} alt="" />
+                                                :
+                                                <div className="h-14 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                                    <FaImage className="text-gray-400 text-xl" />
+                                                </div>
+                                            }
                                         </td>
                                         <td>
                                             <p className="font-semibold mb-1">{product?.name}</p>

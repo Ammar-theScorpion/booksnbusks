@@ -2,13 +2,13 @@ import ReactPaginate from "react-paginate";
 
 const Pagination = ({ pageCount = 1, page, onPageChange }) => {
     return (
-        // change pagination style
+        // change pagination
         <ReactPaginate
             forcePage={page - 1}
             onPageChange={({ selected }) => onPageChange && onPageChange(selected + 1)}
             pageCount={pageCount}
-            nextLabel="Next →"
-            previousLabel="← Previous"
+            nextLabel="Next"
+            previousLabel="Previous"
             pageClassName="inline-block mx-1"
             pageLinkClassName="px-4 py-2 rounded-full bg-red-500 text-white font-semibold no-underline hover:bg-red-600 hover:text-white transition duration-300 ease-in-out"
             previousClassName="inline-block mx-2"

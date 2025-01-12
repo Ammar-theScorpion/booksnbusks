@@ -6,6 +6,7 @@ import { Loading } from "../../components/common/preloader";
 import { Col, Row } from "react-bootstrap";
 import Pagination from "../../components/common/pagination";
 import Button from '../../components/form/Button.js';
+import { FaImage } from "react-icons/fa";
 
 const Purchases = () => {
     let { width } = useWindowSize()
@@ -63,9 +64,19 @@ const Purchases = () => {
                             {purchases?.docs?.map((purchase, index) => (
                                 <Col xxl={3} lg={4} md={6} key={index}>
                                     <div className="bg-white p-6 rounded-lg w-full mb-6">
-                                        <div className="h-32 text-center mb-4">
+                                        {/* <div className="h-32 text-center mb-4">
                                             <img src={purchase?.product?.image} className="inline-block"
                                                 style={{ maxHeight: '100%' }} alt="" />
+                                        </div> */}
+
+                                        <div className="h-32 text-center mb-4">
+
+                                            {purchase?.product?.image ? <img src={purchase?.product?.image} className="inline-block"
+                                                style={{ maxHeight: '100%' }} alt="" />
+                                                :
+                                                <div className="h-32 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                                    <FaImage className="text-gray-400 text-xl" />
+                                                </div>}
                                         </div>
                                         <div className="h-16 mb-2">
                                             <h6 className="font-semibold">{purchase?.product?.name}</h6>

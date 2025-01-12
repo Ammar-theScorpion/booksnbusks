@@ -192,8 +192,17 @@ const StudentLayout = ({ children }) => {
 
                 </div>
             </div>
-            <main className="dashboard-layout">
-                {/* <aside className="nav-area">
+
+            <div className="bg-[#F1F5F9] h-screen">
+                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
+                <div className={`box-border pt-24 flex flex-col gap-3 mr-3 flex-1 transition-all h-[97%] ${openSidebar ? 'ml-[18rem]' : 'ml-3'
+                    } md:ml-[18rem]`}>
+                    {children}
+                </div>
+            </div>
+
+            {/* <main className="dashboard-layout">
+                <aside className="nav-area">
                     <nav className="navbar">
                         <div className="site-title">
                             <img src="/images/logo.png" alt="" />
@@ -227,22 +236,13 @@ const StudentLayout = ({ children }) => {
                     </nav>
                 </aside> */}
 
-                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} />
-
-
-                <div className={`box-border pt-24 flex flex-col gap-3 pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
-                    } sm:ml-[18rem]`}>
-                    {/* <Header user={user} /> */}
-                    <div> {children}</div>
-
-                </div>
-                {/* <div className="main-container box-border pt-24 flex flex-col gap-3">
+            {/* <div className="main-container box-border pt-24 flex flex-col gap-3">
                     <Header user={user} />
                     <div>
                         {children}
                     </div>
-                </div> */}
-            </main>
+                </div> 
+            </main>*/}
         </UserContext.Provider>
 
     )

@@ -10,6 +10,7 @@ import { swalLoading } from "../../components/common/alert";
 import swal from "sweetalert2";
 import { notification } from "antd";
 import Button from '../../components/form/Button.js';
+import { FaImage } from "react-icons/fa";
 
 
 
@@ -145,7 +146,14 @@ const Wishlist = () => {
                                 <span className="text-primary text-2xl font-bold oswald ml-2">{item.cost}</span>
                             </div>
                             <div className="flex justify-center h-60 mb-2">
-                                <img src={item?.image} style={{ maxHeight: '100%' }} alt="" />
+                                {/* <img src={item?.image} style={{ maxHeight: '100%' }} alt="" /> */}
+                                {item.image ? <img src={item?.image} className="inline-block"
+                                    style={{ maxHeight: '100%' }} alt="" />
+                                    :
+                                    <div className="h-60 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                        <FaImage className="text-gray-400 text-xl" />
+                                    </div>
+                                }
                             </div>
                             <div className="h-16">
                                 <p className="text-xl">{item.name}</p>
