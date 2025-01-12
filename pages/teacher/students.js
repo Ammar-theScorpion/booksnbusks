@@ -55,11 +55,12 @@ const Students = () => {
         return <TableSkeleton columnCount={4} pagination={false} rowCount={10}/>
     }
     return (
-        <div className="h-full overflow-y-hidden">
+        <div className="h-full pb-10">
 
             {/* first check if there are students */}
             {students?.length ? 
-                <>
+                <div className="h-full">
+
 
                     <div className="flex justify-between mb-2">
                         {/* <h4 className="page-title"><FiArrowLeft className="mr-2 inline-block" role="button"
@@ -196,9 +197,7 @@ const Students = () => {
 
                     {/* then check if the filter matches any thing */}
                     {filteredStudents.length ? (
-
-                        <div className="bg-white p-3 border shadow-md h-full overflow-y-auto mb-10">
-
+                        <div className="bg-white p-3 border shadow-md h-full overflow-y-auto">
                             <table className="table-auto text-sm text-gray-500 dark:text-gray-400 w-full">
                                 <thead className="sticky -top-4 shadow-sm text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
@@ -275,7 +274,7 @@ const Students = () => {
                         <EmptySearch searchString={search} />
                     )
                     }
-                </>
+                </div>
 
                 :(
                     <Empty></Empty>                    

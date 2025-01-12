@@ -15,7 +15,6 @@ const Settings = () => {
     const [form] = Form.useForm()
     const router = useRouter()
     const user = useUserContext()
-    const [logo, setLogo] = useState(null);
 
     useEffect(() => {
         if (!!user) {
@@ -31,8 +30,6 @@ const Settings = () => {
         }
     }, [user])
 
-    const isLoading = useAction(postSchoolUpdate, logo, () => {
-        user?.getProfile()});
     return (
         <>
             <div className="container mx-auto mt-10 max-w-lg p-6 bg-white shadow-lg rounded-lg">
@@ -45,11 +42,12 @@ const Settings = () => {
                         Update School Information
                     </Typography.Title>
                 </div>
-                <Form layout="vertical" className="space-y-6" form={form} onFinish={async values => {
+                <Form layout="vertical" form={form} onFinish={async values => {
                     swalLoading()
-                    values.logo = await getUploadImageUrl(values.logo);
-                    setLogo(values.logo);
-                    
+                    values.logo = await getUploadImageUrl(values.logo)
+                    return useAction(postSchoolUpdate, values, () => {
+                        user?.getProfile()
+                    })
                 }}>
                     <FormInput name="name" label="School Name" required />
                     <InputFile name="logo" label="School Logo" form={form} />

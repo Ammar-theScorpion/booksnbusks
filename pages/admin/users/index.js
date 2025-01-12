@@ -29,7 +29,7 @@ const Users = () => {
         {
             label: "Email",
             dataIndex: 'email',
-            formatter: d => <a href={`mailto:${d}`}>{d}</a>
+            formatter: d => <span className="text-blue-600">{d}</span>
         },
         {
             label: "School",
@@ -42,7 +42,7 @@ const Users = () => {
 
     return (
         <>
-            <div className="flex flex-1 pt-10">
+            <div className="flex pt-4">
                 {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> Admins
                 </h4> */}

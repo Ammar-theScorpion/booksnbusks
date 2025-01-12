@@ -18,7 +18,7 @@ const CreateClass = () => {
     const handleAdd = async values => {
         await useAction(postClass, values, () => {
             router.push('/teacher/classes')
-        })
+        });
     }
 
     // Copy Details From

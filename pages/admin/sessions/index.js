@@ -51,7 +51,7 @@ const Sessions = () => {
 
     return (
         // enhance design 
-        <div className=" pt-28 h-screen">
+        <div className=" pt-4 h-screen">
             <div className="flex flex-1 mb-4 items-center bg-white p-6 rounded-xl shadow-md border border-gray-200 space-x-6">
                 {/* Date Range Picker */}
                 <div className="relative w-72" ref={ref}>

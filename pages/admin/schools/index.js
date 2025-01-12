@@ -9,6 +9,7 @@ import { Form, Modal } from "antd";
 import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
 import InputFile, { getUploadImageUrl } from "../../../components/form/file";
 import ModalForm from "../../../components/common/modal_form";
+import Button from "../../../components/form/Button";
 
 const Schools = () => {
     const router = useRouter()
@@ -16,6 +17,7 @@ const Schools = () => {
     const [visible, setVisible] = useState(false)
     const [data, getData] = useFetch(getSchools)
 
+    console.log(data)
     const columns = [
         {
             label: "Role Name",
@@ -48,15 +50,17 @@ const Schools = () => {
                 <FormInput name="password" label="Password" required />
                 <InputFile name="logo" label="Logo" form={form} />
             </ModalForm>
-            <div className="flex justify-between">
-                <h4>
+            <div className="flex justify-end">
+                {/* remove back yacoob */}
+                {/* <h4>
                     <FiArrowLeft className="mr-2 inline-block" role="button" onClick={() => router.back()} /> School
-                </h4>
+                </h4> */}
                 <div>
-                    <a className="btn btn-primary mb-2" onClick={() => {
+                    {/* enhance button yacoob */}
+                    <Button className="btn btn-primary mb-2" onClick={() => {
                         form.resetFields()
                         setVisible(true)
-                    }}>Add School</a>
+                    }}>Add School</Button>
                 </div>
             </div>
             <Table

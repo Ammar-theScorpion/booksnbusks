@@ -30,6 +30,7 @@ const Home = () => {
         })
     }, [school, date])
 
+    console.log("dashboard", dashboard)
     return (
         <>
             <div className="flex justify-between mb-2">

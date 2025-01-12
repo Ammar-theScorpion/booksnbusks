@@ -65,55 +65,53 @@ const AdminLayout = ({ children, back = true }) => {
 
     return (
         <UserContext.Provider value={{ ...user, getProfile, currentSchool }}>
-            <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
-
-            {/* enhance style */}
-            <main className="h-screen flex items-center pt-16">
-                {/* <aside className="nav-area">
-                    <nav className="navbar">
-                        <div className="site-title">
-                            <img src="/images/logo.png" alt="" />
-                            <h3>BooksNBucks</h3>
-                            <FiBarChart2 className="mobile-menu-icon" onClick={toggleMobileMenu} size={24} />
-                        </div>
-                        <div className="mobile-menu">
-                            <div className="menu-wrapper">
-                                <div className="mobile-menu-title">
-                                    <h5>Menu</h5>
-                                    <FiX size={24} className="absolute right-4 top-4" onClick={toggleMobileMenu} />
-                                </div>
-                                <ul className="menu">
-                                    <NavItem href="/admin" label="Dashboard" icon={AiOutlineAppstoreAdd} />
-                                    <NavItem href="/admin/schools" label="Schools"
-                                        icon={AiOutlineShop} />
-                                    <NavItem href="/admin/users" label="Admins" icon={FaUserShield}
-                                        childHrefs={['/admin/users/create', '/admin/users/[_id]']} admin />
-                                    <NavItem href="/admin/sessions" label="Sessions"
-                                        icon={FaUserCog} />
-                                    <NavItem href="/admin/logs" label="Logs"
-                                        icon={FaListUl} />
-                                    <NavItem href="/admin/settings" label="Settings"
-                    icon={FiSettings} admin/>
-             </ul>
-                            </div>
-                            <div className="flex mx-4 border-t">
-                                <button className="pt-3 pl-2" onClick={() => signOut(router)}>
-                                    <FiLogOut className="inline-block ml-4 mr-3" /> Logout
-                                </button>
-                            </div>
-                            <NavItemProfile user={user} />
-                        </div>
-                    </nav>
-                </aside> */}
-
-                <div className={`pb-10 mr-3 flex-1 transition-all ${openSidebar ? 'ml-[18rem]' : 'ml-0'
-                    } sm:ml-[18rem]`}>
+            <div className="bg-[#F1F5F9] h-screen">
+                <Sidebar setOpenSidebar={setOpenSidebar} openSidebar={openSidebar} user={user} sidebarItems={sidebarItems} admin />
+                <div className={`box-border pt-24 flex flex-col gap-3 mr-3 flex-1 transition-all h-[97%] ${openSidebar ? 'ml-[18rem]' : 'ml-3'
+                    } md:ml-[18rem]`}>
                     {children}
                 </div>
-
-            </main>
-
+            </div>
         </UserContext.Provider>
+
+        /* <aside className="nav-area">
+                            <nav className="navbar">
+                                <div className="site-title">
+                                    <img src="/images/logo.png" alt="" />
+                                    <h3>BooksNBucks</h3>
+                                    <FiBarChart2 className="mobile-menu-icon" onClick={toggleMobileMenu} size={24} />
+                                </div>
+                                <div className="mobile-menu">
+                                    <div className="menu-wrapper">
+                                        <div className="mobile-menu-title">
+                                            <h5>Menu</h5>
+                                            <FiX size={24} className="absolute right-4 top-4" onClick={toggleMobileMenu} />
+                                        </div>
+                                        <ul className="menu">
+                                            <NavItem href="/admin" label="Dashboard" icon={AiOutlineAppstoreAdd} />
+                                            <NavItem href="/admin/schools" label="Schools"
+                                                icon={AiOutlineShop} />
+                                            <NavItem href="/admin/users" label="Admins" icon={FaUserShield}
+                                                childHrefs={['/admin/users/create', '/admin/users/[_id]']} admin />
+                                            <NavItem href="/admin/sessions" label="Sessions"
+                                                icon={FaUserCog} />
+                                            <NavItem href="/admin/logs" label="Logs"
+                                                icon={FaListUl} />
+                                            <NavItem href="/admin/settings" label="Settings"
+                            icon={FiSettings} admin/>
+                     </ul>
+                                    </div>
+                                    <div className="flex mx-4 border-t">
+                                        <button className="pt-3 pl-2" onClick={() => signOut(router)}>
+                                            <FiLogOut className="inline-block ml-4 mr-3" /> Logout
+                                        </button>
+                                    </div>
+                                    <NavItemProfile user={user} />
+                                </div>
+                            </nav>
+                        </aside> */
+
+
     )
 }
 export default AdminLayout
