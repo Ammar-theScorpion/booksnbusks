@@ -3,11 +3,11 @@ import { CardSkeleton } from "../../skeleton/CardSkeleton";
 const Card=({items, loading, totalItems})=>{
     console.log(totalItems)
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 w-full overflow-hidden">
             {loading ? ( 
                 <CardSkeleton  /> ) : (
                     <>
-                        <div className="flex flex-row gap-4 w-full">
+                        <div className="flex flex-row gap-4 w-full flex-wrap sm:flex-col">
                             {totalItems.map((item, index) => (
                                 <div key={index} className="rounded-sm border border-stroke bg-white shadow-md p-6 flex items-center justify-between flex-1" >
                                         <div className="flex items-center gap-4">
@@ -16,10 +16,9 @@ const Card=({items, loading, totalItems})=>{
                                             </div>
                                             <div>
                                                 <h4 className="text-sm font-medium text-gray-500">{item.title}</h4>
-                                                <h3 className="text-xl font-bold text-gray-900">{item.value || 'N/A'}</h3>
+                                                <h3 className="text-xl font-bold text-gray-900">{item.value || '0'}</h3>
                                             </div>
                                         </div>
-                                        <div className="text-green-500 text-sm font-semibold">+2.59%</div>
                                     </div>
                             ))}
                         </div>

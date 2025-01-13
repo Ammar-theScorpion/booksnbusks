@@ -10,6 +10,7 @@ import FormInput, { HiddenFormItem } from "../../../components/form/FormInput";
 import InputFile, { getUploadImageUrl } from "../../../components/form/file";
 import ModalForm from "../../../components/common/modal_form";
 import Button from "../../../components/form/Button";
+import { FaImage } from "react-icons/fa";
 
 const Schools = () => {
     const router = useRouter()
@@ -20,13 +21,20 @@ const Schools = () => {
     console.log(data)
     const columns = [
         {
-            label: "Role Name",
+            label: "School",
             dataIndex: 'name',
         },
         {
             label: "Logo",
             dataIndex: 'logo',
-            formatter: d => <img src={d} className="h-8" alt="" />
+            formatter: d => d ? (
+                <img src={d} className="h-8 w-8 object-cover rounded-full" alt="School Logo" />
+            ) : (
+                // add no logo chance
+                <div className="h-10 w-10 flex items-center justify-center bg-gray-100 border border-gray-300 rounded-full">
+                    <FaImage className="text-gray-400 text-xl" />
+                </div>
+            )
         }
     ]
 

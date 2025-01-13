@@ -11,28 +11,16 @@ const Header = () => {
             <div className="flex lg:flex-1">
                 <div className="flex items-center justify-center" role="button">
                     <img className="w-10 h-10 auto" src="/images/logo.png" alt="BooksNBucks Logo"/>
-                    <h3 className="ml-3">BooksNBucks</h3>
+                    <h3 className="ml-3 text-xl font-bold ">BooksNBucks</h3>
                 </div>
             </div>
-            {/*
-                <div className="flex gap-x-8 text-sm font-bold text-gray-900 lg:hidden">
-                <a className="text-sm/6 font-semibold hover:text-primary-primary text-gray-900 no-underline">
-                    Mobile App
-                </a>
-                <a className="text-sm/6 font-semibold hover:text-primary-primary text-gray-900 no-underline">
-                    Features
-                </a>
-                <a className="text-sm/6 font-semibold text-gray-900 no-underline hover:text-primary-primary">
-                    About
-                </a>
-                </div>
-             */}
+       
 
             <div className="flex gap-x-8 justify-center items-center">
                 <div className="flex gap-3 justify-center items-center">
                     <div className="hidden sm:flex">
 
-                        <Link href="/">
+                        <Link href="https://apps.apple.com/us/app/booksnbucks/id1533475796">
                             <a className="flex items-center no-underline"  title="install mobile app">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="red" className="h-6 w-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />

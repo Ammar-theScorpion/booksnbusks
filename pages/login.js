@@ -68,7 +68,7 @@ const Login = () => {
                                 {/* or */}
                                 <div className="flex items-center mt-1 mb-3 justify-center">
                                     <div className="flex-1 h-0.5 bg-gray-300"></div>
-                                    <p className="mx-3 text-sm font-medium text-gray-500 text-center">OR</p>
+                                    <p className="mx-3 text-sm font-medium text-gray-500 text-center leading-none">OR</p>
                                     <div className="flex-1 h-0.5 bg-gray-300"></div>
                                 </div>
 
@@ -89,7 +89,7 @@ const Login = () => {
                                 </div>
                                 {/* submit button */}
                                 <div className="pt-3">
-                                    <button type="submit" className="w-full text-white btn-primary rounded-lg text-sm px-5 py-[0.85rem] text-center transition duration-150">Sign in</button>
+                                    <button type="submit" className="w-full text-white btn-primary rounded-lg text-sm px-5 py-[0.85rem] ring-0 text-center transition duration-150">Sign in</button>
                                 </div>
 
                                 <p className="text-sm font-light text-gray-500 pt-4">

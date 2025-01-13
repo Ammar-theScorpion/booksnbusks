@@ -54,7 +54,7 @@ const Sidebar = ({ setOpenSidebar, openSidebar, user, sidebarItems }) => {
                             <a className="flex ms-2 md:me-24 no-underline">
                                 <div className="flex items-center justify-center" role="button">
                                     <img className="w-10 h-10 auto" src="/images/logo.png" alt="BooksNBucks Logo" />
-                                    <h3 className="ml-3">BooksNBucks</h3>
+                                    <h3 className="ml-3 text-sm sm:text-lg">BooksNBucks</h3>
                                 </div>
                             </a>
                         </div>

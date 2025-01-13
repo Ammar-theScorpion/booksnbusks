@@ -102,7 +102,7 @@ const Home = () => {
             <>
                 {purchases && purchases.length ? (
                 <div style={{ height: 300 }} className="bg-white rounded-lg shadow-md">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ResponsiveContainer  height="100%">
                         <BarChart
                         data={purchases}
                         layout="vertical"

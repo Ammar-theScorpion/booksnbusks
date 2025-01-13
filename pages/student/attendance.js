@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import { FcCancel, FcCheckmark } from "react-icons/fc";
 import { Table } from "react-bootstrap";
+import { FaSadTear } from "react-icons/fa";
 // /Users/yazanawad/code/schoolBucks/website/BooksNBucksWebsite/components/common/alert.js
 
 const Attendance = () => {
@@ -14,7 +15,7 @@ const Attendance = () => {
   let end = moment().endOf("week").add(week, "week");
 
   const [attendance, setAttendance] = useState({});
-
+  console.log(classes);
   useEffect(() => {
     fetchAttendance({
       start: start.format("YYYY-MM-DD"),
@@ -83,6 +84,7 @@ const Attendance = () => {
         </div>
       </div>
 
+
       <div className="my-4 bg-white p-2 rounded-lg flex flex-wrap justify-between">
         <div className="d-flex p-2">
           {icons[1]}
@@ -112,51 +114,72 @@ const Attendance = () => {
         </div>
       </div>
       <div className="bg-white rounded-lg">
+
         <div className="table-responsive">
-          <Table noBorder className="table">
-            <thead>
-              <tr>
-                <th style={{ borderTop: "none", minWidth: 200 }} />
-                {classes?.map((data) => (
-                  <th
-                    className="border-l border-t-white text-center"
-                    style={{ borderTop: "none", minWidth: 200 }}
-                  >
-                    {data?.name}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {Array.from({ length: 7 }).map((_, index) => (
-                <tr>
-                  <td className="ps-5">
-                    {start?.clone().add(index, "day").format("MMM DD, YYYY")}
-                  </td>
-                  {classes?.map((data) => (
+          {/*  */}
+          {
+            classes?.length ? (
+
+                <Table noBorder className="table">
+                  <thead>
+                    <tr>
+                      <th style={{ borderTop: "none", minWidth: 200 }} />
+                      {classes?.map((data) => (
+                        <th
+                          className="border-l border-t-white text-center"
+                          style={{ borderTop: "none", minWidth: 200 }}
+                        >
+                          {data?.name}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: 7 }).map((_, index) => (
+                      <tr>
+                        <td className="ps-5">
+                          {start?.clone().add(index, "day").format("MMM DD, YYYY")}
+                        </td>
+                        {classes?.map((data) => (
+
+                              <td
+                                style={{ minWidth: 200 }} >
+                                {
+                                  icons[
+                                  attendance[data._id]?.status[
+                                  start
+                                    ?.clone()
+                                    .add(index, "day")
+                                    .format("YYYY-MM-DD")
+                                  ] || 0
+                                  ]
+
+                                }
+                              </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+            ):
+            <div className="flex flex-col items-center justify-center bg-white rounded-lg p-6 shadow-md">
+                <div className="text-xl font-bold text-red-700 mb-4">
+                  No Records Found!
+                </div>
+                <p className="text-lg ">
+                  Between <span className="font-semibold text-red-700">{start?.clone().add(0, "day").format("MMM DD, YYYY")}</span>&nbsp;and <span className="font-semibold text-red-700">{start?.clone().add(7, "day").format("MMM DD, YYYY")}</span>.
+                </p>
+                    <div className="mt-4 text-red-500">
+                    <FaSadTear className="w-16 h-16" />
+                </div>
+                <p className="mt-4 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded shadow">
+                  Try selecting a different week
+                </p>
+              </div>
+
+          }
 
 
-                    <td
-                      style={{ minWidth: 200 }}
-                      className="border-l text-center border-gray-300"
-                    >
-                      {
-                        icons[
-                        attendance[data._id]?.status[
-                        start
-                          ?.clone()
-                          .add(index, "day")
-                          .format("YYYY-MM-DD")
-                        ] || 0
-                        ]
-
-                      }
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
           <div className="toggle-container d-flex flex-xl-row flex-lg-row flex-md-row flex-sm-column justify-content-between px-4 mt-2">
             <button
               className="btn btn-primary mb-4"

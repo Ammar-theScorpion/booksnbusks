@@ -89,7 +89,11 @@ const Quiz = () => {
                             </div>
                         </div>
                     ))}
-                    {quizzes?.length === 0 && <h2 className="text-primary py-2"></h2>}
+                    {quizzes?.length === 0 && (
+                        <div className="flex justify-center items-center py-6">
+                            <h2 className="text-lg text-gray-500">Nothing Found</h2>
+                        </div>
+                    )}
                 </div>
             )}
             {/*tab === 'completed' && (
@@ -120,7 +124,7 @@ const Quiz = () => {
                 <div className="mt-6">
                     {graded?.docs?.map((sub, index) => (
                         <div
-                            className="px-4 pt-4 pb-3 bg-white mb-4 rounded-md shadow-md transition-transform duration-300 transform hover:scale-105"
+                            className="px-4 pt-4 pb-3 bg-white mb-4 rounded-md shadow-md transition-transform duration-300 transform "
                             key={index}
                         >
                             <div className="flex justify-between items-start">

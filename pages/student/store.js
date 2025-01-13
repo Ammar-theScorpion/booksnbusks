@@ -13,6 +13,8 @@ import Pagination from "../../components/common/pagination";
 import { Loading } from "../../components/common/preloader";
 import { FiMinus, FiMinusCircle, FiPlay, FiPlus, FiPlusCircle } from "react-icons/fi";
 import Button from '../../components/form/Button.js';
+import { FaImage } from "react-icons/fa";
+import ProductSkeleton from "../../fragment/skeleton/ProductSkeleton.js";
 
 const Store = () => {
     let { width } = useWindowSize()
@@ -83,12 +85,18 @@ const Store = () => {
 
 
     return (
-        <>
+        <div>
             <Modal show={wish} size="lg" centered>
                 <Modal.Body>
                     <Row>
                         <Col md={6} className="text-center">
-                            <img className="h-72 inline-block" src={wish?.image} alt="" />
+                            {/* {<img className="h-72 wish-block" src={wish?.image} alt="" />} */}
+                            {wish?.image ? <img src={wish?.image} className="inline-block"
+                                style={{ maxHeight: '100%' }} alt="" />
+                                :
+                                <div className="h-72 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                    <FaImage className="text-gray-400 text-xl" />
+                                </div>}
                         </Col>
                         <Col md={6} className="my-auto">
                             {wish?.done ||
@@ -163,22 +171,22 @@ const Store = () => {
             <>
                 {/* fix loading problem  */}
                 {loading ? (
-                    <div className="flex justify-center items-center" style={{ height: '50vh' }}>
-                        <Loading />
-                    </div>
+                        <ProductSkeleton/>
 
                 ) :
 
                     <Row>
                         {products?.docs?.map((product, index) => (
-
                             <Col xxl={3} lg={4} md={6} key={index}>
-                                {console.log(product)}
-
-                                <div className="bg-white p-6 rounded-lg w-full mb-6">
+                                <div className="bg-white p-6 rounded-lg w-full mb-6  shadow-md dark:border-strokedark dark:bg-boxdark">
                                     <div className="h-32 text-center mb-4">
-                                        <img src={product.image} className="inline-block"
+
+                                        {product?.image ? <img src={product?.image} className="inline-block"
                                             style={{ maxHeight: '100%' }} alt="" />
+                                            :
+                                            <div className="h-32 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                                <FaImage className="text-gray-400 text-xl" />
+                                            </div>}
                                     </div>
                                     <div className="h-14 mb-2">
                                         <h6 className="font-semibold truncate">{product?.name}</h6>
@@ -198,20 +206,33 @@ const Store = () => {
                                             )}
 
                                         </div>
-                                        {user.isWishlist(product._id) ? (
-                                            <BsHeartFill className="text-primary" size={20} role={"button"}
-                                                onClick={() => setWish({ ...product, wishlist: true })} />
-                                        ) : (
-                                            <BsSuitHeart size={20} role={"button"}
-                                                onClick={() => setWish(product)} />
-                                        )}
+                                        <div className="flex items-center">
+                                            {user.isWishlist(product._id) ? (
+                                                <BsHeartFill
+                                                    className="text-primary cursor-pointer transition-transform hover:scale-110"
+                                                    size={24}
+                                                    role="button"
+                                                    title="Remove from Wishlist"
+                                                    onClick={() => setWish({ ...product, wishlist: true })}
+                                                />
+                                            ) : (
+                                                <BsSuitHeart
+                                                    className="text-gray-400 cursor-pointer transition-transform hover:scale-110 hover:text-primary"
+                                                    size={24}
+                                                    role="button"
+                                                    title="Add to Wishlist"
+                                                    onClick={() => setWish(product)}
+                                                />
+                                            )}
+                                        </div>
+
                                     </div>
                                 </div>
                             </Col>
                         ))}
                     </Row>
                 }
-                <div className="text-center">
+                <div className="text-center flex-wrap">
                     <Pagination
                         pageCount={products?.totalPages || 1}
                         page={products?.page || 1}
@@ -223,7 +244,7 @@ const Store = () => {
 
 
 
-        </>
+        </div>
     )
 }
 Store.layout = StudentLayout

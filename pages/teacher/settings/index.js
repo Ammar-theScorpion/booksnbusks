@@ -32,7 +32,7 @@ const Settings = () => {
 
     return (
         <>
-            <div className="container mx-auto mt-10 max-w-lg p-6 bg-white shadow-lg rounded-lg">
+            <div className=" mx-auto mt-10 w-full lg p-6 bg-white shadow-lg rounded-lg">
                 <div className="flex items-center mb-4">
                     <FiArrowLeft
                         className="text-xl text-blue-600 cursor-pointer hover:text-blue-800 transition duration-300"
@@ -42,7 +42,7 @@ const Settings = () => {
                         Update School Information
                     </Typography.Title>
                 </div>
-                <Form layout="vertical" form={form} onFinish={async values => {
+                <Form layout="vertical"  form={form} onFinish={async values => {
                     swalLoading()
                     values.logo = await getUploadImageUrl(values.logo)
                     return useAction(postSchoolUpdate, values, () => {

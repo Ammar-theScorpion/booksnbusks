@@ -5,7 +5,7 @@ import { fetchQuizzes, delQuiz } from "../../../helpers/backend_helper";
 import Table from "../../../components/common/table";
 import { useRouter } from "next/router";
 import moment from "moment";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiExternalLink } from "react-icons/fi";
 import Button from "../../../components/form/Button";
 import { FaEye } from "react-icons/fa";
 
@@ -30,10 +30,11 @@ const Quiz = () => {
             formatter: (_, data) => (
                 <p
                     role="button"
-                    className="text-sm font-semibold text-blue-600 hover:underline cursor-pointer"
+                    className="text-sm font-semibold text-blue-600 hover:underline cursor-pointer flex items-center"
                     onClick={() => router.push('/teacher/quiz/' + data._id)}
                 >
                     {data?.title}
+                    <FiExternalLink className="ml-2" />
                 </p>
             ),
             minWidth: 150,
@@ -45,20 +46,27 @@ const Quiz = () => {
             dataIndex: 'classes',
             formatter: data => (
                 <>
-                    {data?.map((item, index) => (
-                        <span key={index} className="tag-white mb-2">
-                            {item?.name}
-                        </span>
-                    ))}
+                    {
+                        Array.isArray(data) && data.length > 0 ? (
+                            data.map((item, index) => (
+                                <span key={index} className="tag-white mb-2">
+                                    {item?.name}
+                                </span>
+                            ))
+                        ) : (
+                            <span>Not Assigned</span>
+                        )
+                    }
                 </>
             )
         },
+        
         {
             label: 'Active',
             dataIndex: 'submission_date',
             formatter: (_, data) => (
                 <>
-                    <div className="flex items-center space-x-2 text-gray-700  p-4 ">
+                    <div className="flex space-x-2 text-gray-700 ">
                         <span className="text-sm font-medium text-blue-600 whitespace-nowrap" >
                             {moment(data.submission_start)?.format('MMM, Do')}
                         </span>

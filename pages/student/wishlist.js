@@ -10,11 +10,13 @@ import { swalLoading } from "../../components/common/alert";
 import swal from "sweetalert2";
 import { notification } from "antd";
 import Button from '../../components/form/Button.js';
+import { FaImage } from "react-icons/fa";
+import ProductSkeleton from "../../fragment/skeleton/ProductSkeleton.js";
 
 
 
 const Wishlist = () => {
-    const [wishlist, getWishlist] = useFetch(fetchWishlist)
+    const [wishlist, getWishlist, {loading}] = useFetch(fetchWishlist)
     let [page, setPage] = useState(1)
 
     const user = useUserContext()
@@ -120,10 +122,7 @@ const Wishlist = () => {
                     </div>
                 </Modal.Body>
             </Modal>
-            <div className="flex justify-center items-center md:mt-4">
-                <img src="/images/love.svg" alt="" />
-                <h3 className="mb-0 text-primary px-2 text-bold oswald text-4xl">WISH LIST</h3>
-            </div>
+
             <div className="flex bg-white p-6 rounded-lg shadow-md items-center mt-8 hover:shadow-xl transition-all ">
                 <img className="h-20 rounded-lg" src="/images/yay.svg" alt="Celebration Icon" />
                 <div className="ml-4">
@@ -136,47 +135,59 @@ const Wishlist = () => {
                 </div>
             </div>
 
-            <Row className="pt-8">
-                {wishlist?.slice((page - 1) * 3, (page - 1) * 3 + 3).map(item => (
-                    <Col md={4}>
-                        <div className="bg-white p-4 rounded-lg mb-6 text-center">
-                            <div className="flex justify-center items-center h-14 mb-2">
-                                <img src="/images/star2.svg" alt="" style={{ maxHeight: '100%' }} />
-                                <span className="text-primary text-2xl font-bold oswald ml-2">{item.cost}</span>
-                            </div>
-                            <div className="flex justify-center h-60 mb-2">
-                                <img src={item?.image} style={{ maxHeight: '100%' }} alt="" />
-                            </div>
-                            <div className="h-16">
-                                <p className="text-xl">{item.name}</p>
-                            </div>
-                            <Button className="disabled:opacity-50 mb-2"
-                                onClick={() => setGoal(item)}
-                                disabled={user?.goal?._id === item._id}> {user?.goal?._id === item._id ? 'Your goal' : 'Set As Goal'}
-                            </Button>
-                            <Button className="disabled:opacity-50"
-                                onClick={() => setWish({ ...item, wishlist: true })}
-                                disabled={user?.goal?._id === item._id}>Remove
-                            </Button>
+            {loading ? <ProductSkeleton />: (
+                <>
+                    <Row className="pt-8">
+                        {wishlist?.slice((page - 1) * 3, (page - 1) * 3 + 3).map(item => (
+                            <Col md={4}>
+                                <div className="bg-white p-4 rounded-lg mb-6 text-center">
+                                    <div className="flex justify-center items-center h-14 mb-2">
+                                        <img src="/images/star2.svg" alt="" style={{ maxHeight: '100%' }} />
+                                        <span className="text-primary text-2xl font-bold oswald ml-2">{item.cost}</span>
+                                    </div>
+                                    <div className="flex justify-center h-60 mb-2">
+                                        {/* <img src={item?.image} style={{ maxHeight: '100%' }} alt="" /> */}
+                                        {item.image ? <img src={item?.image} className="inline-block"
+                                            style={{ maxHeight: '100%' }} alt="" />
+                                            :
+                                            <div className="h-60 w-full flex items-center justify-center bg-gray-100 border border-gray-300 ">
+                                                <FaImage className="text-gray-400 text-xl" />
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="h-16">
+                                        <p className="text-xl">{item.name}</p>
+                                    </div>
+                                    <Button className="disabled:opacity-50 mb-2"
+                                        onClick={() => setGoal(item)}
+                                        disabled={user?.goal?._id === item._id}> {user?.goal?._id === item._id ? 'Your goal' : 'Set As Goal'}
+                                    </Button>
+                                    <Button className="disabled:opacity-50"
+                                        onClick={() => setWish({ ...item, wishlist: true })}
+                                        disabled={user?.goal?._id === item._id}>Remove
+                                    </Button>
 
+                                </div>
+                            </Col>
+                        ))}
+                    </Row>
+                    {wishlist?.length === 0 ? (
+                        <div className="text-center">
+                            <p className="text-center font-bold text-2xl my-8 text-primary oswald">Your wishlist is empty</p>
+                            <Link href="/student/store">
+                                <Button className="w-48">Go to store</Button>
+                            </Link>
                         </div>
-                    </Col>
-                ))}
-            </Row>
-            {wishlist?.length === 0 ? (
-                <div className="text-center">
-                    <p className="text-center font-bold text-2xl my-8 text-primary oswald">Your wishlist is empty</p>
-                    <Link href="/student/store">
-                        <Button className="w-48">Go to store</Button>
-                    </Link>
-                </div>
-            ) : (
-                // yacoob remove paginatiom if less than 3
-                <div className="text-center">
-                    {wishlist?.length > 3 &&
-                        <Pagination pageCount={Math.ceil((wishlist?.length || 0) / 3)} page={page} onPageChange={setPage} />
-                    }
-                </div>
+                    ) : (
+                        // remove paginatiom if less than 3
+                        <div className="text-center">
+                            {wishlist?.length > 3 &&
+                                <Pagination pageCount={Math.ceil((wishlist?.length || 0) / 3)} page={page} onPageChange={setPage} />
+                            }
+                        </div>
+                    )}
+                </>
+
             )}
 
         </>
